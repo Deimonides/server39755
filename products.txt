@@ -1,0 +1,34 @@
+[
+	{
+		"id": 1,
+		"title": "Producto_1",
+		"description": "Descripcion_1",
+		"price": 10000,
+		"stock": 5,
+		"thumbnail": "https://prod1.jpg"
+	},
+	{
+		"id": 2,
+		"title": "Producto_2",
+		"description": "Descripcion_2",
+		"price": 10000,
+		"stock": 5,
+		"thumbnail": "https://prod2.jpg"
+	},
+	{
+		"id": 3,
+		"title": "Producto_3",
+		"description": "Descripcion_3",
+		"price": 10000,
+		"stock": 5,
+		"thumbnail": "https://prod3.jpg"
+	},
+	{
+		"id": 4,
+		"title": "Producto_4",
+		"description": "Descripcion_4",
+		"price": 10000,
+		"stock": 5,
+		"thumbnail": "https://prod4.jpg"
+	}
+]
