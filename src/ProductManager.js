@@ -47,11 +47,9 @@ class ProductManager {
     }
     
     getProductById(idnum) {
-        //!this.#products && (this.#products = getProducts())
+        this.#products = this.getProducts()
         let product = this.#products.find(objeto => objeto.id === idnum)             
-        //return product ?  product : "<< Error: producto no encontrado. >>" // (condicional ternario)
-        //return product ? product : `<img src="https://d33v4339jhl8k0.cloudfront.net/docs/assets/55843a0fe4b027e1978e93c6/images/5d3a11f92c7d3a2ec4bf6e06/file-h1Q3OCdYwG.jpg"></img>` // (condicional ternario)
-        return product ? product : "<h1>Producto no encontrado.</h1>"
+        return product ? product : `<h3 style="color:red">Producto no encontrado.</h3>`
     }
 
 // setters
