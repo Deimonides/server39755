@@ -1,10 +1,15 @@
-const ProductManager = require('./ProductManager')
+//const ProductManager = require('./ProductManager')
 const express = require('express')
 const app = express()
 const PORT = 8080
+app.use(express.json())
 app.use(express.urlencoded({ extended:true }))
 
-const productManager = new ProductManager('products.txt');
+//const productManager = new ProductManager('products.txt');
+
+const productsRouter = require('./routes/products.router')
+app.use('/products', productsRouter)
+
 
 app.get('/', (req, res) => {
     res.end(`
@@ -13,21 +18,22 @@ app.get('/', (req, res) => {
     `)
 })
 
-app.get('/products', (req, res) => {
+/* app.get('/products', (req, res) => {
     (async () => {
         let data = await productManager.getProducts();
         if (req.query.limit !== undefined) { // validar si existe ?limit=
             data = data.slice(0, req.query.limit)
         }
-        res.send(data);
+        //res.send(data);
+        res.json(data);
     })()
-})
+}) */
 
 app.get('/products/:id', (req, res) => {
     let id = parseInt( req.params.id )
     let data = productManager.getProductById(id)
-
-    res.send(data)
+    //res.send(data)
+    res.json(data)
 })
 
 const server = app.listen( PORT, () => {
