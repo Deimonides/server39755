@@ -15,5 +15,11 @@ router.get('/', (req, res, next) => {
     })()
 })
 
+router.get('/:id', (req, res) => {
+    let id = parseInt( req.params.id )
+    let data = productManager.getProductById(id)
+    //res.send(data)
+    res.json(data)
+})
 
 module.exports = router

@@ -49,7 +49,8 @@ class ProductManager {
     getProductById(idnum) {
         this.#products = this.getProducts()
         let product = this.#products.find(objeto => objeto.id === idnum)             
-        return product ? product : `<h1 style="color:red">Producto no encontrado.</h1>`
+        //return product ? product : `<h1 style="color:red">Producto no encontrado.</h1>`
+        return product ? product : [{'ERROR': 'Product unknown <?>'}]
     }
 
 // setters

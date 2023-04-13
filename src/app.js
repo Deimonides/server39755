@@ -29,12 +29,12 @@ app.get('/', (req, res) => {
     })()
 }) */
 
-app.get('/products/:id', (req, res) => {
+/* app.get('/products/:id', (req, res) => {
     let id = parseInt( req.params.id )
     let data = productManager.getProductById(id)
     //res.send(data)
     res.json(data)
-})
+}) */
 
 const server = app.listen( PORT, () => {
     console.log(`...Servidor escuchando en el puerto ${PORT}...`)
