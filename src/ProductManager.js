@@ -59,9 +59,9 @@ class ProductManager {
         fs.writeFileSync( this.path, JSON.stringify(arrayOfProducts, null, '\t'), 'utf-8' )
     }
 
-    addProduct (title, description, price, stock, thumbnail) {
+    addProduct ( title, description, code, price, status, stock, category, thumbnails ) {
         
-        if( !title || !description || !price || !stock || !thumbnail ) { // validacion de campos obligatorios
+        if( !title || !description || !code || !price || !status || !stock || !category ) { // validacion de campos obligatorios
             console.error('Error: faltan campos obligatorios')
             return;
         }
@@ -69,7 +69,7 @@ class ProductManager {
         this.#products = this.getProducts()
         // buscar nuevo id
         let id = this.newId() // buscar ID disponible para el nuevo producto
-        let newProduct = { id, title, description, price, stock, thumbnail }
+        let newProduct = { id, title, description, code, price, status, stock, category, thumbnails }
         this.#products.push(newProduct)
         // grabar todos los productos incluyendo el nuevo producto
         this.saveProducts(this.#products)

@@ -1,0 +1,157 @@
+[
+	{
+		"id": 1,
+		"title": "AMD Ryzen 9",
+		"description": "Lorem Impsum",
+		"code": "amd9a",
+		"price": 370000,
+		"status": true,
+		"stock": 3,
+		"category": "cpu",
+		"thumbnails": [
+			"https://image1.jpg",
+			"https://image2.jpg",
+			"https://image3.jpg"
+		]
+	},
+	{
+		"id": 2,
+		"title": "AMD Ryzen 7",
+		"description": "Lorem Impsum",
+		"code": "amd9b",
+		"price": 350000,
+		"status": true,
+		"stock": 2,
+		"category": "cpu",
+		"thumbnails": [
+			"https://image1.jpg",
+			"https://image2.jpg",
+			"https://image3.jpg"
+		]
+	},
+	{
+		"id": 3,
+		"title": "AMD Ryzen 5",
+		"description": "Lorem Impsum",
+		"code": "amd5a",
+		"price": 330000,
+		"status": true,
+		"stock": 3,
+		"category": "cpu",
+		"thumbnails": [
+			"https://image1.jpg",
+			"https://image2.jpg",
+			"https://image3.jpg"
+		]
+	},
+	{
+		"id": 4,
+		"title": "AMD Ryzen 3",
+		"description": "Lorem Impsum",
+		"code": "amd3a",
+		"price": 310000,
+		"status": true,
+		"stock": 1,
+		"category": "cpu",
+		"thumbnails": [
+			"https://image1.jpg",
+			"https://image2.jpg",
+			"https://image3.jpg"
+		]
+	},
+	{
+		"id": 5,
+		"title": "Intel i9",
+		"description": "Lorem Impsum",
+		"code": "int9a",
+		"price": 370000,
+		"status": true,
+		"stock": 5,
+		"category": "cpu",
+		"thumbnails": [
+			"https://image1.jpg",
+			"https://image2.jpg",
+			"https://image3.jpg"
+		]
+	},
+	{
+		"id": 6,
+		"title": "Intel i7",
+		"description": "Lorem Impsum",
+		"code": "int9b",
+		"price": 350000,
+		"status": true,
+		"stock": 2,
+		"category": "cpu",
+		"thumbnails": [
+			"https://image1.jpg",
+			"https://image2.jpg",
+			"https://image3.jpg"
+		]
+	},
+	{
+		"id": 7,
+		"title": "Intel i5",
+		"description": "Lorem Impsum",
+		"code": "int7a",
+		"price": 330000,
+		"status": true,
+		"stock": 2,
+		"category": "cpu",
+		"thumbnails": [
+			"https://image1.jpg",
+			"https://image2.jpg",
+			"https://image3.jpg"
+		]
+	},
+	{
+		"id": 8,
+		"title": "Intel i3",
+		"description": "Lorem Impsum",
+		"code": "int5a",
+		"price": 310000,
+		"status": true,
+		"stock": 3,
+		"category": "cpu",
+		"thumbnails": [
+			"https://image1.jpg",
+			"https://image2.jpg",
+			"https://image3.jpg"
+		]
+	},
+	{
+		"id": 9,
+		"title": "RAM HyperX 8GB",
+		"description": "Lorem Impsum",
+		"code": "ram8a",
+		"price": 25000,
+		"status": true,
+		"stock": 7,
+		"category": "ram",
+		"thumbnails": [
+			"https://image1.jpg",
+			"https://image2.jpg",
+			"https://image3.jpg"
+		]
+	},
+	{
+		"id": 10,
+		"title": "RAM HyperX 32GB",
+		"description": "Lorem Impsum",
+		"code": "ram8a",
+		"price": 25000,
+		"status": true,
+		"stock": 7,
+		"category": "ram"
+	},
+	{
+		"id": 11,
+		"title": "RAM HyperX 64GB",
+		"description": "Lorem Impsum",
+		"code": "ram8a",
+		"price": 25000,
+		"status": true,
+		"stock": 7,
+		"category": "ram"
+	}
+]

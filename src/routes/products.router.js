@@ -2,7 +2,8 @@ const { Router } = require('express')
 const router = Router()
 
 const ProductManager = require('../ProductManager')
-const productManager = new ProductManager('products.txt');
+// const productManager = new ProductManager('products.txt');
+const productManager = new ProductManager('./dbProducts.json')
 
 router.get('/', (req, res, next) => {
     (async () => {
@@ -25,11 +26,15 @@ router.get('/:id', (req, res) => {
 router.post( '/', (req, res) => {
     // (async () => {
     productManager.addProduct(
-            req.body.title, 
-            req.body.description, 
-            req.body.price, 
-            req.body.stock, 
-            req.body.thumbnail)
+        req.body.title, 
+        req.body.description, 
+        req.body.code, 
+        req.body.price, 
+        status = true, 
+        req.body.stock, 
+        req.body.category,
+        req.body.thumbnails
+    )
 
     // })()
 
@@ -37,7 +42,25 @@ router.post( '/', (req, res) => {
     res.status(201).send(productManager.getProducts())
 })
 
-router.put( '/', (req, res) => {
+router.put( '/:id', (req, res) => { // modificar lemento
+
+    // Object.keys( array ) => devuelve un array de solo las Keys
+    // Object.values( array ) => devuelve un array de solo las Values
+
+    let id = parseInt( req.params.id )
+        console.log(id);
+    let keys = Object.keys(req.body)
+        console.log(keys);
+    let newValues = Object.values(req.body)
+        console.log(newValues);
+    
+    // productManager.updateProductById(id, 
+            // for desde 0 hasta array.keys.lenght-1, para recorrer el array de las keys asignando los valores
+        
+    // )
+
+
+
     res.send('Respuesta: Router PUT')
 })
 
