@@ -5,35 +5,20 @@ const PORT = 8080
 app.use(express.json())
 app.use(express.urlencoded({ extended:true }))
 
+app.use(express.static('public'))
 //const productManager = new ProductManager('products.txt');
 
 const productsRouter = require('./routes/products.router')
-app.use('/products', productsRouter)
+app.use('/api/products', productsRouter)
 
+const cartRouter = require('./routes/cart.router')
+app.use('/api/cart', cartRouter)
 
-app.get('/', (req, res) => {
+/* app.get('/', (req, res) => {
     res.end(`
         <h1 style="color:blue">Servidor express de Gerardo Solotun</h1>
         <h3 style="color:darkblue">Coderhouse, Comision 39755, &copy; 2023</h3>
     `)
-})
-
-/* app.get('/products', (req, res) => {
-    (async () => {
-        let data = await productManager.getProducts();
-        if (req.query.limit !== undefined) { // validar si existe ?limit=
-            data = data.slice(0, req.query.limit)
-        }
-        //res.send(data);
-        res.json(data);
-    })()
-}) */
-
-/* app.get('/products/:id', (req, res) => {
-    let id = parseInt( req.params.id )
-    let data = productManager.getProductById(id)
-    //res.send(data)
-    res.json(data)
 }) */
 
 const server = app.listen( PORT, () => {

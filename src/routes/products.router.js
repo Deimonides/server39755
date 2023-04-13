@@ -22,4 +22,27 @@ router.get('/:id', (req, res) => {
     res.json(data)
 })
 
+router.post( '/', (req, res) => {
+    // (async () => {
+    productManager.addProduct(
+            req.body.title, 
+            req.body.description, 
+            req.body.price, 
+            req.body.stock, 
+            req.body.thumbnail)
+
+    // })()
+
+    // res.status(201).send('Respuesta: Router POST')
+    res.status(201).send(productManager.getProducts())
+})
+
+router.put( '/', (req, res) => {
+    res.send('Respuesta: Router PUT')
+})
+
+router.delete( '/:id', (req, res) => {
+    res.send('Respuesta: Router DELETE')
+})
+
 module.exports = router

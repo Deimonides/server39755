@@ -30,5 +30,21 @@
 		"price": 10000,
 		"stock": 5,
 		"thumbnail": "https://prod4.jpg"
+	},
+	{
+		"id": 5,
+		"title": "Producto_x",
+		"description": "Descripcion_x",
+		"price": 10000,
+		"stock": 5,
+		"thumbnail": "https://prodx.jpg"
+	},
+	{
+		"id": 6,
+		"title": "Producto_x",
+		"description": "Descripcion_x",
+		"price": 10000,
+		"stock": 5,
+		"thumbnail": "https://prodx.jpg"
 	}
 ]
