@@ -8,10 +8,10 @@ app.use(express.urlencoded({ extended:true }))
 app.use(express.static('public'))
 //const productManager = new ProductManager('products.txt');
 
-const productsRouter = require('./routes/products.router')
+const productsRouter = require('./routes/products.router.js')
 app.use('/api/products', productsRouter)
 
-const cartRouter = require('./routes/cart.router')
+const cartRouter = require('./routes/cart.router.js')
 app.use('/api/cart', cartRouter)
 
 /* app.get('/', (req, res) => {

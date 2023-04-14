@@ -1,0 +1,20 @@
+[
+	{
+		"id": 1,
+		"user": "gerardo"
+	},
+	{
+		"id": 2,
+		"user": "pepe"
+	},
+	{
+		"id": 3,
+		"user": "PEPE",
+		"products": []
+	},
+	{
+		"id": 4,
+		"user": "pepe",
+		"products": []
+	}
+]
