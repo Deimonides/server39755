@@ -116,7 +116,7 @@
 		"thumbnails": [
 			"https://image1.jpg",
 			"https://image2.jpg",
-			"https://image3.jpg"
+			"https://image56.jpg"
 		]
 	},
 	{
@@ -142,7 +142,12 @@
 		"price": 25000,
 		"status": true,
 		"stock": 7,
-		"category": "ram"
+		"category": "ram",
+		"thumbnails": [
+			"https://image1.jpg",
+			"https://image2.jpg",
+			"https://image3.jpg"
+		]
 	},
 	{
 		"id": 11,
@@ -152,6 +157,11 @@
 		"price": 25000,
 		"status": true,
 		"stock": 7,
-		"category": "ram"
+		"category": "ram",
+		"thumbnails": [
+			"https://image1.jpg",
+			"https://image2.jpg",
+			"https://image3.jpg"
+		]
 	}
 ]

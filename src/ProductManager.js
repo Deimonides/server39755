@@ -27,7 +27,7 @@ class ProductManager {
 
     getIndexOfId (idnum) {
         let indexOfId = this.#products.findIndex( prod => prod.id === idnum )
-        if (indexOfId < 0 ) return "<< Error: producto no encontrado. >>" // si no existe el id, devolvió -1
+        if (indexOfId < 0 ) return { "Error": "Product not found" } // si no existe el id, devolvió -1
         //console.log('++++++++++++++++indexOfId: ', indexOfId)
         return indexOfId
     }
@@ -50,7 +50,7 @@ class ProductManager {
         this.#products = this.getProducts()
         let product = this.#products.find(objeto => objeto.id === idnum)             
         //return product ? product : `<h1 style="color:red">Producto no encontrado.</h1>`
-        return product ? product : {'ERROR': 'Product not found'}
+        return product ? product : null
     }
 
 // setters
@@ -61,10 +61,10 @@ class ProductManager {
 
     addProduct ( title, description, code, price, status, stock, category, thumbnails ) {
         
-        if( !title || !description || !code || !price || !status || !stock || !category ) { // validacion de campos obligatorios
-            console.error('Error: faltan campos obligatorios')
-            return;
-        }
+        // if( !title || !description || !code || !price || !status || !stock || !category ) { // validacion de campos obligatorios
+        //     console.error('Error: faltan campos obligatorios')
+        //     return;
+        // }
         // traer productos
         this.#products = this.getProducts()
         // buscar nuevo id
@@ -87,7 +87,7 @@ class ProductManager {
         }
     }
     
-    deletePdoductByID = (id) => { // eliminar producto segun su id
+    deleteProductByID = (id) => { // eliminar producto segun su id
         this.#products = this.getProducts()
         const array = this.#products.splice ( this.getIndexOfId(id), 1 )
         
