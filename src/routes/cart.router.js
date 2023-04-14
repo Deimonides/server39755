@@ -15,7 +15,7 @@ router.post( '/', (req, res) => {
          return res.status(404).json( { "error": "Invalid username - must use: http://localhost:8080/api/cart?user=YOURNAME" } )
     } else {
         cartManager.addCart( user )
-        return res.status(200).send("Carrito creado.")
+        return res.status(201).send("New cart created!.")
     }
 })
 
@@ -30,11 +30,14 @@ router.get('/', (req, res, next) => {
     })()
 })
 
-router.get('/:id', (req, res) => {
-    let id = parseInt( req.params.id )
-    let data = cartManager.getProductById(id)
-    //res.send(data)
-    res.json(data)
+router.get('/:cid', (req, res) => {
+    let cid = parseInt( req.params.cid )
+    let data = cartManager.getCartById(cid)
+    if ( !data ) {
+        return res.status(404).json({ "error": "Cart not found" })
+    } else {
+        return res.status(200).json(data)
+    }
 })
 
 

@@ -46,9 +46,9 @@ class CartManager {
         }
     }
     
-    getProductById(idnum) {
-        this.#carts = this.getProducts()
-        let product = this.#carts.find(objeto => objeto.id === idnum)             
+    getCartById(cidnum) {
+        this.#carts = this.getCarts()
+        let product = this.#carts.find(objeto => objeto.id === cidnum)             
         //return product ? product : `<h1 style="color:red">Producto no encontrado.</h1>`
         return product ? product : null
     }

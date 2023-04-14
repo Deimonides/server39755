@@ -1,20 +1,17 @@
 [
 	{
 		"id": 1,
-		"user": "gerardo"
-	},
-	{
-		"id": 2,
-		"user": "pepe"
-	},
-	{
-		"id": 3,
-		"user": "PEPE",
+		"user": "gerardo",
 		"products": []
 	},
 	{
-		"id": 4,
-		"user": "pepe",
+		"id": 2,
+		"user": "andres",
+		"products": []
+	},
+	{
+		"id": 3,
+		"user": "mila",
 		"products": []
 	}
 ]
