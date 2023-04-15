@@ -25,8 +25,8 @@ class CartManager {
     
 // getters
 
-    getIndexOfId (idnum) {
-        let indexOfId = this.#carts.findIndex( prod => prod.id === idnum )
+    getIndexOfCid (idnum) {
+        let indexOfId = this.#carts.findIndex( item => item.id === idnum )
         if (indexOfId < 0 ) return { "Error": "Product not found" } // si no existe el id, devolvió -1
         //console.log('++++++++++++++++indexOfId: ', indexOfId)
         return indexOfId
@@ -48,18 +48,19 @@ class CartManager {
     
     getCartById(cidnum) {
         this.#carts = this.getCarts()
-        let product = this.#carts.find(objeto => objeto.id === cidnum)             
+        let product = this.#carts.find( item => item.id === cidnum)             
         //return product ? product : `<h1 style="color:red">Producto no encontrado.</h1>`
         return product ? product : null
     }
 
+    
 // setters
 
     saveCarts (arrayOfCarts) {
         fs.writeFileSync( this.path, JSON.stringify(arrayOfCarts, null, '\t'), 'utf-8' )
     }
 
-    addCart ( user ) {
+    newCart( user ) {
         
         // if( !title || !description || !code || !price || !status || !stock || !category ) { // validacion de campos obligatorios
         //     console.error('Error: faltan campos obligatorios')
@@ -70,7 +71,8 @@ class CartManager {
         // buscar nuevo id
         let id = this.newId() // buscar ID disponible para el nuevo producto
         let products = []
-        let newCart = { id, user , products }
+        let status = "pending"
+        let newCart = { id, user , status, products }
         this.#carts.push(newCart)
         // grabar todos los productos incluyendo el nuevo producto
         this.saveCarts(this.#carts)
