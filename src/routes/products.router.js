@@ -2,7 +2,6 @@ const { Router } = require('express')
 const router = Router()
 
 const ProductManager = require('../ProductManager')
-// const productManager = new ProductManager('products.txt');
 const productManager = new ProductManager('./dbProducts.json')
 
 router.get('/', (req, res, next) => {
@@ -11,7 +10,6 @@ router.get('/', (req, res, next) => {
         if (req.query.limit !== undefined) { // validar si existe ?limit=
             data = data.slice(0, req.query.limit)
         }
-        //res.send(data);
         res.json(data);
     })()
 })
@@ -70,7 +68,6 @@ router.put( '/:id', (req, res) => { // modificar lemento
 router.delete( '/:id', (req, res) => {
     let id = parseInt( req.params.id )
     let deletedItem = productManager.getProductById(id)
-    //console.log('deletedItem: ', deletedItem);
     if ( deletedItem !== null) {
         productManager.deleteProductByID(id)
         return res.status(200).send( deletedItem )

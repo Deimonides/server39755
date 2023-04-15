@@ -8,9 +8,7 @@ const cartManager = new CartManager('./dbCart.json');
 
 // crear nuevos carritos
 router.post( '/', (req, res) => {
-    // res.send('Respuesta: CART Router POST')
     let user = req.query.user
-    // console.log('user: '+ user);
     if ( user === undefined ) {
          return res.status(404).json( { "error": "Invalid username - must use: http://localhost:8080/api/cart?user=YOURNAME" } )
     } else {
@@ -26,13 +24,12 @@ router.get('/', (req, res) => {
         if (req.query.limit !== undefined) { // validar si existe ?limit=
             data = data.slice(0, req.query.limit)
         }
-        //res.send(data);
         res.json(data);
     })()
 })
 
 router.get('/:cid', (req, res) => {
-    let cid = parseInt( req.params.cid )
+    let cid = +req.params.cid 
     let data = cartManager.getCartById(cid)
     if ( !data ) {
         return res.status(404).json({ "error": "Cart not found" })
@@ -41,110 +38,61 @@ router.get('/:cid', (req, res) => {
     }
 })
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 router.post( '/:cid/product/:id', (req, res) => {
 
     let cid = +req.params.cid
     let id = +req.params.id
     let quantity = 1
-
-    if ( !cartManager.getCartById(cid) ) { // validar si el Carrito existe
+    // validar si el Carrito existe segun su ID
+    if ( !cartManager.getCartById(cid) ) { 
         return res.status(404).json({ "error": "Cart not found" })
     } 
-
-    if ( !productManager.getProductById(id) ) { // validar si el Producto existe
+    // validar si el Producto existe en la base de Productos
+    if ( !productManager.getProductById(id) ) { 
         return res.status(404).json({ "error": "Product not found" })
     } 
     let carts = cartManager.getCarts()
-
     // buscar index del cartID
     let cartIndex = carts.findIndex( item => item.id === cid )
-    // console.log('++++++++++++++++index: ', index)
-
-    let prodIndex = carts[cartIndex].products.findIndex( item => item.id === id)
-    // console.log('prodIndex: ', prodIndex);
-    
+    // buscar index del producto dentro del Carrito particular
+    let prodIndex = carts[cartIndex].products.findIndex( item => item.id === id)    
     if ( prodIndex > -1 ) { // si ya está el producto en el carrito, sumar quantity
-        // console.log('ya existe el producto');
-        // let oldQuantity = carts[cartIndex].products[prodIndex].quantity
-        // console.log('oldQuantity: ', oldQuantity);
-        // console.log('cartIndex: ', cartIndex);
-        // console.log('prodIndex: ', prodIndex);
-
         carts[cartIndex].products[prodIndex].quantity += 1
-        // console.log('cambiado?');
-        cartManager.saveCarts(carts)
+        cartManager.saveCarts(carts) // guardar todo modificado
         return res.status(201).json( { "success": "Product already added, quantity +1." })
-    } else { 
- 
-        // console.log('carts', carts);
+    } else { // agregar el producto nuevo
         let newProduct = { "id": id, "quantity": quantity }
-        // cartManager.getCartById(cid).products.find( item => item.id === id)
         carts[cartIndex].products.push( newProduct )
-        // cartManager.
         cartManager.saveCarts(carts)
         return res.status(200).json( { "success": "Product added to the cart." })
     }
-        
-        
-        
-    // res.send('Respuesta: agregando nuevo producto...')
-    
-
 })
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-router.put( '/', (req, res) => {
-
-
-    res.send('Respuesta: CART Router PUT')
+router.post( '/:cid', (req, res) => {
+    let cid = +req.params.cid
+    if ( !cartManager.getCartById( cid ) ) {
+        return res.status(404).json( {"error": "Cart not found."} )
+    } else  {
+        let payed = (req.query.payed.toLowerCase() === 'false' ? false : true)
+        let carts = cartManager.getCarts()
+        if ( Object.keys(carts[cartManager.getIndexOfCid(cid)].products).length === 0 ) {
+            return res.status(405).json( {"error": "Cannot pay cart without products." } ) // si no hay productos no se puede pagar
+        }
+        carts[ cartManager.getIndexOfCid(cid) ].payed = payed // modificar el payed
+        cartManager.saveCarts(carts) // guardar todo modificado
+        return res.status(201).json( { "Success": "Payment status modified." } )
+    }
 })
 
-router.delete( '/:id', (req, res) => {
-    res.send('Respuesta: CART Router DELETE')
+router.delete( '/:cid', (req, res) => { // eliminar carrito segun id
+    let cid = +req.params.cid
+    let deletedCart = cartManager.getCartById(cid)
+    if ( deletedCart !== null) {
+        cartManager.deleteCartByID(cid)
+        return res.status(200).send( deletedCart )
+    } else {
+        return res.status(404).json( {"error": "Cart not found."} )
+    }
 })
 
 module.exports = router
