@@ -2,7 +2,7 @@
 	{
 		"id": 1,
 		"title": "AMD Ryzen 9",
-		"description": "Lorem Impsum",
+		"description": "Lorem Ipsum",
 		"code": "amd9a",
 		"price": 370000,
 		"status": true,
@@ -158,6 +158,21 @@
 		"status": true,
 		"stock": 7,
 		"category": "ram",
+		"thumbnails": [
+			"https://image1.jpg",
+			"https://image2.jpg",
+			"https://image3.jpg"
+		]
+	},
+	{
+		"id": 12,
+		"title": "SSD m.2 520GB Kingston",
+		"description": "Lorem Impsum",
+		"code": "ssdm5k",
+		"price": 45000,
+		"status": true,
+		"stock": 8,
+		"category": "ssd",
 		"thumbnails": [
 			"https://image1.jpg",
 			"https://image2.jpg",

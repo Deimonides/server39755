@@ -4,13 +4,13 @@ const router = Router()
 const ProductManager = require('../ProductManager')
 const productManager = new ProductManager('./dbProducts.json')
 
-router.get('/', (req, res, next) => {
+router.get('/', (req, res) => {
     (async () => {
         let data = await productManager.getProducts();
         if (req.query.limit !== undefined) { // validar si existe ?limit=
             data = data.slice(0, req.query.limit)
         }
-        res.json(data);
+        return res.json( data )
     })()
 })
 
