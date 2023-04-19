@@ -16,8 +16,11 @@ app.use('/api/products', productsRouter)
 const cartRouter = require('./routes/cart.router.js')
 app.use('/api/cart', cartRouter)
 
-const loaderRouter = require('./routes/loader.router.js')
-app.use('/api/loader', loaderRouter)
+const homeRouter = require('./routes/home.router.js')
+app.use('/api/home', homeRouter)
+
+const realTimeProductsRouter = require('./routes/realTimeProducts.router.js')
+app.use('/api/realTimeProducts', realTimeProductsRouter)
 
 const server = app.listen( PORT, () => {
     console.log(`[nodemon] listening on port ${PORT}`)

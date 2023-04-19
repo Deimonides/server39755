@@ -6,7 +6,11 @@ const productManager = new ProductManager('./dbProducts.json')
 
 router.get('/', (req, res) => {
     
-    res.render('index', { title: 'POST de Products' , name: 'Galaxia' })
+    res.render('home', { 
+        title: 'GET de Products' , 
+        allProducts: productManager.getProducts()
+        
+    })
 
 })
 

@@ -1,0 +1,26 @@
+<div>
+    <h1>Inventario en Tiempo Real</h1>
+
+    <div>
+
+        <h3>Ingreso de nuevo producto</h3>
+
+        <p>Ingrese Titulo:<input type="text"></input></p>
+    </div>
+
+
+
+    <ul>
+        <h3>Listado de productos:</h3>
+        
+        <ul>
+            {{#each allProducts}}
+                <li>{{this.title}} - $ {{this.price}} </li>
+                <br>
+            {{/each}}
+        
+        
+        </ul>
+
+    </div>
+</div>
