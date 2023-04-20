@@ -1,4 +1,5 @@
 const express = require('express')
+const { Server } = require('socket.io')
 const handlebars = require('express-handlebars')
 const app = express()
 const PORT = 8080
@@ -6,24 +7,31 @@ app.use(express.json())
 app.use(express.urlencoded({ extended:true }))
 app.use(express.static('./src/public'))
 
-app.engine('handlebars', handlebars.engine())
-app.set('views', './src/views')
-app.set('view engine', 'handlebars')
+// Handlebars templates
+    app.engine('handlebars', handlebars.engine())
+    app.set('views', './src/views')
+    app.set('view engine', 'handlebars')
 
-const productsRouter = require('./routes/products.router.js')
-app.use('/api/products', productsRouter)
+// Endpoints
+    const productsRouter = require('./routes/products.router.js')
+    app.use('/api/products', productsRouter)
 
-const cartRouter = require('./routes/cart.router.js')
-app.use('/api/cart', cartRouter)
+    const cartRouter = require('./routes/cart.router.js')
+    app.use('/api/cart', cartRouter)
 
-const homeRouter = require('./routes/home.router.js')
-app.use('/api/home', homeRouter)
+    const homeRouter = require('./routes/home.router.js')
+    app.use('/home', homeRouter)
 
-const realTimeProductsRouter = require('./routes/realTimeProducts.router.js')
-app.use('/api/realTimeProducts', realTimeProductsRouter)
+    const realTimeProductsRouter = require('./routes/realTimeProducts.router.js')
+    app.use('/realtimeproducts', realTimeProductsRouter)
 
-const server = app.listen( PORT, () => {
-    console.log(`[nodemon] listening on port ${PORT}`)
-})
+// Servers
+    const serverHTTP = app.listen( PORT, () => {
+        console.log(`[nodemon] HTTP listening on port ${PORT}`) // HTTP on
+    })
 
-// video dia 5 tiempo 3:55:10
+    const serverSocket = new Server( serverHTTP )
+
+    serverSocket.on('connection',   () => {
+        console.log('[nodemon] SOCKET new client') // SOCKET on
+    })

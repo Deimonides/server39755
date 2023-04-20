@@ -1,26 +1,51 @@
 <div>
-    <h1>Inventario en Tiempo Real</h1>
+    <h1 class="text-center">Inventario en Tiempo Real</h1>
+    
+    <div class="p-8">
+        <h4>Ingreso de nuevo producto</h4>
 
-    <div>
+        <p>Ingrese TITULO: <input id="title" type="text"></input></p>
+        <p>Ingrese DESCRIPCION: <input id="description" type="text"></input></p>
+        <p>Ingrese CODIGO: <input id="code" type="text"></input></p>
+        <p>Ingrese PRECIO: <input id="price" type="float"></input></p>
+        <p>Ingrese STOCK: <input id="stock" type="integer"></input></p>
+        <p>Ingrese CATEGORIA: <input id="category" type="text"></input></p>
+        <p>Ingrese IMAGEN: <input id="thumbnails" type="text"></input></p>
+        
+        <button id="submit" >Guardar</button>
 
-        <h3>Ingreso de nuevo producto</h3>
-
-        <p>Ingrese Titulo:<input type="text"></input></p>
     </div>
 
 
-
-    <ul>
-        <h3>Listado de productos:</h3>
-        
-        <ul>
+    <section style="background-color: transparent;">
+        <div class="container py-5 d-flex flex-wrap">
             {{#each allProducts}}
-                <li>{{this.title}} - $ {{this.price}} </li>
-                <br>
+                <div class="col-md-8 col-lg-6 col-xl-4 mb-4">
+                    <div class="card text-black">
+                        <img src="{{thumbnails.[0]}}" class="card-img-top" alt="..."> 
+                        <div class="card-body">
+                            <div class="text-center">
+                                <h5 class="card-title">{{this.title}}</h5>
+                                <p class="text-muted mb-4">{{this.description}}</p>
+                            </div>
+                            <div>
+                                <div class="d-flex justify-content-between">
+                                    <span>Precio:</span><span>${{this.price}}</span>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <span>Stock:</span><span>{{this.stock}}</span>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <span>Categoría:</span><span>{{this.category}}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             {{/each}}
-        
-        
-        </ul>
-
-    </div>
+        </div>
+    </section>
 </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="index.js"></script>
