@@ -1,4 +1,5 @@
 const fs = require('fs')
+// const socketClient = io()
 class ProductManager {
     #products
     

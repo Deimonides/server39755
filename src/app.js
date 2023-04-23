@@ -7,6 +7,9 @@ app.use(express.json())
 app.use(express.urlencoded({ extended:true }))
 app.use(express.static('./src/public'))
 
+const ProductManager = require('./ProductManager.js')
+const productManager = new ProductManager('./dbProducts.json')
+
 // Handlebars templates
     app.engine('handlebars', handlebars.engine())
     app.set('views', './src/views')
@@ -36,6 +39,12 @@ app.use(express.static('./src/public'))
         console.log('[nodemon] SOCKET new client') // SOCKET on
 
         socketClient.on('newProduct', (newProduct) =>{
-            console.log('Datos recibidos en app.js: ', newProduct)
+            console.log(`Datos recibidos en app.js: ${(newProduct)}`)
+            let arrProduct = JSON.stringify(newProduct)
+            console.log(`arrProduct: ${arrProduct}`)
+
+            // productManager.addProduct()
+
+            // socketClient.emit('product', newProduct)
         })
     })

@@ -1,6 +1,7 @@
 const { Router } = require('express')
 const router = Router()
 
+
 const ProductManager = require('../ProductManager')
 const productManager = new ProductManager('./dbProducts.json')
 
@@ -22,6 +23,8 @@ router.get('/:id', (req, res) => {
 })
 
 router.post( '/', (req, res) => {
+    socketClient.on('product', newProduct)
+    console.log('Datos recibidos en products.router.js: ', newProduct)
     if ( req.body !== {} ) {
         // validacion de campos obligatorios para producto nuevo...
         let missingFields = []
