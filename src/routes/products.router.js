@@ -45,6 +45,10 @@ router.post( '/', (req, res) => {
             req.body.thumbnails
         )
         return res.json( productManager.getProducts() ) // mostrar el resultado
+
+        // io.emit('actualizacion', dataActualizada);
+        // res.redirect('/ruta');
+
     } else {
         return res.status(404).json( {"error": "Missing content."} ) // no se indicó nada
     }

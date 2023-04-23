@@ -1,5 +1,4 @@
-const fs = require('fs');
-
+const fs = require('fs')
 class ProductManager {
     #products
     
@@ -56,7 +55,6 @@ class ProductManager {
 
     saveProducts (arrayOfProducts) {
         fs.writeFileSync( this.path, JSON.stringify(arrayOfProducts, null, '\t'), 'utf-8' )
-        
     }
 
     addProduct ( title, description, code, price, status, stock, category, thumbnails ) {

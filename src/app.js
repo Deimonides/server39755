@@ -30,8 +30,12 @@ app.use(express.static('./src/public'))
         console.log(`[nodemon] HTTP listening on port ${PORT}`) // HTTP on
     })
 
-    const serverSocket = new Server( serverHTTP )
+    const socketServer = new Server( serverHTTP )
 
-    serverSocket.on('connection',   () => {
+    socketServer.on('connection',   (socketClient) => {
         console.log('[nodemon] SOCKET new client') // SOCKET on
+
+        socketClient.on('newProduct', (newProduct) =>{
+            console.log('Datos recibidos en app.js: ', newProduct)
+        })
     })

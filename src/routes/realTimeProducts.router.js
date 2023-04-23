@@ -1,5 +1,6 @@
 const { Router } = require('express')
 const router = Router()
+// const socketClient = io()
 
 const ProductManager = require('../ProductManager')
 const productManager = new ProductManager('./dbProducts.json')

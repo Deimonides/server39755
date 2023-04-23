@@ -1,6 +1,12 @@
-const socket = io()
-const ProductManager = require('../ProductManager')
-const productManager = new ProductManager('./dbProducts.json')
+const socketClient = io()
+// const ProductManager = require('../ProductManager.js')
+// const productManager = new ProductManager('./dbProducts.json')
+
+// const serverSocket = new Server( serverHTTP )
+
+    // serverSocket.on('connection',   () => {
+    //     console.log('[nodemon] SOCKET new client') // SOCKET on
+    // })
 
 let submit = document.getElementById('submit')
 
@@ -15,20 +21,28 @@ submit.addEventListener('click', evt => {
     //   .then(response => console.log(response))
     //   .catch(error => console.error(error));
     
+    console.log("Click?");
+    
+    const form = document.getElementById('formNewProduct')
+    const newProduct =  Array.from(form.elements)
     
     
-    console.log('Submit!');
+    socketClient.emit('newProduct', newProduct)
+    
+    console.log("socket emit?");
+
+    // form.FormData = ""
+/* 
     
     productManager.addProduct(
         document.getElementById('title').value,
         document.getElementById('description').value,
         document.getElementById('code').value,
         document.getElementById('price').value,
-        status = true,
         document.getElementById('stock').value,
         document.getElementById('category').value,
         document.getElementById('thumbnails').value
-    )
+    ) */
 
 
 })
