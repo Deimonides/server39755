@@ -1,7 +1,7 @@
-const fs = require('fs');
-//import fs from 'fs'
+// const fs = require('fs');
+import fs from 'fs'
 
-class CartManager {
+export default class CartManager {
     #carts
     
     constructor(pathFile) {
@@ -77,4 +77,4 @@ class CartManager {
 
 } //end of Class: CartManager
 
-module.exports = CartManager
+// module.exports = CartManager

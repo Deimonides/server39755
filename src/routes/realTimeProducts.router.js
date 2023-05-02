@@ -1,8 +1,12 @@
-const { Router } = require('express')
+// const { Router } = require('express')
+import { Router } from 'express'
 const router = Router()
+export default router
+
 // const socketClient = io()
 
-const ProductManager = require('../ProductManager')
+// const ProductManager = require('../ProductManager')
+import ProductManager from '../ProductManager.js'
 const productManager = new ProductManager('./dbProducts.json')
 
 router.get('/', (req, res) => {
@@ -16,4 +20,4 @@ router.get('/', (req, res) => {
 
 })
 
-module.exports = router
+// module.exports = router

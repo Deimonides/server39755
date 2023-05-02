@@ -1,6 +1,7 @@
-const fs = require('fs')
+// const fs = require('fs')
+import fs from 'fs'
 // const socketClient = io()
-class ProductManager {
+export default class ProductManager {
     #products
     
     constructor(pathFile) {
@@ -89,4 +90,4 @@ class ProductManager {
 
 } //end of Class: ProductManager
 
-module.exports = ProductManager
+// module.exports = ProductManager

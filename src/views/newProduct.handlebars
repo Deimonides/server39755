@@ -1,0 +1,19 @@
+<div style="margin: 20px">
+    <h1 class="text-center">Ingreso de nuevo producto</h1>
+    
+    <div class="p-8" style="margin: 40px">
+        {{!-- <h4>Ingreso de nuevo producto</h4> --}}
+        <form id="formNewProduct" name="newProduct" action="/api/products" method="post">
+            <p>Ingrese TITULO: <input id="title" type="text" value="xx1"></input></p>
+            <p>Ingrese DESCRIPCION: <input id="description" type="text" value="xx1"></input></p>
+            <p>Ingrese CODIGO: <input id="code" type="text" value="xx1"></input></p>
+            <p>Ingrese PRECIO: <input id="price" type="float" value="xx1"></input></p>
+            <p>Ingrese STOCK: <input id="stock" type="integer" value="xx1"></input></p>
+            <p>Ingrese CATEGORIA: <input id="category" type="text" value="xx1"></input></p>
+            <p>Ingrese IMAGEN: <input id="thumbnails" type="text" value="xx1"></input></p>
+            
+            <button id="submit" type="submit">Guardar</button>
+        </form>
+
+    </div>
+</div>

@@ -1,13 +1,17 @@
-const express = require('express')
-const { Server } = require('socket.io')
-const handlebars = require('express-handlebars')
+// const express = require('express')
+import express from 'express'
+// const { Server } = require('socket.io')
+import { Server } from 'socket.io'
+// const handlebars = require('express-handlebars')
+import handlebars  from 'express-handlebars'
 const app = express()
 const PORT = 8080
 app.use(express.json())
 app.use(express.urlencoded({ extended:true }))
 app.use(express.static('./src/public'))
 
-const ProductManager = require('./ProductManager.js')
+// const ProductManager = require('./ProductManager.js')
+import ProductManager from './ProductManager.js'
 const productManager = new ProductManager('./dbProducts.json')
 
 // Handlebars templates
@@ -16,17 +20,25 @@ const productManager = new ProductManager('./dbProducts.json')
     app.set('view engine', 'handlebars')
 
 // Endpoints
-    const productsRouter = require('./routes/products.router.js')
+    // const productsRouter = require('./routes/products.router.js')
+    import productsRouter from './routes/products.router.js'
     app.use('/api/products', productsRouter)
 
-    const cartRouter = require('./routes/cart.router.js')
+    // const cartRouter = require('./routes/cart.router.js')
+    import cartRouter from './routes/cart.router.js'
     app.use('/api/cart', cartRouter)
 
-    const homeRouter = require('./routes/home.router.js')
+    // const homeRouter = require('./routes/home.router.js')
+    import homeRouter from './routes/home.router.js'
     app.use('/home', homeRouter)
 
-    const realTimeProductsRouter = require('./routes/realTimeProducts.router.js')
+    // const realTimeProductsRouter = require('./routes/realTimeProducts.router.js')
+    import realTimeProductsRouter from './routes/realTimeProducts.router.js'
     app.use('/realtimeproducts', realTimeProductsRouter)
+    
+    // const newProductRouter = require('./routes/newProduct.router.js')
+    import newProductRouter from './routes/newProduct.router.js'
+    app.use('/newProduct', newProductRouter)
 
 // Servers
     const serverHTTP = app.listen( PORT, () => {

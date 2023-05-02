@@ -1,9 +1,13 @@
-const { Router } = require('express')
+// const { Router } = require('express')
+import { Router } from 'express'
 const router = Router()
+export default router
 
-const ProductManager = require('../ProductManager')
+// const ProductManager = require('../ProductManager')
+import ProductManager from '../ProductManager.js'
 const productManager = new ProductManager('./dbProducts.json');
-const CartManager = require('../CartManager')
+// const CartManager = require('../CartManager')
+import CartManager from '../CartManager.js'
 const cartManager = new CartManager('./dbCart.json');
 
 // crear nuevos carritos
@@ -95,4 +99,4 @@ router.delete( '/:cid', (req, res) => { // eliminar carrito segun id
     }
 })
 
-module.exports = router
+// module.exports = router
