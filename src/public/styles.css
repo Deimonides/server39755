@@ -5,3 +5,8 @@ body {
 h1 {
     color: yellow;
 }
+
+.card-img-top{
+    width: 100px;
+    align-self: center;
+}

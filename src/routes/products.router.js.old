@@ -1,32 +1,32 @@
+// const { Router } = require('express')
 import { Router } from 'express'
-import productModel from '../models/product.model.js'
 const router = Router()
 export default router
 
-router.get('/', async (req, res) => {
-    const products = await productModel.find().lean().exec()
-    res.render('products', { products })
+// const ProductManager = require('../ProductManager')
+import ProductManager from '../ProductManager.js'
+const productManager = new ProductManager('./dbProducts.json')
+
+router.get('/', (req, res) => {
+    (async () => {
+        let data = await productManager.getProducts();
+        if (req.query.limit !== undefined) { // validar si existe ?limit=
+            data = data.slice(0, req.query.limit)
+        }
+        return res.json( data )
+    })()
 })
 
-router.get('/add', (req, res) => {
-    res.render('add', { })
+router.get('/:id', (req, res) => {
+    let id = parseInt( req.params.id )
+    let data = productManager.getProductById(id)
+    //res.send(data)
+    res.json(data)
 })
 
-router.get('/:code', async (req, res) => {
-    const code = req.params.code
-    const products = await productModel.find( { code } ).lean().exec()
-    res.render('products', { products })
-})
-
-router.post( '/', async (req, res) => {
-    const newProduct = req.body
-    const productGenerated = new productModel(newProduct)
-    await productGenerated.save()
-    console.log('Producto guardado!');
-
-
+router.post( '/', (req, res) => {
     // socketClient.on('product', newProduct)
-   /*  console.log('Datos recibidos en products.router.js: ', newProduct)
+    console.log('Datos recibidos en products.router.js: ', newProduct)
     if ( req.body !== {} ) {
         // validacion de campos obligatorios para producto nuevo...
         let missingFields = []
@@ -56,11 +56,11 @@ router.post( '/', async (req, res) => {
 
     } else {
         return res.status(404).json( {"error": "Missing content."} ) // no se indicó nada
-    } */
+    }
 })
 
 router.put( '/:id', (req, res) => { // modificar lemento
-    /* let id = parseInt( req.params.id )
+    let id = parseInt( req.params.id )
     if ( productManager.getProductById(id) === null ) { return res.status(404).json( {"error": "Product not found."} ) } // no se encontró el producto
     let keys = Object.keys(req.body)
     let newValues = Object.values(req.body)
@@ -71,18 +71,18 @@ router.put( '/:id', (req, res) => { // modificar lemento
         return res.json( productManager.getProductById(id) ) // mostrar el resultado
     } else {
         return res.status(404).json( {"error": "Missing content."} ) // no se indicó nada para modificar
-    } */
+    }
 })
 
 router.delete( '/:id', (req, res) => {
-    /* let id = parseInt( req.params.id )
+    let id = parseInt( req.params.id )
     let deletedItem = productManager.getProductById(id)
     if ( deletedItem !== null) {
         productManager.deleteProductByID(id)
         return res.status(200).send( deletedItem )
     } else {
         return res.status(404).json( {"error": "Product not found."} ) // no se encontró el producto
-    } */
+    }
 })
 
 // module.exports = router

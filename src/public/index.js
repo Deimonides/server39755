@@ -2,7 +2,7 @@
 
 
 
-const form = document.getElementById('formNewProduct')
+/* const form = document.getElementById('formNewProduct')
 
 form.addEventListener("submit", (e) => {
     e.preventDefault();
@@ -20,7 +20,7 @@ form.addEventListener("submit", (e) => {
 
 
 })
-
+ */
 
 
 

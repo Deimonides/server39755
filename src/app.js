@@ -1,9 +1,7 @@
-// const express = require('express')
 import express from 'express'
-// const { Server } = require('socket.io')
 import { Server } from 'socket.io'
-// const handlebars = require('express-handlebars')
 import handlebars  from 'express-handlebars'
+import mongoose from 'mongoose'
 const app = express()
 const PORT = 8080
 app.use(express.json())
@@ -11,7 +9,7 @@ app.use(express.urlencoded({ extended:true }))
 app.use(express.static('./src/public'))
 
 // const ProductManager = require('./ProductManager.js')
-import ProductManager from './ProductManager.js'
+import ProductManager from './dao/ProductManager.js'
 const productManager = new ProductManager('./dbProducts.json')
 
 // Handlebars templates
@@ -20,34 +18,40 @@ const productManager = new ProductManager('./dbProducts.json')
     app.set('view engine', 'handlebars')
 
 // Endpoints
-    // const productsRouter = require('./routes/products.router.js')
+    // import productsRouter from './routes/products.router.js'
+    // app.use('/api/products', productsRouter)
+
+    // import cartRouter from './routes/cart.router.js'
+    // app.use('/api/cart', cartRouter)
+
     import productsRouter from './routes/products.router.js'
-    app.use('/api/products', productsRouter)
+    app.use('/products', productsRouter)
 
-    // const cartRouter = require('./routes/cart.router.js')
-    import cartRouter from './routes/cart.router.js'
-    app.use('/api/cart', cartRouter)
-
-    // const homeRouter = require('./routes/home.router.js')
-    import homeRouter from './routes/home.router.js'
-    app.use('/home', homeRouter)
-
-    // const realTimeProductsRouter = require('./routes/realTimeProducts.router.js')
-    import realTimeProductsRouter from './routes/realTimeProducts.router.js'
-    app.use('/realtimeproducts', realTimeProductsRouter)
+    // import realTimeProductsRouter from './routes/realTimeProducts.router.js'
+    // app.use('/realtimeproducts', realTimeProductsRouter)
     
-    // const newProductRouter = require('./routes/newProduct.router.js')
-    import newProductRouter from './routes/newProduct.router.js'
-    app.use('/newProduct', newProductRouter)
+    // import newProductRouter from './routes/newProduct.router.js'
+    // app.use('/newProduct', newProductRouter)
+
+    // MongoDB connection
+    mongoose.set('strictQuery', false)
+    try {
+        await mongoose.connect('mongodb+srv://gsolotun:Ralmin2ueTjNsHC1@cluster0.bz5igio.mongodb.net/server39755')
+        app.listen( PORT, () => console.log(`[express] HTTP listening on port ${PORT}`) )
+    } catch (error) {
+        // handleError(error)
+        console.log('[mongodb] Error de conexión a la Base de Datos!');
+    }
+
 
 // Servers
-    const serverHTTP = app.listen( PORT, () => {
-        console.log(`[nodemon] HTTP listening on port ${PORT}`) // HTTP on
+    /* const serverHTTP = app.listen( PORT, () => {
+        console.log(`[express] HTTP listening on port ${PORT}`) // HTTP on
     })
 
-    const socketServer = new Server( serverHTTP )
+    const socketServer = new Server( serverHTTP ) */
 
-    socketServer.on('connection',   (socketClient) => {
+    /* socketServer.on('connection',   (socketClient) => {
         console.log('[nodemon] SOCKET new client') // SOCKET on
 
         socketClient.on('newProduct', (newProduct) =>{
@@ -59,4 +63,4 @@ const productManager = new ProductManager('./dbProducts.json')
 
             // socketClient.emit('product', newProduct)
         })
-    })
+    }) */

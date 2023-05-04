@@ -4,10 +4,10 @@ const router = Router()
 export default router
 
 // const ProductManager = require('../ProductManager')
-import ProductManager from '../ProductManager.js'
+import ProductManager from '../dao/ProductManager.js'
 const productManager = new ProductManager('./dbProducts.json');
 // const CartManager = require('../CartManager')
-import CartManager from '../CartManager.js'
+import CartManager from '../dao/CartManager.js'
 const cartManager = new CartManager('./dbCart.json');
 
 // crear nuevos carritos
