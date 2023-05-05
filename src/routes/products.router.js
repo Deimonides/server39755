@@ -1,7 +1,6 @@
 import { Router } from 'express'
 import productModel from '../models/product.model.js'
 const router = Router()
-export default router
 
 router.get('/', async (req, res) => {
     const products = await productModel.find().lean().exec()
@@ -19,10 +18,13 @@ router.get('/:code', async (req, res) => {
 })
 
 router.post( '/', async (req, res) => {
+    // const newProduct = JSON.stringify( req.body )
     const newProduct = req.body
+    console.log( `newProduct: ${newProduct}` );
     const productGenerated = new productModel(newProduct)
     await productGenerated.save()
-    console.log('Producto guardado!');
+    console.log(`Producto guardado! Codigo: ${productGenerated.code}`);
+    res.redirect(`/products/${productGenerated.code}` )
 
 
     // socketClient.on('product', newProduct)
@@ -86,3 +88,4 @@ router.delete( '/:id', (req, res) => {
 })
 
 // module.exports = router
+export default router

@@ -2,10 +2,11 @@ import express from 'express'
 import { Server } from 'socket.io'
 import handlebars  from 'express-handlebars'
 import mongoose from 'mongoose'
+import fs from 'fs'
 const app = express()
 const PORT = 8080
 app.use(express.json())
-app.use(express.urlencoded({ extended:true }))
+app.use(express.urlencoded({ extended: true }))
 app.use(express.static('./src/public'))
 
 // const ProductManager = require('./ProductManager.js')
@@ -35,13 +36,20 @@ const productManager = new ProductManager('./dbProducts.json')
 
     // MongoDB connection
     mongoose.set('strictQuery', false)
+    // console.log('Entrando al try...')
     try {
-        await mongoose.connect('mongodb+srv://gsolotun:Ralmin2ueTjNsHC1@cluster0.bz5igio.mongodb.net/server39755')
+        let url = ""
+        if ( fs.existsSync('./src/url.txt') ) {
+            url = fs.readFileSync('./src/url.txt', 'utf8')
+        } else {
+            console.log('[mongodb] Falta el archivo url.txt. Pídaselo a su Backend amigo!');
+        }
+        await mongoose.connect(url)
         app.listen( PORT, () => console.log(`[express] HTTP listening on port ${PORT}`) )
     } catch (error) {
         // handleError(error)
-        console.log('[mongodb] Error de conexión a la Base de Datos!');
-    }
+        console.log('[mongodb] Error de conexión a la Base de Datos!!!!!!!!!');
+    }
 
 
 // Servers

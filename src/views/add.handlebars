@@ -1,21 +1,19 @@
 <div style="margin: 20px">
     <h1 class="text-center">Ingreso de nuevo producto</h1>
-    
     <div class="p-8" style="margin: 40px">
-        {{!-- <h4>Ingreso de nuevo producto</h4> --}}
-        <form id="formNewProduct" name="newProduct" action="/products" method="post">
-            <p>Ingrese TITULO:      <input id="title"       type="text"     value="xx1"></input></p>
-            <p>Ingrese DESCRIPCION: <input id="description" type="text"     value="xx1"></input></p>
-            <p>Ingrese CODIGO:      <input id="code"        type="text"     value="xx1"></input></p>
-            <p>Ingrese PRECIO:      <input id="price"       type="float"    value="123"></input></p>
-            <p>Ingrese STOCK:       <input id="stock"       type="integer"  value="123"></input></p>
-            <p>Ingrese CATEGORIA:   <input id="category"    type="text"     value="xx1"></input></p>
-            <p>Ingrese IMAGEN 1:    <input id="thumbnails1" type="text"     value="xx1"></input></p>
-            <p>Ingrese IMAGEN 2:    <input id="thumbnails2" type="text"     value="xx1"></input></p>
-            <p>Ingrese IMAGEN 3:    <input id="thumbnails3" type="text"     value="xx1"></input></p>
-            
-            <button id="submit" type="submit">Guardar</button>
+        <h4>Ingreso de nuevo producto</h4>
+        <form action="/products" method="post">
+            {{!-- importante poner los name igual a los campos del schema --}}
+            TITULO:      <input type="text"    name="title"       value="ejTit"> *<br>
+            DESCRIPCION: <input type="text"    name="description" value="ejDes">  <br>
+            CODIGO:      <input type="text"    name="code"        value="ejCod"> *<br>
+            PRECIO:      <input type="float"   name="price"       value="123.5"> *<br>
+            STOCK:       <input type="integer" name="stock"       value="00003">  <br>
+            CATEGORIA:   <input type="text"    name="category"    value="ejCat"> *<br>
+            IMAGEN 1:    <input type="text"    name="thumbnails"  value="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTCGSO1IKYTlaAttwjGwcsdEotbuG0EBIHMW-y7IR2pNf4jElkZ3IT27-NBfvL9vAczHGk&usqp=CAU"> *<br>
+            IMAGEN 2:    <input type="text"    name="thumbnails"  value="ejIm2">  <br>
+            IMAGEN 3:    <input type="text"    name="thumbnails"  value="ejIm3">  <br>
+                         <input type="submit"                     value="Guardar"></input>
         </form>
-
     </div>
 </div>
