@@ -1,36 +1,178 @@
-<div>
-    <h1 class="text-center">Inventario de productos</h1>
+<!doctype html>
+<html lang="en">
+    <head>
+        <title>Catálogo</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    
-    <section style="background-color: transparent;">
-        <div class="container py-5 d-flex flex-wrap">
-            {{#each products}}
-                <div class="col-md-8 col-lg-6 col-xl-4 mb-4">
-                    <div class="card text-black">
-                        <img src="{{thumbnails.[0]}}" class="card-img-top" alt="..." "> 
-                        <div class="card-body">
-                            <div class="text-center">
-                                <h5 class="card-title">{{this.title}}</h5>
-                                <p class="text-muted mb-4">{{this.description}}</p>
+        <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
+            
+            <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+            <link rel="stylesheet" href="css/style.css">
+    </head>
+    <body>
+		
+            <div class="container d-md-flex align-items-stretch">
+        <!-- Page Content  -->
+        <div id="content" class="p-4 p-md-5 pt-5">
+            <h2 class="mb-4">Catálogo</h2>
+            
+
+            <div class="container py-5 d-flex flex-wrap justify-content-center">
+                {{#each products.docs}}
+                    <div class="col-md-6 col-lg-6 col-xl-4 mb-4 mh-200px">
+                        <a href="/?code={{this.code}}">
+                            <div class="card text-black">
+                                <img src="{{thumbnails.[0]}}" class="card-img-top" alt="...">
+                                <div class="card-body">
+                                    <div class="text-center">
+                                        <h5 class="card-title">{{this.title}}</h5>
+                                        {{!-- <p class="text-muted mb-4">{{this.description}}</p> --}}
+                                    </div>
+                                    <div>
+                                        {{!-- <div class="d-flex justify-content-between">
+                                            <span>Codigo:</span><span>{{this.code}}</span>
+                                        </div> --}}
+                                        {{!-- <div class="d-flex justify-content-between"> --}}
+                                            {{!-- <span>Precio:</span><span>${{this.price}}</span> --}}
+                                        <div class="d-flex justify-content-center">
+                                            <span>${{this.price}}</span>
+                                        </div>
+                                        {{!-- <div class="d-flex justify-content-between">
+                                            <span>Stock:</span><span>{{this.stock}}</span>
+                                        </div> --}}
+                                        {{!-- <div class="d-flex justify-content-between">
+                                            <span>Categoría:</span><span>{{this.category}}</span>
+                                        </div> --}}
+                                    </div>
+                                </div>
                             </div>
-                            <div>
-                                <div class="d-flex justify-content-between">
-                                    <span>Codigo:</span><span>{{this.code}}</span>
-                                </div>
-                                <div class="d-flex justify-content-between">
-                                    <span>Precio:</span><span>${{this.price}}</span>
-                                </div>
-                                <div class="d-flex justify-content-between">
-                                    <span>Stock:</span><span>{{this.stock}}</span>
-                                </div>
-                                <div class="d-flex justify-content-between">
-                                    <span>Categoría:</span><span>{{this.category}}</span>
-                                </div>
-                            </div>
-                        </div>
+                        </a>
                     </div>
+                 {{/each}}
+            </div>
+
+{{!-- paginador --}}
+                <div class="d-flex justify-content-center">
+                    <nav aria-label="Page navigation example">
+                        <ul class="pagination">
+                            {{!-- link anterior --}}
+                            {{#if products.prevLink}}
+                                <li class="page-item"> {{!-- SI hay pagina anterior --}}
+                            {{else}}
+                                <li class="page-item disabled"> {{!-- NO hay pagina anterior --}}
+                            {{/if}}
+                                    <a class="page-link" href="{{products.prevLink}}" aria-label="Previous">
+                                        <span aria-hidden="true">&laquo;</span>
+                                        <span class="sr-only">Anterior</span>
+                                    </a>
+                                </li>
+                                {{!-- numero de paginas --}}
+                                {{#each arrPages}}
+                                    {{!-- {{#if products.page this}}
+                                        <li class="page-item active"><a class="page-link" href="/products?page={{this}}">{{this}}</a></li>
+                                    {{else}}
+                                        <li class="page-item"><a class="page-link" href="/products?page={{this}}">{{this}}</a></li>
+                                    {{/if}} --}}
+                                    <li class="page-item"><a class="page-link" href="/products?page={{this}}">{{this}}</a></li>
+                                {{/each}}
+                                {{!-- link siguiente --}}
+                                {{#if products.nextLink}}
+                                    <li class="page-item"> {{!-- SI hay pagina siguiente --}}
+                                {{else}}
+                                    <li class="page-item disabled"> {{!-- NO hay pagina siguiente --}}
+                                {{/if}}
+                                    <a class="page-link" href="{{products.nextLink}}" aria-label="Next">
+                                        <span aria-hidden="true">&raquo;</span>
+                                        <span class="sr-only">Siguiente</span>
+                                    </a>
+                                </li>
+                            </li>
+                        </ul>
+                    </nav>
                 </div>
-            {{/each}}
+            
         </div>
-    </section>
-</div>
+
+
+
+{{!-- SIDEBAR --}}
+        <nav id="sidebar">
+            <div class="p-4 pt-5">
+                <h5>Filtrar</h5>
+                <ul class="list-unstyled components mb-5">
+                    <li>
+                        <a href="#pageSubmenu1" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Categoría</a>
+                        <ul class="collapse list-unstyled" id="pageSubmenu1">
+                            {{!-- Trae dinamicamente todas las categorías existentes en la colección --}}
+                            <li><a href="#"><span class="fa fa-chevron-right mr-2"></span> Todos</a></li>
+                            {{#each products.categories}}
+                                <li><a href="#"><span class="fa fa-chevron-right mr-2"></span> {{this}}</a></li>
+                            {{/each}}
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#pageSubmenu2" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Ordenar</a>
+                        <ul class="collapse list-unstyled" id="pageSubmenu2">
+                            <li><a href="?order=1"><span class="fa fa-chevron-right mr-2"></span> Precio: Menor</a></li>
+                            <li><a href="?order=-1"><span class="fa fa-chevron-right mr-2"></span> Precio: Mayor</a></li>
+                            <li><a href="#"><span class="fa fa-chevron-right mr-2"></span> Nombre: A - Z</a></li>
+                            <li><a href="#"><span class="fa fa-chevron-right mr-2"></span> Nombre: Z - A</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#pageSubmenu3" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Marca</a>
+                        <ul class="collapse list-unstyled" id="pageSubmenu3">
+                            {{#each products.brands}}  
+                                <li><a href="#"><span class="fa fa-chevron-right mr-2"></span> {{this}}</a></li>
+                            {{/each}}  
+                        </ul>
+                    </li>
+                    
+                    {{!-- <li>
+                        <a href="#pageSubmenu4" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Clothes</a>
+                        <ul class="collapse list-unstyled" id="pageSubmenu4">
+                        <li><a href="#"><span class="fa fa-chevron-right mr-2"></span> Jeans</a></li>
+                        <li><a href="#"><span class="fa fa-chevron-right mr-2"></span> T-shirt</a></li>
+                        <li><a href="#"><span class="fa fa-chevron-right mr-2"></span> Jacket</a></li>
+                        <li><a href="#"><span class="fa fa-chevron-right mr-2"></span> Shoes</a></li>
+                        <li><a href="#"><span class="fa fa-chevron-right mr-2"></span> Sweater</a></li>
+                        </ul>
+                    </li> --}}
+
+                </ul>
+
+                {{!-- <div class="mb-5">
+                    <h5>Tag Cloud</h5>
+                        <div class="tagcloud">
+                            <a href="#" class="tag-cloud-link">dish</a>
+                            <a href="#" class="tag-cloud-link">menu</a>
+                            <a href="#" class="tag-cloud-link">food</a>
+                            <a href="#" class="tag-cloud-link">sweet</a>
+                            <a href="#" class="tag-cloud-link">tasty</a>
+                            <a href="#" class="tag-cloud-link">delicious</a>
+                            <a href="#" class="tag-cloud-link">desserts</a>
+                            <a href="#" class="tag-cloud-link">drinks</a>
+                        </div>
+                </div> --}}
+
+                {{!-- <div class="mb-5">
+                    <h5>Newsletter</h5>
+                        <form action="#" class="subscribe-form">
+                            <div class="form-group d-flex">
+                                <div class="icon"><span class="icon-paper-plane"></span></div>
+                                <input type="text" class="form-control" placeholder="Enter Email Address">
+                            </div>
+                        </form>
+                </div> --}}
+
+            </div>
+            </nav>
+            </div>
+
+        <script src="js/jquery.min.js"></script>
+        <script src="js/popper.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/main.js"></script>
+    </body>
+</html>

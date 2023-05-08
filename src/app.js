@@ -49,7 +49,7 @@ const productManager = new ProductManager('./dbProducts.json')
     } catch (error) {
         // handleError(error)
         console.log('[mongodb] Error de conexión a la Base de Datos!!!!!!!!!');
-    }
+    }
 
 
 // Servers

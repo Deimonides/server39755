@@ -7,6 +7,6 @@ h1 {
 }
 
 .card-img-top{
-    width: 100px;
+    width: 70px;
     align-self: center;
 }
