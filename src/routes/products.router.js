@@ -8,7 +8,7 @@ router.get('/', async (req, res) => {
     !page && (page = 1)
         // console.log('page:', page);
     const products = await productModel.paginate({}, {page, limit: 6, lean: true}) // trae todos los productos
-        console.log('products', products);
+        // console.log('products', products);
     products.categories = await productModel.distinct("category").lean().exec() // trae las categorias que existen
         // console.log('categories: ', products.categories);
     products.brands = await productModel.distinct("brand").lean().exec() // trae las marcas que existen

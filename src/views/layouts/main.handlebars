@@ -4,13 +4,74 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/styles.css">
     <title>{{ title }}</title>
 </head>
 <body>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">ATENEA IT</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    {{!-- <a class="nav-link" href="/">Inicio <span class="sr-only">(current)</span></a> --}}
+                    <a class="nav-link" href="/">INICIO <span class="sr-only"></span></a>
+                </li>
+                <li class="nav-item">
+                    <span class="nav-link">|</span>
+                </li>
+                <li class="nav-item">
+                    <span class="nav-link">PRODUCTOS:</span>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/products">Listar</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/products/add/">Crear</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/products">Modificar</a>
+                </li>
+                <li class="nav-item">
+                    <span class="nav-link">|</span>
+                </li>
+                {{!-- <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Productos  
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <a class="dropdown-item" href="/products/">Ver todos</a>
+                        <a class="dropdown-item" href="/products/add">Nuevo</a>
+                        <a class="dropdown-item" href="/products/mod">Modificar</a>
+                    </div>
+                </li> --}}
+                <li class="nav-item">
+                    <a class="nav-link" href="#">CARRITOS:</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/carts">Listar</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/carts/add/">Crear</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/carts">Modificar</a>
+                </li>
+                <li class="nav-item">
+                    <span class="nav-link">|</span>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
     {{{ body }}}
     {{!-- <script src="/socket.io/socket.io.js"></script> --}}
-    <script src="index.js"></script>
+    {{!-- <script src="index.js"></script> --}}
 </body>
 </html>
