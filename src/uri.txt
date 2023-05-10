@@ -1,0 +1,1 @@
+mongodb+srv://gsolotun:Ralmin2ueTjNsHC1@cluster0.bz5igio.mongodb.net/server39755

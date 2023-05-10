@@ -1,56 +1,111 @@
 import { Router } from 'express'
 import productModel from '../models/product.model.js'
+import querystring from 'querystring'
+
 const router = Router()
 
 router.get('/', async (req, res) => {
     // const products = await productModel.find().lean().exec() // trae todos los productos
+    
+    // PAGINADO
     let page = parseInt(req.query.page)
     !page && (page = 1)
+        console.log('page: ' + page);
+    let limit = parseInt(req.query.limit)
+    !limit && (limit = 6)
+        console.log('limit: ' + limit);
+
+    // ORDENAMIENTO DE PRODUCTOS
+    const order = req.query.order
+    let i = 1
+    switch (order) {
+        case '09':
+            console.log('Precio orden ascendente')
+            i = 1
+            break;
+        case '90':
+            console.log('Precio orden descendente')
+            i = -1
+            break;
+        case 'az':
+            console.log('Nombres orden ascendente')
+            i = 1
+            break;
+        case 'za':
+            console.log('Nombres orden descendente')
+            i = -1
+        break;
+    }
+
+    // const pipeline = [
+    //     { $skip: { limit } * {page} }, 
+    //     /* { $limit : {limit} }, */
+    //     { $sort: {price: i} },
+    //   ];
+    
+    
+
         // console.log('page:', page);
-    const products = await productModel.paginate({}, {page, limit: 6, lean: true}) // trae todos los productos
-        // console.log('products', products);
+    // const products = await productModel.paginate({}, {page, limit: 6, lean: true}) // trae todos los productos
+    // const products = await productModel.aggregate(pipeline).paginate({}, {page, limit, lean: true}) // trae todos los productos
+    const products = await productModel.aggregate(pipeline) //.paginate({}, {page, limit, lean: true}) // trae todos los productos
+        console.log('products', products);
     products.categories = await productModel.distinct("category").lean().exec() // trae las categorias que existen
         // console.log('categories: ', products.categories);
     products.brands = await productModel.distinct("brand").lean().exec() // trae las marcas que existen
     
     let arrPages = []
     for(let i = 1; i < products.totalPages+1; i++) {
-        arrPages.push(i)
+        products.arrPages.push(i)
     }
     // console.log('arrPages: ', arrPages);
     
-   
     
+    // console.log('URL Query actuales: ', querystring.parse(req.query));
+
+
+
+    /* const products = await productModel.aggregate(
+        [
+            {$sort: {price: order }},
+        ]
+    ).lean().exec()
+    res.render('products', { products }) */
+
+
+    ///////////////////
 
     products.prevLink = products.hasPrevPage ? `/products?page=${products.prevPage}` : ''
         // console.log('products.prevLink: ', products.prevLink);
     products.nextLink = products.hasNextPage ? `/products?page=${products.nextPage}` : ''
         // console.log('products.nextLink: ', products.nextLink);
 
-    res.render('products', { title: "Catalogo", products, arrPages })
+    /* const queryParams = querystring.parse(req.query); // obtener los URL-params actuales
+    const newQueryParam = 'nuevoParametro'; // nombre del nuevo parametro
+    const newParamValue = 'valorDelParametro'; // valor del nuevo parametro
+    queryParams[newQueryParam] = newParamValue; // añadir el nuevo parametro
+    const newQueryString = querystring.stringify(queryParams); // convertir en string los nuevos URL-params
+    const newUrl = `${req.path}?${newQueryString}`; // construir la nueva URL
+     */
+    
+
+
+    res.render('products', { title: "Catalogo", products })
 })
+
 
 router.get('/add', (req, res) => {
     res.render('add', { })
 })
 
-router.get('/order', async (req, res) => {
-    const order = req.params.order
-    console.log('order');
-    const products = await productModel.aggregate(
-        [
-            {$sort: {price: order    }},
-        ]
-    ).lean().exec()
-    res.render('products', { products })
-})
-
+// BUSCAR UN PRODUCTO EN PARTICULAR POR SU CODIGO DE PRODUCTO
 router.get('/:code', async (req, res) => {
     const code = req.params.code
     const products = await productModel.find( { code } ).lean().exec()
     res.render('products', { products })
 })
 
+// POST DE NUEVO PRODUCTO
 router.post( '/', async (req, res) => {
     // const newProduct = JSON.stringify( req.body )
     const newProduct = req.body

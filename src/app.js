@@ -39,12 +39,13 @@ const productManager = new ProductManager('./dbProducts.json')
     // console.log('Entrando al try...')
     try {
         let url = ""
-        if ( fs.existsSync('./src/url.txt') ) {
-            url = fs.readFileSync('./src/url.txt', 'utf8')
+        if ( fs.existsSync('./src/uri.txt') ) {
+            url = fs.readFileSync('./src/uri.txt', 'utf8')
         } else {
-            console.log('[mongodb] Falta el archivo url.txt. Pídaselo a su Backend amigo!');
+            console.log('[mongodb] Falta el archivo uri.txt. Pídaselo a su Backend amigo!');
         }
         await mongoose.connect(url)
+        console.log('[mongodb] Base de Datos online');
         app.listen( PORT, () => console.log(`[express] HTTP listening on port ${PORT}`) )
     } catch (error) {
         // handleError(error)

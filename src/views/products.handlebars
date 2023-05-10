@@ -17,7 +17,7 @@
         <div id="content" class="p-4 p-md-5 pt-5">
             <h2 class="mb-4">Catálogo</h2>
             
-
+            {{!-- listado de productos --}}
             <div class="container py-5 d-flex flex-wrap justify-content-center">
                 {{#each products.docs}}
                     <div class="col-md-6 col-lg-6 col-xl-4 mb-4 mh-200px">
@@ -68,7 +68,7 @@
                                 </a>
                             </li>
                             {{!-- numero de paginas --}}
-                            {{#each arrPages}}
+                            {{#each products.arrPages}}
                                 {{!-- {{#if products.page this}}
                                     <li class="page-item active"><a class="page-link" href="/products?page={{this}}">{{this}}</a></li>
                                 {{else}}
@@ -95,8 +95,8 @@
         </div>
 
     {{!-- SIDEBAR --}}
-        <div>
-        <nav id="sidebar">
+        {{!-- <div> --}}
+        <nav id="sidebar" class="mw-auto">
             <div class="p-4 pt-5">
                 <h5>Filtrar</h5>
                 <ul class="list-unstyled components mb-5">
@@ -113,10 +113,11 @@
                     <li>
                         <a href="#pageSubmenu2" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Ordenar</a>
                         <ul class="collapse list-unstyled" id="pageSubmenu2">
-                            <li><a href="?order=1"><span class="fa fa-chevron-right mr-2"></span> Precio: Menor</a></li>
-                            <li><a href="?order=-1"><span class="fa fa-chevron-right mr-2"></span> Precio: Mayor</a></li>
-                            <li><a href="#"><span class="fa fa-chevron-right mr-2"></span> Nombre: A - Z</a></li>
-                            <li><a href="#"><span class="fa fa-chevron-right mr-2"></span> Nombre: Z - A</a></li>
+                        <ul class="list-unstyled" id="pageSubmenu2">Ordenar:
+                            <li><a href="?order=09">> Precio 0-9</a></li>
+                            <li><a href="?order=90">> Precio 9-0</a></li>
+                            <li><a href="?order=az">> Nombre A-Z</a></li>
+                            <li><a href="?order=za">> Nombre Z-A</a></li>
                         </ul>
                     </li>
                     <li>
@@ -167,7 +168,7 @@
 
             </div>
         </nav>
-        </div>
+        {{!-- </div> --}}
         {{!-- </div> --}}
 
         <script src="js/jquery.min.js"></script>
