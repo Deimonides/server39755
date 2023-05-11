@@ -8,47 +8,61 @@ router.get('/', async (req, res) => {
     // const products = await productModel.find().lean().exec() // trae todos los productos
     
     // PAGINADO
-    let page = parseInt(req.query.page)
+    var page = parseInt(req.query.page)
     !page && (page = 1)
         console.log('page: ' + page);
-    let limit = parseInt(req.query.limit)
+    var limit = parseInt(req.query.limit)
     !limit && (limit = 6)
         console.log('limit: ' + limit);
 
     // ORDENAMIENTO DE PRODUCTOS
-    const order = req.query.order
-    let i = 1
+    let order = req.query.order
+    !order && (order = 'az')
+    console.log('order:', order);
+    // let sortKey=title, sortVal=1
+    let sortKey, sortVal
     switch (order) {
         case '09':
             console.log('Precio orden ascendente')
-            i = 1
+            sortKey = "price"
+            sortVal = 1
             break;
         case '90':
             console.log('Precio orden descendente')
-            i = -1
+            sortKey = "price"
+            sortVal = -1
             break;
         case 'az':
             console.log('Nombres orden ascendente')
-            i = 1
+            sortKey = "title"
+            sortVal = 1
             break;
         case 'za':
             console.log('Nombres orden descendente')
-            i = -1
-        break;
+            sortKey = "title"
+            sortVal = -1
+            break;
     }
+    console.log('sortKey: ', sortKey);
+    console.log('sortVal: ', sortVal);
 
-    // const pipeline = [
-    //     { $skip: { limit } * {page} }, 
-    //     /* { $limit : {limit} }, */
-    //     { $sort: {price: i} },
-    //   ];
-    
+    const pipeline = [
+        {
+          '$sort': {
+            'price': 1
+          }
+        }
+      ]
+
+// [{"$match": {$or: [{"to": userId}, {"from": userId}]}}, ..., {$skip: 1}, {$limit: 1}]
+
+    console.log('pipeline: ', pipeline);
     
 
         // console.log('page:', page);
     // const products = await productModel.paginate({}, {page, limit: 6, lean: true}) // trae todos los productos
     // const products = await productModel.aggregate(pipeline).paginate({}, {page, limit, lean: true}) // trae todos los productos
-    const products = await productModel.aggregate(pipeline) //.paginate({}, {page, limit, lean: true}) // trae todos los productos
+    const products = await productModel.aggregate( pipeline ) //.paginate({}, {page, limit, lean: true}) // trae todos los productos
         console.log('products', products);
     products.categories = await productModel.distinct("category").lean().exec() // trae las categorias que existen
         // console.log('categories: ', products.categories);
