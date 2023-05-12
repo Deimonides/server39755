@@ -6,105 +6,73 @@ const router = Router()
 
 router.get('/', async (req, res) => {
     // const products = await productModel.find().lean().exec() // trae todos los productos
-    
+
     // PAGINADO
     var page = parseInt(req.query.page)
     !page && (page = 1)
-        console.log('page: ' + page);
+        console.log('--- page: ' + page);
     var limit = parseInt(req.query.limit)
     !limit && (limit = 6)
-        console.log('limit: ' + limit);
+        console.log('--- limit: ' + limit);
 
     // ORDENAMIENTO DE PRODUCTOS
     let order = req.query.order
     !order && (order = 'az')
     console.log('order:', order);
     // let sortKey=title, sortVal=1
-    let sortKey, sortVal
+    let sortKey="", sortVal=0
     switch (order) {
         case '09':
-            console.log('Precio orden ascendente')
+            // console.log('***** Precio orden ascendente')
             sortKey = "price"
             sortVal = 1
             break;
         case '90':
-            console.log('Precio orden descendente')
+            // console.log('***** Precio orden descendente')
             sortKey = "price"
             sortVal = -1
             break;
         case 'az':
-            console.log('Nombres orden ascendente')
+            // console.log('***** Nombres orden ascendente')
             sortKey = "title"
             sortVal = 1
             break;
         case 'za':
-            console.log('Nombres orden descendente')
+            // console.log('***** Nombres orden descendente')
             sortKey = "title"
             sortVal = -1
             break;
     }
-    console.log('sortKey: ', sortKey);
-    console.log('sortVal: ', sortVal);
+    // console.log('***** sortKey: ', sortKey);
+    // console.log('***** sortVal: ', sortVal);
 
     const pipeline = [
-        {
-          '$sort': {
-            'price': 1
-          }
-        }
-      ]
-
-// [{"$match": {$or: [{"to": userId}, {"from": userId}]}}, ..., {$skip: 1}, {$limit: 1}]
-
-    console.log('pipeline: ', pipeline);
+        {$sort: {[sortKey]: sortVal} },
+    ]
+    // console.log('***** Pipeline: ', pipeline);
     
 
         // console.log('page:', page);
     // const products = await productModel.paginate({}, {page, limit: 6, lean: true}) // trae todos los productos
     // const products = await productModel.aggregate(pipeline).paginate({}, {page, limit, lean: true}) // trae todos los productos
-    const products = await productModel.aggregate( pipeline ) //.paginate({}, {page, limit, lean: true}) // trae todos los productos
-        console.log('products', products);
+    let products = await productModel.aggregate( pipeline ) //.paginate({}, {page, limit, lean: true}) // trae todos los productos
+        products = await productModel.paginate({}, {page, limit, lean: true}) // trae todos los productos
+        // console.log('products', products);
     products.categories = await productModel.distinct("category").lean().exec() // trae las categorias que existen
         // console.log('categories: ', products.categories);
     products.brands = await productModel.distinct("brand").lean().exec() // trae las marcas que existen
     
     let arrPages = []
     for(let i = 1; i < products.totalPages+1; i++) {
-        products.arrPages.push(i)
+        arrPages.push(i)
     }
-    // console.log('arrPages: ', arrPages);
-    
-    
-    // console.log('URL Query actuales: ', querystring.parse(req.query));
-
-
-
-    /* const products = await productModel.aggregate(
-        [
-            {$sort: {price: order }},
-        ]
-    ).lean().exec()
-    res.render('products', { products }) */
-
-
-    ///////////////////
 
     products.prevLink = products.hasPrevPage ? `/products?page=${products.prevPage}` : ''
         // console.log('products.prevLink: ', products.prevLink);
     products.nextLink = products.hasNextPage ? `/products?page=${products.nextPage}` : ''
         // console.log('products.nextLink: ', products.nextLink);
 
-    /* const queryParams = querystring.parse(req.query); // obtener los URL-params actuales
-    const newQueryParam = 'nuevoParametro'; // nombre del nuevo parametro
-    const newParamValue = 'valorDelParametro'; // valor del nuevo parametro
-    queryParams[newQueryParam] = newParamValue; // añadir el nuevo parametro
-    const newQueryString = querystring.stringify(queryParams); // convertir en string los nuevos URL-params
-    const newUrl = `${req.path}?${newQueryString}`; // construir la nueva URL
-     */
-    
-
-
-    res.render('products', { title: "Catalogo", products })
+    res.render('products', { title: "Catalogo", products, arrPages })
 })
 
 
@@ -112,11 +80,13 @@ router.get('/add', (req, res) => {
     res.render('add', { })
 })
 
-// BUSCAR UN PRODUCTO EN PARTICULAR POR SU CODIGO DE PRODUCTO
+// MOSTRAR UN PRODUCTO EN PARTICULAR POR SU CODIGO DE PRODUCTO
 router.get('/:code', async (req, res) => {
     const code = req.params.code
-    const products = await productModel.find( { code } ).lean().exec()
-    res.render('products', { products })
+        console.log('--- code: ' + code);
+    const products = await productModel.find({code}).lean().exec()
+        console.log('--- products: ', products);
+    res.render('productDetail', {products})
 })
 
 // POST DE NUEVO PRODUCTO

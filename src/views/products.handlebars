@@ -21,7 +21,7 @@
             <div class="container py-5 d-flex flex-wrap justify-content-center">
                 {{#each products.docs}}
                     <div class="col-md-6 col-lg-6 col-xl-4 mb-4 mh-200px">
-                        <a href="/?code={{this.code}}">
+                        <a href="/products/{{this.code}}">
                             <div class="card text-black">
                                 <img src="{{thumbnails.[0]}}" class="card-img-top" alt="...">
                                 <div class="card-body">
@@ -68,7 +68,7 @@
                                 </a>
                             </li>
                             {{!-- numero de paginas --}}
-                            {{#each products.arrPages}}
+                            {{#each arrPages}}
                                 {{!-- {{#if products.page this}}
                                     <li class="page-item active"><a class="page-link" href="/products?page={{this}}">{{this}}</a></li>
                                 {{else}}

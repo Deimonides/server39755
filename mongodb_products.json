@@ -1,0 +1,393 @@
+[
+  {
+    "title": "AMD Ryzen 9 series",
+    "description": "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Omnis, vitae.",
+    "code": "amd9a",
+    "price": 370000,
+    "brand": "AMD",
+    "status": true,
+    "stock": 3,
+    "category": "Microprocesador",
+    "thumbnails": [
+      "https://i.postimg.cc/TYQS1bZk/Icono-01.jpg",
+      "https://i.postimg.cc/TYQS1bZk/Icono-01.jpg",
+      "https://i.postimg.cc/TYQS1bZk/Icono-01.jpg"
+    ]
+  },
+  {
+    "title": "Motherboard_02",
+    "description": "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Omnis, vitae.",
+    "code": "mtb02",
+    "price": 12345,
+    "brand": "Gigabyte",
+    "status": true,
+    "stock": 5,
+    "category": "Motherboard",
+    "thumbnails": [
+      "https://i.postimg.cc/TYQS1bZk/Icono-01.jpg",
+      "https://i.postimg.cc/TYQS1bZk/Icono-01.jpg",
+      "https://i.postimg.cc/TYQS1bZk/Icono-01.jpg"
+    ]
+  },
+  {
+    "title": "Gabinete_01",
+    "description": "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Omnis, vitae.",
+    "code": "gab01",
+    "brand": "Thermaltake",
+    "price": 12345,
+    "status": true,
+    "stock": 5,
+    "category": "Gabinete",
+    "thumbnails": [
+      "https://i.postimg.cc/TYQS1bZk/Icono-01.jpg",
+      "https://i.postimg.cc/TYQS1bZk/Icono-01.jpg",
+      "https://i.postimg.cc/TYQS1bZk/Icono-01.jpg"
+    ]
+  },
+  {
+    "title": "Gabinete_05",
+    "description": "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Omnis, vitae.",
+    "code": "gab05",
+    "brand": "Thermaltake",
+    "price": 12345,
+    "status": true,
+    "stock": 5,
+    "category": "Gabinete",
+    "thumbnails": [
+      "https://i.postimg.cc/TYQS1bZk/Icono-01.jpg",
+      "https://i.postimg.cc/TYQS1bZk/Icono-01.jpg",
+      "https://i.postimg.cc/TYQS1bZk/Icono-01.jpg"
+    ]
+  },
+  {
+    "title": "AMD Ryzen 7",
+    "description": "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Omnis, vitae.",
+    "code": "amd9b",
+    "brand": "AMD",
+    "price": 350000,
+    "status": true,
+    "stock": 2,
+    "category": "Microprocesador",
+    "thumbnails": [
+      "https://i.postimg.cc/TYQS1bZk/Icono-01.jpg",
+      "https://i.postimg.cc/TYQS1bZk/Icono-01.jpg",
+      "https://i.postimg.cc/TYQS1bZk/Icono-01.jpg"
+    ]
+  },
+  {
+    "title": "AMD Ryzen 5",
+    "description": "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Omnis, vitae.",
+    "code": "amd5a",
+    "brand": "AMD",
+    "price": 330000,
+    "status": true,
+    "stock": 3,
+    "category": "Microprocesador",
+    "thumbnails": [
+      "https://i.postimg.cc/TYQS1bZk/Icono-01.jpg",
+      "https://i.postimg.cc/TYQS1bZk/Icono-01.jpg",
+      "https://i.postimg.cc/TYQS1bZk/Icono-01.jpg"
+    ]
+  },
+  {
+    "title": "AMD Ryzen 3",
+    "description": "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Omnis, vitae.",
+    "code": "amd3a",
+    "brand": "AMD",
+    "price": 310000,
+    "status": true,
+    "stock": 1,
+    "category": "Microprocesador",
+    "thumbnails": [
+      "https://i.postimg.cc/TYQS1bZk/Icono-01.jpg",
+      "https://i.postimg.cc/TYQS1bZk/Icono-01.jpg",
+      "https://i.postimg.cc/TYQS1bZk/Icono-01.jpg"
+    ]
+  },
+  {
+    "title": "Intel i5",
+    "description": "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Omnis, vitae.",
+    "code": "int7a",
+    "brand": "Intel",
+    "price": 330000,
+    "status": true,
+    "stock": 2,
+    "category": "Microprocesador",
+    "thumbnails": [
+      "https://i.postimg.cc/TYQS1bZk/Icono-01.jpg",
+      "https://i.postimg.cc/TYQS1bZk/Icono-01.jpg",
+      "https://i.postimg.cc/TYQS1bZk/Icono-01.jpg"
+    ]
+  },{
+    "title": "Intel i3",
+    "description": "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Omnis, vitae.",
+    "code": "int5a",
+    "brand": "Intel",
+    "price": 310000,
+    "status": true,
+    "stock": 3,
+    "category": "Microprocesador",
+    "thumbnails": [
+      "https://i.postimg.cc/TYQS1bZk/Icono-01.jpg",
+      "https://i.postimg.cc/TYQS1bZk/Icono-01.jpg",
+      "https://i.postimg.cc/TYQS1bZk/Icono-01.jpg"
+    ]
+  },{
+    "title": "Fuente_01",
+    "description": "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Omnis, vitae.",
+    "code": "fnt01",
+    "brand": "Thermaltake",
+    "price": 12345,
+    "status": true,
+    "stock": 5,
+    "category": "Fuente",
+    "thumbnails": [
+      "https://i.postimg.cc/TYQS1bZk/Icono-01.jpg",
+      "https://i.postimg.cc/TYQS1bZk/Icono-01.jpg",
+      "https://i.postimg.cc/TYQS1bZk/Icono-01.jpg"
+    ]
+  },{
+    "title": "Fuente_03",
+    "description": "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Omnis, vitae.",
+    "code": "fnt03",
+    "brand": "Thermaltake",
+    "price": 12345,
+    "status": true,
+    "stock": 5,
+    "category": "Fuente",
+    "thumbnails": [
+      "https://i.postimg.cc/TYQS1bZk/Icono-01.jpg",
+      "https://i.postimg.cc/TYQS1bZk/Icono-01.jpg",
+      "https://i.postimg.cc/TYQS1bZk/Icono-01.jpg"
+    ]
+  },{
+    "title": "Fuente_04",
+    "description": "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Omnis, vitae.",
+    "code": "fnt04",
+    "brand": "Thermaltake",
+    "price": 12345,
+    "status": true,
+    "stock": 5,
+    "category": "Fuente",
+    "thumbnails": [
+      "https://i.postimg.cc/TYQS1bZk/Icono-01.jpg",
+      "https://i.postimg.cc/TYQS1bZk/Icono-01.jpg",
+      "https://i.postimg.cc/TYQS1bZk/Icono-01.jpg"
+    ]
+  },{
+    "title": "Gabinete_02",
+    "description": "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Omnis, vitae.",
+    "code": "gab02",
+    "brand": "Thermaltake",
+    "price": 12345,
+    "status": true,
+    "stock": 5,
+    "category": "Gabinete",
+    "thumbnails": [
+      "https://i.postimg.cc/TYQS1bZk/Icono-01.jpg",
+      "https://i.postimg.cc/TYQS1bZk/Icono-01.jpg",
+      "https://i.postimg.cc/TYQS1bZk/Icono-01.jpg"
+    ]
+  },{
+    "title": "Gabinete_04",
+    "description": "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Omnis, vitae.",
+    "code": "gab04",
+    "brand": "Thermaltake",
+    "price": 12345,
+    "status": true,
+    "stock": 5,
+    "category": "Gabinete",
+    "thumbnails": [
+      "https://i.postimg.cc/TYQS1bZk/Icono-01.jpg",
+      "https://i.postimg.cc/TYQS1bZk/Icono-01.jpg",
+      "https://i.postimg.cc/TYQS1bZk/Icono-01.jpg"
+    ]
+  },{
+    "title": "Intel i9",
+    "description": "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Omnis, vitae.",
+    "code": "int9a",
+    "brand": "Intel",
+    "price": 370000,
+    "status": true,
+    "stock": 5,
+    "category": "Microprocesador",
+    "thumbnails": [
+      "https://i.postimg.cc/TYQS1bZk/Icono-01.jpg",
+      "https://i.postimg.cc/TYQS1bZk/Icono-01.jpg",
+      "https://i.postimg.cc/TYQS1bZk/Icono-01.jpg"
+    ]
+  },{
+    "title": "RAM HyperX 32GB",
+    "description": "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Omnis, vitae.",
+    "code": "ram8a",
+    "brand": "HyperX",
+    "price": 25000,
+    "status": true,
+    "stock": 7,
+    "category": "Memoria RAM",
+    "thumbnails": [
+      "https://i.postimg.cc/TYQS1bZk/Icono-01.jpg",
+      "https://i.postimg.cc/TYQS1bZk/Icono-01.jpg",
+      "https://i.postimg.cc/TYQS1bZk/Icono-01.jpg"
+    ]
+  },{
+    "title": "RAM HyperX 64GB",
+    "description": "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Omnis, vitae.",
+    "code": "ram8a",
+    "brand": "HyperX",
+    "price": 25000,
+    "status": true,
+    "stock": 7,
+    "category": "Memoria RAM",
+    "thumbnails": [
+      "https://i.postimg.cc/TYQS1bZk/Icono-01.jpg",
+      "https://i.postimg.cc/TYQS1bZk/Icono-01.jpg",
+      "https://i.postimg.cc/TYQS1bZk/Icono-01.jpg"
+    ]
+  },{
+    "title": "SSD m.2 520GB Kingston",
+    "description": "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Omnis, vitae.",
+    "code": "ssdm5k",
+    "brand": "Kingston",
+    "price": 45000,
+    "status": true,
+    "stock": 8,
+    "category": "Almacenamiento",
+    "thumbnails": [
+      "https://i.postimg.cc/TYQS1bZk/Icono-01.jpg",
+      "https://i.postimg.cc/TYQS1bZk/Icono-01.jpg",
+      "https://i.postimg.cc/TYQS1bZk/Icono-01.jpg"
+    ]
+  },{
+    "title": "Motherboard_05",
+    "description": "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Omnis, vitae.",
+    "code": "mtb05",
+    "brand": "MSI",
+    "price": 12345,
+    "status": true,
+    "stock": 5,
+    "category": "Microprocesador",
+    "thumbnails": [
+      "https://i.postimg.cc/TYQS1bZk/Icono-01.jpg",
+      "https://i.postimg.cc/TYQS1bZk/Icono-01.jpg",
+      "https://i.postimg.cc/TYQS1bZk/Icono-01.jpg"
+    ]
+  },{
+    "title": "Fuente_02",
+    "description": "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Omnis, vitae.",
+    "code": "fnt02",
+    "brand": "Thermaltake",
+    "price": 12345,
+    "status": true,
+    "stock": 5,
+    "category": "Fuente",
+    "thumbnails": [
+      "https://i.postimg.cc/TYQS1bZk/Icono-01.jpg",
+      "https://i.postimg.cc/TYQS1bZk/Icono-01.jpg",
+      "https://i.postimg.cc/TYQS1bZk/Icono-01.jpg"
+    ]
+  },{
+    "title": "Fuente_05",
+    "description": "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Omnis, vitae.",
+    "code": "fnt05",
+    "brand": "Thermaltake",
+    "price": 12345,
+    "status": true,
+    "stock": 5,
+    "category": "Fuente",
+    "thumbnails": [
+      "https://i.postimg.cc/TYQS1bZk/Icono-01.jpg",
+      "https://i.postimg.cc/TYQS1bZk/Icono-01.jpg",
+      "https://i.postimg.cc/TYQS1bZk/Icono-01.jpg"
+    ]
+  },{
+    "title": "Gabinete_03",
+    "description": "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Omnis, vitae.",
+    "code": "gab03",
+    "brand": "Thermaltake",
+    "price": 12345,
+    "status": true,
+    "stock": 5,
+    "category": "Gabinete",
+    "thumbnails": [
+      "https://i.postimg.cc/TYQS1bZk/Icono-01.jpg",
+      "https://i.postimg.cc/TYQS1bZk/Icono-01.jpg",
+      "https://i.postimg.cc/TYQS1bZk/Icono-01.jpg"
+    ]
+  },
+  {
+    "title": "Intel i7",
+    "description": "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Omnis, vitae.",
+    "code": "int9b",
+    "brand": "Intel",
+    "price": 350000,
+    "status": true,
+    "stock": 2,
+    "category": "Microprocesador",
+    "thumbnails": [
+      "https://i.postimg.cc/TYQS1bZk/Icono-01.jpg",
+      "https://i.postimg.cc/TYQS1bZk/Icono-01.jpg",
+      "https://i.postimg.cc/TYQS1bZk/Icono-01.jpg"
+    ]
+  },
+  {
+    "title": "RAM HyperX 8GB",
+    "description": "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Omnis, vitae.",
+    "code": "ram8a",
+    "brand": "HyperX",
+    "price": 25000,
+    "status": true,
+    "stock": 7,
+    "category": "Memoria RAM",
+    "thumbnails": [
+      "https://i.postimg.cc/TYQS1bZk/Icono-01.jpg",
+      "https://i.postimg.cc/TYQS1bZk/Icono-01.jpg",
+      "https://i.postimg.cc/TYQS1bZk/Icono-01.jpg"
+    ]
+  },
+  {
+    "title": "Motherboard_01",
+    "description": "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Omnis, vitae.",
+    "code": "mtb01",
+    "brand": "Asus",
+    "price": 12345,
+    "status": true,
+    "stock": 5,
+    "category": "Microprocesador",
+    "thumbnails": [
+      "https://i.postimg.cc/TYQS1bZk/Icono-01.jpg",
+      "https://i.postimg.cc/TYQS1bZk/Icono-01.jpg",
+      "https://i.postimg.cc/TYQS1bZk/Icono-01.jpg"
+    ]
+  },
+  {
+    "title": "Motherboard_03",
+    "description": "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Omnis, vitae.",
+    "code": "mtb03",
+    "brand": "Asus",
+    "price": 12345,
+    "status": true,
+    "stock": 5,
+    "category": "Microprocesador",
+    "thumbnails": [
+      "https://i.postimg.cc/TYQS1bZk/Icono-01.jpg",
+      "https://i.postimg.cc/TYQS1bZk/Icono-01.jpg",
+      "https://i.postimg.cc/TYQS1bZk/Icono-01.jpg"
+    ]
+  },
+  {
+    "title": "Motherboard_04",
+    "description": "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Omnis, vitae.",
+    "code": "mtb04",
+    "brand": "Gigabyte",
+    "price": 12345,
+    "status": true,
+    "stock": 5,
+    "category": "Microprocesador",
+    "thumbnails": [
+      "https://i.postimg.cc/TYQS1bZk/Icono-01.jpg",
+      "https://i.postimg.cc/TYQS1bZk/Icono-01.jpg",
+      "https://i.postimg.cc/TYQS1bZk/Icono-01.jpg"
+    ]
+  }
+]
