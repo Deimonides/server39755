@@ -10,15 +10,15 @@ router.get('/', async (req, res) => {
     // PAGINADO
     var page = parseInt(req.query.page)
     !page && (page = 1)
-        console.log('--- page: ' + page);
+        // console.log('--- page: ' + page);
     var limit = parseInt(req.query.limit)
     !limit && (limit = 6)
-        console.log('--- limit: ' + limit);
+        // console.log('--- limit: ' + limit);
 
     // ORDENAMIENTO DE PRODUCTOS
     let order = req.query.order
     !order && (order = 'az')
-    console.log('order:', order);
+        // console.log('order:', order);
     // let sortKey=title, sortVal=1
     let sortKey="", sortVal=0
     switch (order) {
@@ -45,32 +45,37 @@ router.get('/', async (req, res) => {
     }
     // console.log('***** sortKey: ', sortKey);
     // console.log('***** sortVal: ', sortVal);
-
-    const pipeline = [
-        {$sort: {[sortKey]: sortVal} },
-    ]
-    // console.log('***** Pipeline: ', pipeline);
     
+    let pipeline = []
+    let category = req.query.category
+    // console.log('--- category: ', category);
+    if (category) {
+        pipeline = [{$match: {category}}]// , {$sort: {[sortKey]: sortVal} }]
+    } else {
+        pipeline = [{$sort: {[sortKey]: sortVal} }]
+    }
+    // console.log('--- pipeline: ', pipeline);
 
-        // console.log('page:', page);
-    // const products = await productModel.paginate({}, {page, limit: 6, lean: true}) // trae todos los productos
-    // const products = await productModel.aggregate(pipeline).paginate({}, {page, limit, lean: true}) // trae todos los productos
-    let products = await productModel.aggregate( pipeline ) //.paginate({}, {page, limit, lean: true}) // trae todos los productos
-        products = await productModel.paginate({}, {page, limit, lean: true}) // trae todos los productos
-        // console.log('products', products);
+    // let pipeline = [{$match: {category: 'Microprocesador'}}]
+
+    let products = await productModel.aggregate( pipeline ) // trae los productos
+    // let products = await productModel.aggregate( [{$match: {category}}] ) // trae los productos
+        // console.log('--- products:', products);
+    
     products.categories = await productModel.distinct("category").lean().exec() // trae las categorias que existen
-        // console.log('categories: ', products.categories);
+
     products.brands = await productModel.distinct("brand").lean().exec() // trae las marcas que existen
     
+    // para armar el control del paginador (un btn por cada página)
     let arrPages = []
     for(let i = 1; i < products.totalPages+1; i++) {
         arrPages.push(i)
     }
 
     products.prevLink = products.hasPrevPage ? `/products?page=${products.prevPage}` : ''
-        // console.log('products.prevLink: ', products.prevLink);
+        // console.log('--- products.prevLink: ', products.prevLink);
     products.nextLink = products.hasNextPage ? `/products?page=${products.nextPage}` : ''
-        // console.log('products.nextLink: ', products.nextLink);
+        // console.log('--- products.nextLink: ', products.nextLink);
 
     res.render('products', { title: "Catalogo", products, arrPages })
 })
@@ -80,12 +85,26 @@ router.get('/add', (req, res) => {
     res.render('add', { })
 })
 
+router.get('/abmproducts', async (req, res) => {
+    const products = await productModel.find().lean().exec()
+        // console.log('--- products:', products)
+    res.render('abmproducts', { title: 'Modificar productos', products })
+})
+
+router.get('/abmproducts/:code', async (req, res) => {
+    const code = req.params.code
+    const oneProduct = await productModel.findOne( {code} ).lean().exec()
+    const products = await productModel.find().lean().exec()
+        // console.log('--- products:', products)
+    res.render('abmproducts', { title: 'Administrar productos', oneProduct, products })
+})
+
 // MOSTRAR UN PRODUCTO EN PARTICULAR POR SU CODIGO DE PRODUCTO
 router.get('/:code', async (req, res) => {
     const code = req.params.code
-        console.log('--- code: ' + code);
+        // console.log('--- code: ' + code);
     const products = await productModel.find({code}).lean().exec()
-        console.log('--- products: ', products);
+        // console.log('--- products: ', products);
     res.render('productDetail', {products})
 })
 
@@ -97,7 +116,8 @@ router.post( '/', async (req, res) => {
     const productGenerated = new productModel(newProduct)
     await productGenerated.save()
     console.log(`Producto guardado! Codigo: ${productGenerated.code}`);
-    res.redirect(`/products/${productGenerated.code}` )
+    // res.redirect(`/products/${productGenerated.code}` )
+    res.redirect(`/products/abmproducts/` )
 
 
     // socketClient.on('product', newProduct)
@@ -149,7 +169,10 @@ router.put( '/:id', (req, res) => { // modificar lemento
     } */
 })
 
-router.delete( '/:id', (req, res) => {
+router.delete( '/:code', async (req, res) => {
+    const code = req.params.code
+    await productModel.deleteOne( {code} )
+    res.send("Producto eliminado.")
     /* let id = parseInt( req.params.id )
     let deletedItem = productManager.getProductById(id)
     if ( deletedItem !== null) {

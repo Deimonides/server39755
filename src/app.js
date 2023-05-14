@@ -36,7 +36,7 @@ const productManager = new ProductManager('./dbProducts.json')
 
     // MongoDB connection
     mongoose.set('strictQuery', false)
-    // console.log('Entrando al try...')
+    
     try {
         let url = ""
         if ( fs.existsSync('./src/uri.txt') ) {
