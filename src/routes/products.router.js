@@ -12,7 +12,7 @@ router.get('/', async (req, res) => {
     !page && (page = 1)
         // console.log('--- page: ' + page);
     var limit = parseInt(req.query.limit)
-    !limit && (limit = 6)
+    !limit && (limit = 4)
         // console.log('--- limit: ' + limit);
 
     // ORDENAMIENTO DE PRODUCTOS
@@ -46,21 +46,23 @@ router.get('/', async (req, res) => {
     // console.log('***** sortKey: ', sortKey);
     // console.log('***** sortVal: ', sortVal);
     
-    let pipeline = []
+    let pipeline
     let category = req.query.category
-    // console.log('--- category: ', category);
+        console.log('--- category: ', category);
     if (category) {
-        pipeline = [{$match: {category}}]// , {$sort: {[sortKey]: sortVal} }]
+        pipeline = {category}// , {$sort: {[sortKey]: sortVal} }]
     } else {
         pipeline = [{$sort: {[sortKey]: sortVal} }]
     }
-    // console.log('--- pipeline: ', pipeline);
+    console.log('--- pipeline: ', pipeline);
 
     // let pipeline = [{$match: {category: 'Microprocesador'}}]
 
-    let products = await productModel.aggregate( pipeline ) // trae los productos
+    // let products = await productModel.aggregate( pipeline ) // trae los productos filtrados
+    //         console.log('--- products:', products);
+       let products = await productModel.paginate( pipeline, {page, limit, lean: true}) // pagina el listado
+            console.log('--- products:', products);
     // let products = await productModel.aggregate( [{$match: {category}}] ) // trae los productos
-        // console.log('--- products:', products);
     
     products.categories = await productModel.distinct("category").lean().exec() // trae las categorias que existen
 
@@ -71,6 +73,7 @@ router.get('/', async (req, res) => {
     for(let i = 1; i < products.totalPages+1; i++) {
         arrPages.push(i)
     }
+    if (arrPages.length < 1) { arrPages.push(1) }
 
     products.prevLink = products.hasPrevPage ? `/products?page=${products.prevPage}` : ''
         // console.log('--- products.prevLink: ', products.prevLink);
@@ -154,7 +157,18 @@ router.post( '/', async (req, res) => {
     } */
 })
 
-router.put( '/:id', (req, res) => { // modificar lemento
+router.put( '/:code', async (req, res) => { // modificar elemento
+    const code = req.params.code
+        console.log('--- update code: ', code);
+    const productNewData = req.body
+        console.log('--- body: ', JSON.stringify(productNewData))
+    try {
+        await productModel.updateOne( {code}, {...productNewData})
+    } catch (error) {
+        res.send({error})
+    }
+    res.redirect(`/products/abmproducts/`)
+
     /* let id = parseInt( req.params.id )
     if ( productManager.getProductById(id) === null ) { return res.status(404).json( {"error": "Product not found."} ) } // no se encontró el producto
     let keys = Object.keys(req.body)
@@ -171,8 +185,14 @@ router.put( '/:id', (req, res) => { // modificar lemento
 
 router.delete( '/:code', async (req, res) => {
     const code = req.params.code
-    await productModel.deleteOne( {code} )
-    res.send("Producto eliminado.")
+
+    try {
+        await productModel.deleteOne( {code} )
+        res.send("Producto eliminado.")
+    } catch (error) {
+        res.send({error})
+    }
+
     /* let id = parseInt( req.params.id )
     let deletedItem = productManager.getProductById(id)
     if ( deletedItem !== null) {

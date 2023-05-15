@@ -1,18 +1,8 @@
-{{!-- <head>
-<link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-        <link rel="stylesheet" href="css/styles.css">
-</head> --}}
-
-{{!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
- --}}
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
-<script>
+<script> // ELIMINAR PRODUCTO
     function deleteProduct(code) { 
         fetch(`http://localhost:8080/products/${code}`, {
             method: "delete",
@@ -20,10 +10,55 @@
         $('#confirmDeletModal').modal('hide')
         window.location.href = `http://localhost:8080/products/abmproducts`
     }
-
 </script>
-{{!-- <body> --}}
-    
+
+
+<script> // ACTUALIZAR PRODUCTO
+    function updateProduct(param) { 
+        //alert("Modificando...")
+        fetch(`http://localhost:8080/products/${param}`, {
+            method: 'put',
+            body: JSON.stringify({
+                code:           document.getElementById('form0').value,
+                name:           document.getElementById('form1').value,
+                description:    document.getElementById('form2').value,
+                price:          document.getElementById('form3').value,
+                stock:          document.getElementById('form4').value,
+                category:       document.getElementById('form5').value,
+                thumbnails:     [ document.getElementById('form6').value,
+                                  document.getElementById('form7').value,
+                                  document.getElementById('form8').value
+                                ]
+                //thumbnails.0: document.getElementById('form6').value,
+                //thumbnails.1: document.getElementById('form7').value,
+                //thumbnails.2: document.getElementById('form8').value
+            }),
+                headers:{
+                    'Content-Type': 'application/json'
+            }
+        })
+        window.location.href = `http://localhost:8080/products/abmproducts/${param}`
+    }
+</script>
+
+
+<script> // BUSQUEDA EN EL DROPDOWN
+    function filterFunction() {
+        var input, filter, ul, li, a, i;
+        input = document.getElementById("drpSearch");
+        filter = input.value.toUpperCase();
+        div = document.getElementById("dropdownList");
+        a = div.getElementsByTagName("a");
+        for (i = 0; i < a.length; i++) {
+            txtValue = a[i].textContent || a[i].innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+            a[i].style.display = "";
+            } else {
+            a[i].style.display = "none";
+            }
+        }
+    } 
+</script>
 
 
 <div style="margin: 20px ">
@@ -31,95 +66,96 @@
 
     {{!-- **************************************************************************************************************************** --}}
     {{!-- DROPDOWN PARA SELLECION DE PRODUCTO --}}
-    <div >
+    <div class="dropdown">
         <div class="dropdown show">
-            <a class="btn btn-primary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Seleccione un producto -------->
-            </a>
+            <button class="btn btn-primary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Seleccione un producto
+            </button>
 
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-            <div>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink" id="dropdownList">
+            {{!-- <div> --}}
+                <input type="text" class="dropdown-item" placeholder="? Buscar..." id="drpSearch" onkeyup="filterFunction()">
                 {{#each products}}
-                    <a class="dropdown-item" href="/products/abmproducts/{{this.code}}">{{this.title}}</a>
+                    <a class="dropdown-item" href="/products/abmproducts/{{this.code}}">{{this.title}} ({{this.code}})</a>
                     {{!-- <a class="link" href="/{{this.code}}">{{this.title}}</a> --}}
                 {{/each}}
-            </div>
+            {{!-- </div> --}}
         </div>
     </div>
     
     {{!-- **************************************************************************************************************************** --}}
     {{!-- FORM DE EDICION --}}
     <div class="p-8 d-flex flex-wrap justify-content-center" style="margin: 40px">
-        <form action="/products" method="post" class="p-5 w-50">
+        <form action="/products" method="post" class="p-5 w-50" id="formABM">
             {{!-- importante poner los name igual a los campos del schema --}}
             
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
                     <span class="input-group-text font-weight-bold" id="basic-addon1" style="width: 150px">CODIGO *</span>
                 </div>
-                <input name="code" type="text" class="form-control required" value="{{oneProduct.code}}" aria-label="code" aria-describedby="basic-addon1">
+                <input id="form0" name="code" type="text" class="form-control required" value="{{oneProduct.code}}" aria-label="code" aria-describedby="basic-addon1">
             </div>
 
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
                     <span class="input-group-text font-weight-bold" id="basic-addon1" style="width: 150px">TITULO *</span>
                 </div>
-                <input name="title" type="text" class="form-control required" value="{{oneProduct.title}}" aria-label="title" aria-describedby="basic-addon1">
+                <input id="form1" name="title" type="text" class="form-control required" value="{{oneProduct.title}}" aria-label="title" aria-describedby="basic-addon1">
             </div>
 
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
                     <span class="input-group-text" id="basic-addon1" style="width: 150px">DESCRIPCIÓN</span>
                 </div>
-                <input name="description" type="text" class="form-control" value="{{oneProduct.description}}" aria-label="description" aria-describedby="basic-addon1">
+                <input id="form2" name="description" type="text" class="form-control" value="{{oneProduct.description}}" aria-label="description" aria-describedby="basic-addon1">
             </div>
 
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
                     <span class="input-group-text font-weight-bold" id="basic-addon1" style="width: 150px">PRECIO *</span>
                 </div>
-                <input name="price" type="number" class="form-control required" value="{{oneProduct.price}}" aria-label="price" aria-describedby="basic-addon1">
+                <input id="form3" name="price" type="number" class="form-control required" value="{{oneProduct.price}}" aria-label="price" aria-describedby="basic-addon1">
             </div>
 
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
                     <span class="input-group-text" id="basic-addon1" style="width: 150px">STOCK</span>
                 </div>
-                <input name="stock" type="number" class="form-control" value="{{oneProduct.stock}}" aria-label="stock" aria-describedby="basic-addon1">
+                <input id="form4" name="stock" type="number" class="form-control" value="{{oneProduct.stock}}" aria-label="stock" aria-describedby="basic-addon1">
             </div>
 
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
                     <span class="input-group-text font-weight-bold " id="basic-addon1" style="width: 150px">CATEGORÍA *</span>
                 </div>
-                <input name="category" type="text" class="form-control required" value="{{oneProduct.category}}" aria-label="category" aria-describedby="basic-addon1">
+                <input id="form5" name="category" type="text" class="form-control required" value="{{oneProduct.category}}" aria-label="category" aria-describedby="basic-addon1">
             </div>
 
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
                     <span class="input-group-text w-500px  font-weight-bold" id="basic-addon1" style="width: 150px">URL IMAGEN 1 *</span>
                 </div>
-                <input name="thumbnails" type="text" class="form-control required" value="{{oneProduct.thumbnails.[0]}}" aria-label="thumbnails" aria-describedby="basic-addon1">
+                <input id="form6" name="thumbnails" type="text" class="form-control required" value="{{oneProduct.thumbnails.[0]}}" aria-label="thumbnails" aria-describedby="basic-addon1">
             </div>
 
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
                     <span class="input-group-text " id="basic-addon1" style="width: 150px">URL IMAGEN 2</span>
                 </div>
-                <input name="thumbnails" type="text" class="form-control" value="{{oneProduct.thumbnails.[1]}}" aria-label="thumbnails" aria-describedby="basic-addon1">
+                <input id="form7" name="thumbnails" type="text" class="form-control" value="{{oneProduct.thumbnails.[1]}}" aria-label="thumbnails" aria-describedby="basic-addon1">
             </div>
 
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
                     <span class="input-group-text required" id="basic-addon1" style="width: 150px">URL IMAGEN 3</span>
                 </div>
-                <input name="thumbnails" type="text" class="form-control" value="{{oneProduct.thumbnails.[2]}}" aria-label="thumbnails" aria-describedby="basic-addon1">
+                <input id="form8" name="thumbnails" type="text" class="form-control" value="{{oneProduct.thumbnails.[2]}}" aria-label="thumbnails" aria-describedby="basic-addon1">
             </div>
             <div class="d-flex justify-content-around  mt-5">
                 {{!-- <input class="btn btn-primary" type="submit" value="Actualizar"> --}}
-                <button type="submit"  class="btn btn-success">POST</button>
+                <button type="submit"  class="btn btn-success">CREATE</button>
 
-                <button type="button"  class="btn btn-warning">PUT</button>
+                <button type="button"  class="btn btn-warning" onclick="updateProduct('{{oneProduct.code}}')">UPDATE</button>
 
                 <button type="button"  class="btn btn-danger" data-toggle="modal"  data-target="#confirmDeletModal">DELETE</button>
 
@@ -130,7 +166,7 @@
 
             <div class="d-flex justify-content-around mt-4">
 
-                <p >(Con más front ocultar botones corresponda)</p>
+                <p >(ToDo: ocultar botones segun corresponda)</p>
             </div>
 
         </form>
