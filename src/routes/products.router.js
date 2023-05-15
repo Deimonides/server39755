@@ -8,61 +8,60 @@ router.get('/', async (req, res) => {
     // const products = await productModel.find().lean().exec() // trae todos los productos
 
     // PAGINADO
-    var page = parseInt(req.query.page)
+    let page = parseInt(req.query.page)
     !page && (page = 1)
         // console.log('--- page: ' + page);
-    var limit = parseInt(req.query.limit)
-    !limit && (limit = 4)
+    let limit = parseInt(req.query.limit)
+    !limit && (limit = 3)
         // console.log('--- limit: ' + limit);
 
     // ORDENAMIENTO DE PRODUCTOS
-    let order = req.query.order
-    !order && (order = 'az')
-        // console.log('order:', order);
-    // let sortKey=title, sortVal=1
-    let sortKey="", sortVal=0
-    switch (order) {
+    let sort = req.query.sort
+    !sort && (sort = 'az')
+    // var sortKeyX, sortVal
+        console.log('sort: ' + sort);
+    let sorting
+    switch (sort) {
         case '09':
-            // console.log('***** Precio orden ascendente')
-            sortKey = "price"
-            sortVal = 1
-            break;
+            sorting = {'price': 1}; 
+            break;//sortKeyX = 'price'; sortVal = 'asc'; break;
         case '90':
-            // console.log('***** Precio orden descendente')
-            sortKey = "price"
-            sortVal = -1
-            break;
+            sorting = {'price': -1}; 
+            break;//sortKeyX = 'price'; sortVal = 'desc'; break;
         case 'az':
-            // console.log('***** Nombres orden ascendente')
-            sortKey = "title"
-            sortVal = 1
-            break;
+            sorting = {'title': 1}; 
+            break;//sortKeyX = 'title'; sortVal = 'asc'; break;
         case 'za':
-            // console.log('***** Nombres orden descendente')
-            sortKey = "title"
-            sortVal = -1
-            break;
+            sorting = {title: -1}; 
+            break;//sortKeyX = 'title'; sortVal = 'desc'; break;
     }
-    // console.log('***** sortKey: ', sortKey);
+    console.log('sorting', sorting);
+    // console.log('***** sortKey: ', sortKeyX);
     // console.log('***** sortVal: ', sortVal);
-    
+
     let pipeline
     let category = req.query.category
         console.log('--- category: ', category);
+
     if (category) {
-        pipeline = {category}// , {$sort: {[sortKey]: sortVal} }]
+        console.log('category SI');
+        pipeline = [
+            { $match: { category: category } },
+            { $sort: sorting }
+          ];
     } else {
-        pipeline = [{$sort: {[sortKey]: sortVal} }]
+        console.log('category NO');
+        // pipeline = [{$sort: {[sortKey]: sortVal} }]
+        pipeline = [
+            { $sort: sorting }
+          ];
     }
     console.log('--- pipeline: ', pipeline);
 
-    // let pipeline = [{$match: {category: 'Microprocesador'}}]
 
-    // let products = await productModel.aggregate( pipeline ) // trae los productos filtrados
-    //         console.log('--- products:', products);
-       let products = await productModel.paginate( pipeline, {page, limit, lean: true}) // pagina el listado
-            console.log('--- products:', products);
-    // let products = await productModel.aggregate( [{$match: {category}}] ) // trae los productos
+    //    let products = await productModel.paginate( pipeline, {page, limit, lean: true}) // pagina el listado
+       let products = await productModel.aggregatePaginate( pipeline, {page, limit, lean: true}) // pagina el listado
+            // console.log('--- products:', products);
     
     products.categories = await productModel.distinct("category").lean().exec() // trae las categorias que existen
 

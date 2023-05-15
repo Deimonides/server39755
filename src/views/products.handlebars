@@ -104,7 +104,7 @@
                         <a href="#pageSubmenu1" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Categoría</a>
                         <ul class="collapse list-unstyled" id="pageSubmenu1">
                             {{!-- Trae dinamicamente todas las categorías existentes en la colección --}}
-                            <li><a href="/products"><span class="fa fa-chevron-right mr-2"></span> Todos</a></li>
+                            <li><a href="/products?limit=10&sort=az"><span class="fa fa-chevron-right mr-2"></span> Todos</a></li>
                             {{#each products.categories}}
                                 <li><a href="/products?category={{this}}"><span class="fa fa-chevron-right mr-2"></span> {{this}}</a></li>
                             {{/each}}
