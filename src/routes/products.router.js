@@ -1,7 +1,5 @@
 import { Router } from 'express'
 import productModel from '../models/product.model.js'
-import querystring from 'querystring'
-import url from 'url'
 
 const router = Router()
 
@@ -9,54 +7,49 @@ router.get('/', async (req, res) => {
     // const products = await productModel.find().lean().exec() // trae todos los productos
     let products = []
     let newUrl = []
-    // const currentUrl = req.originalUrl
-    //     console.log('--- currentUrl: ', currentUrl);
-    // const queryParams = req.query;
-    //     console.log('--- queryParams: ', queryParams);
 // PAGINADO
     let limit = parseInt(req.query.limit) || 6 //******** LIMIT
     let page = parseInt(req.query.page) || 1 //********** PAGE
-
-
-    
-    
-
-
 // ORDENAMIENTO DE PRODUCTOS
-    let sortQ = req.query.sort || 'az' //***************** SORT
+    let sortQ = parseInt(req.query.sort) || 34 //***************** SORT
     let sorting
     switch (sortQ) {
-        case '09':
+        case 12:
             sorting = {'price': 1}; 
             break;
-        case '90':
+        case 21:
             sorting = {'price': -1}; 
             break;
-        case 'az':
+        case 34:
             sorting = {'title': 1}; 
             break;
-        case 'za':
+        case 43:
             sorting = {'title': -1}; 
             break;
     }
 // FILTRAR CATEGORIAS
     let category = req.query.category //***************** CATEGORY
     let brand = req.query.brand //*********************** BRAND
-    let filter, filterQ
+    let filter, filterQ="", filterKey, filterVal
     if (category) {
+        console.log('--- Se detectó CATEGORIA');
         filter = { category }
-        const filterQ = `&category=${category}`
-        // path = `/products?limit=${limit}&sort=${sort}&category=${category}`
-        // newUrl = `/products?limit=${limit}&category=${category}&sort=${sort}`
+        filterQ = `&category=${category}`
+        // filterKey = 'category'
+        // filterVal = category
     } else if (brand) {
+        console.log('--- Se detectó MARCA');
         filter = { brand }
-        const filterQ = `&brandy=${brand}`
-        // path = `/products?limit=${limit}&sort=${sort}&brand=${brand}`
-        // newUrl = `/products?limit=${limit}&brand=${category}&sort=${sort}`
+        filterQ = "&brand=" + brand
+        // filterKey = 'brand'
+        // filterVal = brand
     } else {
         filter = {}
-        // path = `/products?limit=${limit}&sort=${sort}`
     }
+        // console.log('--- filterQ: ', filterQ);
+        // console.log('--- filter: ', filter);
+        // console.log('--- category: ', category);
+        // console.log('--- brand: ', brand);
 
     products = await productModel.paginate( filter, {page, limit, sort: sorting, lean: true})
     
@@ -68,27 +61,13 @@ router.get('/', async (req, res) => {
     if (arrPages.length < 1) { arrPages.push(1) }
         // console.log('--- products.arrPages: ', products.arrPages);
 
-    // products.prevLink = products.hasPrevPage ? `/products?page=${products.prevPage}` : ''
-    // products.prevPageN = products.hasPrevPage ? `/products?page=${products.prevPage}` : ''
-        // console.log('--- products.prevLink: ', products.prevLink);
-    // products.nextLink = products.hasNextPage ? `/products?page=${products.nextPage}` : ''
-        // console.log('--- products.nextLink: ', products.nextLink);
-
-
-
-
     products.categories = await productModel.distinct("category").lean().exec() // trae las categorias que existen
 
     products.brands = await productModel.distinct("brand").lean().exec() // trae las marcas que existen
-    
+        // console.log('--- products:', products);
 
-            console.log('--- products:', products);
-    
-        console.log('--- sortQ: ', sortQ);
-
-    res.render('products', { title: "Catalogo", products, arrPages, limit, page, sortQ, filterQ })
+    res.render('products', { title: "Catalogo", products, arrPages, limit, page, sortQ, filterQ, filterKey, filterVal })
 })
-
 
 router.get('/add', (req, res) => {
     res.render('add', { })
@@ -127,40 +106,6 @@ router.post( '/', async (req, res) => {
     console.log(`Producto guardado! Codigo: ${productGenerated.code}`);
     // res.redirect(`/products/${productGenerated.code}` )
     res.redirect(`/products/abmproducts/` )
-
-
-    // socketClient.on('product', newProduct)
-   /*  console.log('Datos recibidos en products.router.js: ', newProduct)
-    if ( req.body !== {} ) {
-        // validacion de campos obligatorios para producto nuevo...
-        let missingFields = []
-        !req.body.title         && missingFields.push({"error": "title required."})
-        !req.body.description   && missingFields.push({"error": "description required."})
-        !req.body.code          && missingFields.push({"error": "code required."})
-        !req.body.price         && missingFields.push({"error": "price required."})
-        !req.body.stock         && missingFields.push({"error": "stock required."})
-        !req.body.category      && missingFields.push({"error": "category required."})
-        if ( missingFields.length > 0 ) {
-            return res.status(403).json(missingFields)
-        }
-        productManager.addProduct(
-            req.body.title, 
-            req.body.description, 
-            req.body.code, 
-            req.body.price, 
-            status = true, 
-            req.body.stock, 
-            req.body.category,
-            req.body.thumbnails
-        )
-        return res.json( productManager.getProducts() ) // mostrar el resultado
-
-        // io.emit('actualizacion', dataActualizada);
-        // res.redirect('/ruta');
-
-    } else {
-        return res.status(404).json( {"error": "Missing content."} ) // no se indicó nada
-    } */
 })
 
 router.put( '/:code', async (req, res) => { // modificar elemento
@@ -174,40 +119,16 @@ router.put( '/:code', async (req, res) => { // modificar elemento
         res.send({error})
     }
     res.redirect(`/products/abmproducts/`)
-
-    /* let id = parseInt( req.params.id )
-    if ( productManager.getProductById(id) === null ) { return res.status(404).json( {"error": "Product not found."} ) } // no se encontró el producto
-    let keys = Object.keys(req.body)
-    let newValues = Object.values(req.body)
-    if ( keys.length > 0 ) { // validar si hay campos para modificar
-        for (let i = 0; i < (keys.length); i++) { // iterar por cada valor indicado
-            productManager.updateProductById(id, keys[i], newValues[i])
-        }
-        return res.json( productManager.getProductById(id) ) // mostrar el resultado
-    } else {
-        return res.status(404).json( {"error": "Missing content."} ) // no se indicó nada para modificar
-    } */
 })
 
 router.delete( '/:code', async (req, res) => {
     const code = req.params.code
-
     try {
         await productModel.deleteOne( {code} )
         res.send("Producto eliminado.")
     } catch (error) {
         res.send({error})
     }
-
-    /* let id = parseInt( req.params.id )
-    let deletedItem = productManager.getProductById(id)
-    if ( deletedItem !== null) {
-        productManager.deleteProductByID(id)
-        return res.status(200).send( deletedItem )
-    } else {
-        return res.status(404).json( {"error": "Product not found."} ) // no se encontró el producto
-    } */
 })
 
-// module.exports = router
 export default router
