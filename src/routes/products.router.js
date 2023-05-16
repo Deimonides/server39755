@@ -1,71 +1,64 @@
 import { Router } from 'express'
 import productModel from '../models/product.model.js'
 import querystring from 'querystring'
+import url from 'url'
 
 const router = Router()
 
 router.get('/', async (req, res) => {
     // const products = await productModel.find().lean().exec() // trae todos los productos
+    let products = []
+    let newUrl = []
+    // const currentUrl = req.originalUrl
+    //     console.log('--- currentUrl: ', currentUrl);
+    // const queryParams = req.query;
+    //     console.log('--- queryParams: ', queryParams);
+// PAGINADO
+    let limit = parseInt(req.query.limit) || 6 //******** LIMIT
+    let page = parseInt(req.query.page) || 1 //********** PAGE
 
-    // PAGINADO
-    let page = parseInt(req.query.page)
-    !page && (page = 1)
-        // console.log('--- page: ' + page);
-    let limit = parseInt(req.query.limit)
-    !limit && (limit = 3)
-        // console.log('--- limit: ' + limit);
 
-    // ORDENAMIENTO DE PRODUCTOS
-    let sort = req.query.sort
-    !sort && (sort = 'az')
-    // var sortKeyX, sortVal
-        console.log('sort: ' + sort);
+    
+    
+
+
+// ORDENAMIENTO DE PRODUCTOS
+    let sortQ = req.query.sort || 'az' //***************** SORT
     let sorting
-    switch (sort) {
+    switch (sortQ) {
         case '09':
             sorting = {'price': 1}; 
-            break;//sortKeyX = 'price'; sortVal = 'asc'; break;
+            break;
         case '90':
             sorting = {'price': -1}; 
-            break;//sortKeyX = 'price'; sortVal = 'desc'; break;
+            break;
         case 'az':
             sorting = {'title': 1}; 
-            break;//sortKeyX = 'title'; sortVal = 'asc'; break;
+            break;
         case 'za':
-            sorting = {title: -1}; 
-            break;//sortKeyX = 'title'; sortVal = 'desc'; break;
+            sorting = {'title': -1}; 
+            break;
     }
-    console.log('sorting', sorting);
-    // console.log('***** sortKey: ', sortKeyX);
-    // console.log('***** sortVal: ', sortVal);
-
-    let pipeline
-    let category = req.query.category
-        console.log('--- category: ', category);
-
+// FILTRAR CATEGORIAS
+    let category = req.query.category //***************** CATEGORY
+    let brand = req.query.brand //*********************** BRAND
+    let filter, filterQ
     if (category) {
-        console.log('category SI');
-        pipeline = [
-            { $match: { category: category } },
-            { $sort: sorting }
-          ];
+        filter = { category }
+        const filterQ = `&category=${category}`
+        // path = `/products?limit=${limit}&sort=${sort}&category=${category}`
+        // newUrl = `/products?limit=${limit}&category=${category}&sort=${sort}`
+    } else if (brand) {
+        filter = { brand }
+        const filterQ = `&brandy=${brand}`
+        // path = `/products?limit=${limit}&sort=${sort}&brand=${brand}`
+        // newUrl = `/products?limit=${limit}&brand=${category}&sort=${sort}`
     } else {
-        console.log('category NO');
-        // pipeline = [{$sort: {[sortKey]: sortVal} }]
-        pipeline = [
-            { $sort: sorting }
-          ];
+        filter = {}
+        // path = `/products?limit=${limit}&sort=${sort}`
     }
-    console.log('--- pipeline: ', pipeline);
 
-
-    //    let products = await productModel.paginate( pipeline, {page, limit, lean: true}) // pagina el listado
-       let products = await productModel.aggregatePaginate( pipeline, {page, limit, lean: true}) // pagina el listado
-            // console.log('--- products:', products);
-    
-    products.categories = await productModel.distinct("category").lean().exec() // trae las categorias que existen
-
-    products.brands = await productModel.distinct("brand").lean().exec() // trae las marcas que existen
+    products = await productModel.paginate( filter, {page, limit, sort: sorting, lean: true})
     
     // para armar el control del paginador (un btn por cada página)
     let arrPages = []
@@ -73,13 +66,27 @@ router.get('/', async (req, res) => {
         arrPages.push(i)
     }
     if (arrPages.length < 1) { arrPages.push(1) }
+        // console.log('--- products.arrPages: ', products.arrPages);
 
-    products.prevLink = products.hasPrevPage ? `/products?page=${products.prevPage}` : ''
+    // products.prevLink = products.hasPrevPage ? `/products?page=${products.prevPage}` : ''
+    // products.prevPageN = products.hasPrevPage ? `/products?page=${products.prevPage}` : ''
         // console.log('--- products.prevLink: ', products.prevLink);
-    products.nextLink = products.hasNextPage ? `/products?page=${products.nextPage}` : ''
+    // products.nextLink = products.hasNextPage ? `/products?page=${products.nextPage}` : ''
         // console.log('--- products.nextLink: ', products.nextLink);
 
-    res.render('products', { title: "Catalogo", products, arrPages })
+
+
+
+    products.categories = await productModel.distinct("category").lean().exec() // trae las categorias que existen
+
+    products.brands = await productModel.distinct("brand").lean().exec() // trae las marcas que existen
+    
+
+            console.log('--- products:', products);
+    
+        console.log('--- sortQ: ', sortQ);
+
+    res.render('products', { title: "Catalogo", products, arrPages, limit, page, sortQ, filterQ })
 })
 
 

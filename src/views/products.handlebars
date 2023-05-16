@@ -21,7 +21,7 @@
                     <div class="col-md-6 col-lg-6 col-xl-4 mb-4 mh-200px">
                         <a href="/products/{{this.code}}">
                             <div class="card text-black">
-                                <img src="{{thumbnails.[0]}}" class="card-img-top" alt="...">
+                                <img src="{{this.thumbnails.[0]}}" class="card-img-top" alt="...">
                                 <div class="card-body">
                                     <div class="text-center">
                                         <h5 class="card-title">{{this.title}}</h5>
@@ -56,12 +56,12 @@
                 <nav aria-label="Page navigation example">
                     <ul class="pagination">
                         {{!-- link anterior --}}
-                        {{#if products.prevLink}}
+                        {{#if products.hasPrevPage}}
                             <li class="page-item"> {{!-- SI hay pagina anterior --}}
                         {{else}}
                             <li class="page-item disabled"> {{!-- NO hay pagina anterior --}}
                         {{/if}}
-                                <a class="page-link" href="{{products.prevLink}}" aria-label="Previous">
+                                <a class="page-link" href="{{newUrl}}?page={{products.prevPage}}" aria-label="Previous">
                                     <span aria-hidden="true">&laquo;</span>
                                     <span class="sr-only">Anterior</span>
                                 </a>
@@ -73,17 +73,28 @@
                                 {{else}}
                                     <li class="page-item"><a class="page-link" href="/products?page={{this}}">{{this}}</a></li>
                                 {{/if}} --}}
-                                <li class="page-item"><a class="page-link" href="/products?page={{this}}">{{this}}</a></li>
+                                <li class="page-item"><a class="page-link" href="{{newUrl}}&page={{this}}">{{this}}</a></li>
                             {{/each}}
                             {{!-- link siguiente --}}
-                            {{#if products.nextLink}}
+                            {{#if products.hasNextPage}}
                                 <li class="page-item"> {{!-- SI hay pagina siguiente --}}
                             {{else}}
                                 <li class="page-item disabled"> {{!-- NO hay pagina siguiente --}}
                             {{/if}}
-                                <a class="page-link" href="{{products.nextLink}}" aria-label="Next">
+                                {{#if filterQ}}
+                                <a class="page-link" href="/products?limit={{limit}}&page={{products.nextPage}}&sort={{sortQ}}&{{filterQ}}" aria-label="Next">
                                     <span aria-hidden="true">&raquo;</span>
                                     <span class="sr-only">Siguiente</span>
+                                </a>    
+                                {{else}}
+                                <a class="page-link" href="/products?limit={{limit}}&page={{products.nextPage}}&sort={{sortQ}}" aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                    <span class="sr-only">Siguiente</span>
+                                </a>
+                                {{/if}}
+
+                                    {{!-- <span aria-hidden="true">&raquo;</span>
+                                    <span class="sr-only">Siguiente</span> --}}
                                 </a>
                             </li>
                         </li>
@@ -104,25 +115,27 @@
                         <a href="#pageSubmenu1" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Categoría</a>
                         <ul class="collapse list-unstyled" id="pageSubmenu1">
                             {{!-- Trae dinamicamente todas las categorías existentes en la colección --}}
-                            <li><a href="/products?limit=10&sort=az"><span class="fa fa-chevron-right mr-2"></span> Todos</a></li>
+                            <li><a href="/products"><span class="fa fa-chevron-right mr-2"></span> Todos</a></li>
                             {{#each products.categories}}
-                                <li><a href="/products?category={{this}}"><span class="fa fa-chevron-right mr-2"></span> {{this}}</a></li>
+                                <li><a href="{{newUrl}}&category={{this}}"><span class="fa fa-chevron-right mr-2"></span> {{this}}</a></li>
                             {{/each}}
                         </ul>
                     </li>
+
                     <li>
                         <a href="#pageSubmenu2" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Ordenar</a>
                         <ul class="collapse list-unstyled" id="pageSubmenu2">
-                        <ul class="list-unstyled" id="pageSubmenu2">Ordenar:
-                            <li><a href="?order=09">> Precio 0-9</a></li>
-                            <li><a href="?order=90">> Precio 9-0</a></li>
-                            <li><a href="?order=az">> Nombre A-Z</a></li>
-                            <li><a href="?order=za">> Nombre Z-A</a></li>
+                            <li><a href="?order=09"><span class="fa fa-chevron-right mr-2"></span> Precio 0-9</a></li>
+                            <li><a href="?order=90"><span class="fa fa-chevron-right mr-2"></span> Precio 9-0</a></li>
+                            <li><a href="?order=az"><span class="fa fa-chevron-right mr-2"></span> Nombre A-Z</a></li>
+                            <li><a href="?order=za"><span class="fa fa-chevron-right mr-2"></span> Nombre Z-A</a></li>
                         </ul>
                     </li>
+
                     <li>
                         <a href="#pageSubmenu3" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Marca</a>
                         <ul class="collapse list-unstyled" id="pageSubmenu3">
+                            {{!-- Trae dinamicamente todas las marcas existentes en la colección --}}
                             {{#each products.brands}}  
                                 <li><a href="#"><span class="fa fa-chevron-right mr-2"></span> {{this}}</a></li>
                             {{/each}}  

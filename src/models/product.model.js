@@ -1,8 +1,8 @@
 import mongoose, { Mongoose } from "mongoose"
 import mongoosePaginate from "mongoose-paginate-v2"
 import aggregatePaginate from "mongoose-aggregate-paginate-v2"
-// const productsCollection = 'products'
-const productsCollection = 'prod_test'
+const productsCollection = 'products'
+// const productsCollection = 'prod_test'
 
 const productSchema = new mongoose.Schema({
     title:          { type: String, required: true  },
@@ -14,8 +14,8 @@ const productSchema = new mongoose.Schema({
     thumbnails:     { type: Array,  required: true  },
 })
 
-// productSchema.plugin(mongoosePaginate)
-productSchema.plugin(aggregatePaginate)
+productSchema.plugin(mongoosePaginate)
+// productSchema.plugin(aggregatePaginate)
 
 const productModel = mongoose.model(productsCollection, productSchema)
 
