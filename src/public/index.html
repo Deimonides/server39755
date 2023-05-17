@@ -12,7 +12,7 @@
 </head>
 <body>
 
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <a class="navbar-brand" href="#">ATENEA IT</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -22,36 +22,43 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/">INICIO <span class="sr-only"></span></a>
                 </li>
-                <li class="nav-item">
-                    <span class="nav-link">|</span>
+                
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        💻 PRODUCTOS  
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <a class="dropdown-item" href="/products">🦉 Ver todos</a>
+                        <a class="dropdown-item" href="/products/abmproducts">🦉 ABM de productos</a>
+                    </div>
                 </li>
-                <li class="nav-item">
-                    <span class="nav-link">PRODUCTOS:</span>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        🛒 CARRITOS  
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <a class="dropdown-item" href="/api/carts">🦉 Ver todos</a>
+                        <a class="dropdown-item" href="/api/carts/abmcarts">🦉 ABM de carritos</a>
+                    </div>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/products">Listado</a>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        👽 MI PERFIL  
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <a class="dropdown-item" href="/account/login">🦉 Login</a>
+                        <!-- <a class="dropdown-item" href="/user/accounts/">🦉 Mi cuenta</a> -->
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="/account/logout">🦉 Cerrar sesión</a>
+                    </div>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/products/abmproducts/">ABM de productos</a>
-                </li>
-                <li class="nav-item">
-                    <span class="nav-link">|</span>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">CARRITOS:</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/carts">Listar</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/carts/add/">Crear</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/carts">Modificar</a>
-                </li>
-                <li class="nav-item">
-                    <span class="nav-link">|</span>
-                </li>
+                
+                
+
+
             </ul>
         </div>
     </nav>
@@ -59,5 +66,12 @@
 
     <h1 style="color:blue">Servidor express de Gerardo Solotun</h1>
     <h3 style="color:darkblue">Coderhouse, Comision 39755, &copy; 2023</h3>
+
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/popper.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/main.js"></script>
+
 </body>
 </html>

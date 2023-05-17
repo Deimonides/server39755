@@ -6,7 +6,7 @@ const router = Router()
 router.get('/', async (req, res) => {
     // const products = await productModel.find().lean().exec() // trae todos los productos
     let products = []
-    let newUrl = []
+    // let newUrl = []
 // PAGINADO
     let limit = parseInt(req.query.limit) || 6 //******** LIMIT
     let page = parseInt(req.query.page) || 1 //********** PAGE
@@ -27,6 +27,7 @@ router.get('/', async (req, res) => {
             sorting = {'title': -1}; 
             break;
     }
+    console.log('sortQ: ', sortQ);
 // FILTRAR CATEGORIAS
     let category = req.query.category //***************** CATEGORY
     let brand = req.query.brand //*********************** BRAND

@@ -1,0 +1,108 @@
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+
+<script> // CHECKBOX MOSTRAR CONTRASEÑA
+    function showPass() {
+        var x = document.getElementById("inputPass");
+        if (x.type === "password") {
+            x.type = "text";
+        } else {
+            x.type = "password";
+        }
+    }
+</script>
+
+<script> // CREAR USUARIO NUEVO
+    function createUser(param) { 
+        fetch(`http://localhost:8080/account/login`, {
+            method: 'post',
+            body: JSON.stringify({
+                email:    document.getElementById('inputEmail').value,
+                password: document.getElementById('inputPass').value,
+                role:     "user",
+                status:   "active",
+            }),
+                headers:{
+                    'Content-Type': 'application/json'
+            }
+        })
+        $('#confirmDeletModal').modal('hide')
+        alert('Usuario creado con éxito')
+        window.location.href = `http://localhost:8080/`
+    }
+</script>
+
+
+<div style="margin: 20px ">
+    <h1 class="text-center">Login / Registro</h1>
+
+    {{!-- **************************************************************************************************************************** --}}
+    {{!-- FORM DE EDICION --}}
+    <div class="p-8 d-flex flex-wrap justify-content-center" style="margin: 40px">
+        <form action="/products" method="post" class="p-5 w-50" id="formABM">
+            {{!-- importante poner los name igual a los campos del schema --}}
+            
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text font-weight-bold" id="basic-addon1" style="width: 150px">EMAIL</span>
+                </div>
+                <input id="inputEmail" name="code" type="email" class="form-control required" value="{{oneProduct.code}}" aria-label="code" aria-describedby="basic-addon1">
+            </div>
+
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text font-weight-bold" id="basic-addon1" style="width: 150px">CONTRASEÑA</span>
+                </div>
+                <input id="inputPass" name="title" type="password" class="form-control required" value="{{oneProduct.title}}" aria-label="title" aria-describedby="basic-addon1">
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" onclick="showPass()">
+                <label class="form-check-label" for="flexCheckDefault">
+                    Mostrar contraseña
+                </label>
+            </div>
+
+           
+            <div class="d-flex justify-content-around  mt-5">
+                {{!-- <input class="btn btn-primary" type="submit" value="Actualizar"> --}}
+                <button type="submit"  class="btn btn-success">INICIAR SESION</button>
+
+                <button type="button"  class="btn btn-primary" data-toggle="modal"  data-target="#confirmNewUser">CREAR USUARIO</button>
+
+                {{!-- <button type="button"  class="btn btn-danger" data-toggle="modal"  data-target="#confirmDeletModal">DELETE</button> --}}
+
+                {{!-- <a type="reset"  class="btn btn-secondary" href="/products/abmproducts/">RESET</a> --}}
+            
+         
+            </div>
+        </form>
+    </div>
+
+    {{!-- **************************************************************************************************************************** --}}
+    <!-- MODAL CONFIRMAR ELIMINAR Y BOTON ELIMINAR -->
+    <div class="modal fade" id="confirmNewUser" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalCenterTitle">Nuevo usuario</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body d-flex d-inline">
+                <img src="https://static.vecteezy.com/system/resources/previews/009/902/695/original/add-new-friend-user-group-icon-3d-render-png.png" alt="" style="width: 80px; margin: 15px">
+                <div class="d-flex flex-column">
+                    <span>Nuevo Usuario</span>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary">Aceptar</button>
+            </div>
+            </div>
+        </div>
+    </div>
+
+</div>

@@ -1,6 +1,6 @@
 <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-	<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="css/style.css">
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
@@ -87,7 +87,11 @@
                                 {{else}}
                                     <li class="page-item"><a class="page-link" href="/products?page={{this}}">{{this}}</a></li>
                                 {{/if}} --}}
-                                <li class="page-item"><a class="page-link" href="{{newUrl}}&page={{this}}">{{this}}</a></li>
+                                {{#if filterQ}}
+                                <li class="page-item"><a class="page-link" href="/products?limit={{limit}}&page={{this}}&sort={{sortQ}}&{{filterQ}}">{{this}}</a></li>
+                                {{else}}
+                                <li class="page-item"><a class="page-link" href="/products?limit={{limit}}&page={{this}}&sort={{sortQ}}">{{this}}</a></li>
+                                {{/if}}
                             {{/each}}
 
 
@@ -131,9 +135,9 @@
                         <a href="#pageSubmenu1" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Categoría</a>
                         <ul class="collapse list-unstyled" id="pageSubmenu1">
                             {{!-- Trae dinamicamente todas las categorías existentes en la colección --}}
-                            <li><a href="/products?limit={{limit}}&page={{page}}&sort={{sort}}"><span class="fa fa-chevron-right mr-2"></span> LIMPIAR</a></li>
+                            <li><a href="/products?limit={{limit}}&page={{page}}&sort={{sortQ}}"><span class="fa fa-chevron-right mr-2"></span> LIMPIAR</a></li>
                             {{#each products.categories}}
-                                <li><a href="/products?limit={{limit}}&page={{page}}&sort={{sort}}&category={{this}}"><span class="fa fa-chevron-right mr-2"></span> {{this}}</a></li>
+                            <li><a href="/products?limit={{limit}}&page={{page}}&sort={{sortQ}}&category={{this}}"><span class="fa fa-chevron-right mr-2"></span> {{this}}</a></li>
                             {{/each}}
                         </ul>
                     </li>
@@ -159,9 +163,9 @@
                         <a href="#pageSubmenu3" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Marca</a>
                         <ul class="collapse list-unstyled" id="pageSubmenu3">
                             {{!-- Trae dinamicamente todas las marcas existentes en la colección --}}
-                            <li><a href="/products?limit={{limit}}&page={{page}}&sort={{sort}}"><span class="fa fa-chevron-right mr-2"></span> LIMPIAR</a></li>
+                            <li><a href="/products?limit={{limit}}&page={{page}}&sort={{sortQ}}"><span class="fa fa-chevron-right mr-2"></span> LIMPIAR</a></li>
                             {{#each products.brands}}  
-                                <li><a href="/products?limit={{limit}}&page={{page}}&sort={{sort}}&brand={{this}}"><span class="fa fa-chevron-right mr-2"></span> {{this}}</a></li>
+                                <li><a href="/products?limit={{limit}}&page={{page}}&sort={{sortQ}}&brand={{this}}"><span class="fa fa-chevron-right mr-2"></span> {{this}}</a></li>
                             {{/each}}  
                         </ul>
                     </li>

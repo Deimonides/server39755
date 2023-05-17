@@ -10,7 +10,7 @@ const userSchema = new mongoose.Schema({
     status:   { type: String}, //, required: true  },
 })
 
-userSchema.plugin(mongoosePaginate)
+// userSchema.plugin(mongoosePaginate)
 // productSchema.plugin(aggregatePaginate)
 
 const userModel = mongoose.model(usersCollection, userSchema)
