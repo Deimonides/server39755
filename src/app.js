@@ -29,6 +29,8 @@ const productManager = new ProductManager('./dbProducts.json')
     app.use('/products', productsRouter)
     import cartsRouter from './routes/carts.router.js'
     app.use('/api/carts', cartsRouter)
+    import userRouter from './routes/user.router.js'
+    app.use('/user', userRouter)
 
     // import realTimeProductsRouter from './routes/realTimeProducts.router.js'
     // app.use('/realtimeproducts', realTimeProductsRouter)

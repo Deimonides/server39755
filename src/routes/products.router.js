@@ -32,13 +32,13 @@ router.get('/', async (req, res) => {
     let brand = req.query.brand //*********************** BRAND
     let filter, filterQ="", filterKey, filterVal
     if (category) {
-        console.log('--- Se detectó CATEGORIA');
+        // console.log('--- Se detectó CATEGORIA');
         filter = { category }
         filterQ = `&category=${category}`
         // filterKey = 'category'
         // filterVal = category
     } else if (brand) {
-        console.log('--- Se detectó MARCA');
+        // console.log('--- Se detectó MARCA');
         filter = { brand }
         filterQ = "&brand=" + brand
         // filterKey = 'brand'

@@ -159,8 +159,9 @@
                         <a href="#pageSubmenu3" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Marca</a>
                         <ul class="collapse list-unstyled" id="pageSubmenu3">
                             {{!-- Trae dinamicamente todas las marcas existentes en la colección --}}
+                            <li><a href="/products?limit={{limit}}&page={{page}}&sort={{sort}}"><span class="fa fa-chevron-right mr-2"></span> LIMPIAR</a></li>
                             {{#each products.brands}}  
-                                <li><a href="/products?limit={{limit}}&page={{page}}&sort=12&brand={{this}}"><span class="fa fa-chevron-right mr-2"></span> {{this}}</a></li>
+                                <li><a href="/products?limit={{limit}}&page={{page}}&sort={{sort}}&brand={{this}}"><span class="fa fa-chevron-right mr-2"></span> {{this}}</a></li>
                             {{/each}}  
                         </ul>
                     </li>
