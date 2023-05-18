@@ -2,7 +2,10 @@ import express from 'express'
 import { Server } from 'socket.io'
 import handlebars  from 'express-handlebars'
 import mongoose from 'mongoose'
+import session from 'express-session'
+import MongoStore from 'connect-mongo'
 import fs from 'fs'
+
 const app = express()
 const PORT = 8080
 app.use(express.json())
@@ -32,6 +35,7 @@ const productManager = new ProductManager('./dbProducts.json')
     import accountRouter from './routes/account.router.js'
     app.use('/account', accountRouter)
 
+    
     // import realTimeProductsRouter from './routes/realTimeProducts.router.js'
     // app.use('/realtimeproducts', realTimeProductsRouter)
     
@@ -41,14 +45,14 @@ const productManager = new ProductManager('./dbProducts.json')
     // MongoDB connection
     mongoose.set('strictQuery', false)
     
+    let mongoUri = ""
     try {
-        let url = ""
         if ( fs.existsSync('./src/uri.txt') ) {
-            url = fs.readFileSync('./src/uri.txt', 'utf8')
+            mongoUri = fs.readFileSync('./src/uri.txt', 'utf8')
         } else {
             console.log('[mongodb] Falta el archivo uri.txt. Pídaselo a su Backend amigo!');
         }
-        await mongoose.connect(url)
+        await mongoose.connect(mongoUri)
         console.log('[mongodb] Base de Datos online');
         app.listen( PORT, () => console.log(`[express] HTTP listening on port ${PORT}`) )
     } catch (error) {
@@ -56,7 +60,25 @@ const productManager = new ProductManager('./dbProducts.json')
         console.log('[mongodb] Error de conexión a la Base de Datos!!!!!!!!!');
     }
 
+    app.use(session({
+        store: MongoStore.create({
+            mongoUrl: mongoUri,
+            dbName: 'server39755',
+            mongoOptions: {
+                useNewUrlParser: true,
+                useUnifiedTopology: true
+            }
+        }),
+        secret: 'pipi-pupu',
+        resave: true,
+        saveUninitialized: true
+    }))
 
+    const auth = (req, res, next) => {
+        if (req.session.user) return next()
+        return res.send('Error de authentication')
+    }
+    
 // Servers
     /* const serverHTTP = app.listen( PORT, () => {
         console.log(`[express] HTTP listening on port ${PORT}`) // HTTP on

@@ -1,7 +1,15 @@
 import { Router } from 'express'
 import productModel from '../models/product.model.js'
+import session from 'express-session'
+import MongoStore from 'connect-mongo'
+
 
 const router = Router()
+
+const auth = (req, res, next) => {
+    if (req.session.user) return next()
+    return res.redirect('http://localhost:8080/account/login', {})
+}
 
 router.get('/', async (req, res) => {
     // const products = await productModel.find().lean().exec() // trae todos los productos
@@ -70,17 +78,17 @@ router.get('/', async (req, res) => {
     res.render('products', { title: "Catalogo", products, arrPages, limit, page, sortQ, filterQ, filterKey, filterVal })
 })
 
-router.get('/add', (req, res) => {
+/* router.get('/add', (req, res) => {
     res.render('add', { })
-})
+}) */
 
-router.get('/abmproducts', async (req, res) => {
+router.get('/abmproducts', auth, async (req, res) => {
     const products = await productModel.find().lean().exec()
         // console.log('--- products:', products)
     res.render('abmproducts', { title: 'Modificar productos', products })
 })
 
-router.get('/abmproducts/:code', async (req, res) => {
+router.get('/abmproducts/:code', auth, async (req, res) => {
     const code = req.params.code
     const oneProduct = await productModel.findOne( {code} ).lean().exec()
     const products = await productModel.find().lean().exec()
@@ -98,7 +106,7 @@ router.get('/:code', async (req, res) => {
 })
 
 // POST DE NUEVO PRODUCTO
-router.post( '/', async (req, res) => {
+router.post( '/', auth, async (req, res) => {
     // const newProduct = JSON.stringify( req.body )
     const newProduct = req.body
     console.log( `newProduct: ${newProduct}` );
@@ -109,7 +117,7 @@ router.post( '/', async (req, res) => {
     res.redirect(`/products/abmproducts/` )
 })
 
-router.put( '/:code', async (req, res) => { // modificar elemento
+router.put( '/:code', auth, async (req, res) => { // modificar elemento
     const code = req.params.code
         console.log('--- update code: ', code);
     const productNewData = req.body
@@ -122,7 +130,7 @@ router.put( '/:code', async (req, res) => { // modificar elemento
     res.redirect(`/products/abmproducts/`)
 })
 
-router.delete( '/:code', async (req, res) => {
+router.delete( '/:code', auth, async (req, res) => {
     const code = req.params.code
     try {
         await productModel.deleteOne( {code} )

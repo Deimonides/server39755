@@ -1,7 +1,6 @@
 import mongoose, { Mongoose } from "mongoose"
-//import mongoosePaginate from "mongoose-paginate-v2"
-const usersCollection = 'users'
-// const productsCollection = 'prod_test'
+const userCollection = 'users'
+// const userCollection = 'users_test'
 
 const userSchema = new mongoose.Schema({
     mail:     { type: String}, //, required: true  },
@@ -10,9 +9,8 @@ const userSchema = new mongoose.Schema({
     status:   { type: String}, //, required: true  },
 })
 
-// userSchema.plugin(mongoosePaginate)
-// productSchema.plugin(aggregatePaginate)
+mongoose.set('strictQuery', false)
 
-const userModel = mongoose.model(usersCollection, userSchema)
+const userModel = mongoose.model(userCollection, userSchema)
 
 export default userModel
