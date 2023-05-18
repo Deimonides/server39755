@@ -36,26 +36,26 @@
 
 
 <div style="margin: 20px ">
-    <h1 class="text-center">Iniciar sesión</h1>
+    <h1 class="text-center">Registro de nuevo usuario</h1>
 
     {{!-- **************************************************************************************************************************** --}}
     {{!-- FORM DE EDICION --}}
     <div class="p-8 d-flex flex-wrap justify-content-center" style="margin: 40px">
-        <form action="/account/login" method="post" class="p-5 w-50" id="formABM">
+        <form action="http://localhost:8080/account/login" method="post" class="p-5 w-50" id="formABM">
             {{!-- importante poner los name igual a los campos del schema --}}
             
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
                     <span class="input-group-text font-weight-bold" id="basic-addon1" style="width: 150px">EMAIL</span>
                 </div>
-                <input id="inputEmail" name="code" type="email" class="form-control required" value="{{oneProduct.code}}" aria-label="code" aria-describedby="basic-addon1">
+                <input id="inputEmail" name="email" type="email" class="form-control required" value="{{oneProduct.code}}" aria-label="code" aria-describedby="basic-addon1">
             </div>
 
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
                     <span class="input-group-text font-weight-bold" id="basic-addon1" style="width: 150px">CONTRASEÑA</span>
                 </div>
-                <input id="inputPass" name="title" type="password" class="form-control required" value="{{oneProduct.title}}" aria-label="title" aria-describedby="basic-addon1">
+                <input id="inputPass" name="password" type="password" class="form-control required" value="{{oneProduct.title}}" aria-label="title" aria-describedby="basic-addon1">
             </div>
             <div class="form-check">
                 <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" onclick="showPass()">
@@ -67,13 +67,13 @@
            
             <div class="d-flex justify-content-around  mt-5">
                 {{!-- <input class="btn btn-primary" type="submit" value="Actualizar"> --}}
-                <button type="submit"  class="btn btn-primary">Iniciar sesión</button>
+                {{!-- <button type="submit"  class="btn btn-success">INICIAR SESION</button> --}}
 
-                {{!-- <button type="button"  class="btn btn-primary" data-toggle="modal"  data-target="#confirmNewUser">Registrarse</button> --}}
+                <button type="submit" class="btn btn-primary" data-toggle="modal"  data-target="#confirmNewUser">Crear usuario</button>
 
                 {{!-- <button type="button"  class="btn btn-danger" data-toggle="modal"  data-target="#confirmDeletModal">DELETE</button> --}}
 
-                <a class="btn btn-secondary" href="/account/register">Nuevo usuario?</a>
+                <a class="btn btn-secondary" href="/account/login">Ya tengo usuario!</a>
             
          
             </div>

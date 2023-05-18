@@ -18,18 +18,47 @@ router.get('/login', (req, res) => {
 })
 
 router.post('/login', async (req, res) => {
-    const newUser = req.body
-        console.log( `--- newUser: ${newUser}` );
-    const userGenerated = new userModel(newUser)
-    await userGenerated.save()
-    res.redirect('http://localhost:8080/', {})
+    const {email, password} = req.body
+        // console.log( `--- newUser: ${newUser}` );
+    const user = await userModel.findOne({ email, password}).lean().exec()
+    if (!user) {
+        return res.status(401).render('errors', {
+            error: 'Mail y/o contraseña incorrectos.'
+        })
+    
+    }
+    req.session.user = user
+    
+    
+    res.redirect('/')
 })
 
-// video Dia 10, tiempo 3:25:00
+
+
+
+
+
+router.get('/register', (req, res) => {
+    res.render('register', {})
+})
+
+router.post('/register', async (req, res) => {
+    const newUser = req.body
+        // console.log( `--- newUser: ${newUser}` );
+    const userGenerated = new userModel(newUser)
+    await userGenerated.save()
+    res.redirect('/login', {})
+})
+
+
+
 
 router.get('/logout', (req, res) => {
     req.session.destroy(err => {
-        if (err) return res.send('Error: no se pudo desloguear.')
+        if (err) res.status(500).render('errors', {
+            error: err
+        })
+        else res.redirect('/login')
     })
     return res.send('Sesión finalizada.')
 })

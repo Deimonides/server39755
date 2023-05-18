@@ -15,6 +15,8 @@ const productSchema = new mongoose.Schema({
 
 productSchema.plugin(mongoosePaginate)
 
+mongoose.set('strictQuery', false)
+
 const productModel = mongoose.model(productsCollection, productSchema)
 
 export default productModel
