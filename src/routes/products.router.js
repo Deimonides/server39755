@@ -6,12 +6,20 @@ import MongoStore from 'connect-mongo'
 
 const router = Router()
 
-const auth = (req, res, next) => {
-    if (req.session.user) return next()
-    return res.redirect('http://localhost:8080/account/login', {})
-}
+// VALIDACION POR ROL DE SESION
+    const authAdmin = (req, res, next) => {
+        if (req.session.logged_user && req.session.logged_user.role === 'admin') return next()
+        return res.status(401).render('login', {mensaje: 'Permiso denegado 🚫 Por favor inicie sesión.'})
+    }
 
-router.get('/', async (req, res) => {
+    const authUser = (req, res, next) => {
+        if (req.session.logged_user && req.session.logged_user.role === 'user') return next()
+        return res.status(401).render('login', {mensaje: 'Permiso denegado 🚫 Por favor inicie sesión.'})
+    }
+
+
+
+router.get('/', authUser, async (req, res) => {
     // const products = await productModel.find().lean().exec() // trae todos los productos
     let products = []
     // let newUrl = []
@@ -35,7 +43,7 @@ router.get('/', async (req, res) => {
             sorting = {'title': -1}; 
             break;
     }
-    console.log('sortQ: ', sortQ);
+    // console.log('sortQ: ', sortQ);
 // FILTRAR CATEGORIAS
     let category = req.query.category //***************** CATEGORY
     let brand = req.query.brand //*********************** BRAND
@@ -82,13 +90,13 @@ router.get('/', async (req, res) => {
     res.render('add', { })
 }) */
 
-router.get('/abmproducts', auth, async (req, res) => {
+router.get('/abmproducts', authAdmin, async (req, res) => {
     const products = await productModel.find().lean().exec()
         // console.log('--- products:', products)
     res.render('abmproducts', { title: 'Modificar productos', products })
 })
 
-router.get('/abmproducts/:code', auth, async (req, res) => {
+router.get('/abmproducts/:code', authAdmin, async (req, res) => {
     const code = req.params.code
     const oneProduct = await productModel.findOne( {code} ).lean().exec()
     const products = await productModel.find().lean().exec()
@@ -106,7 +114,7 @@ router.get('/:code', async (req, res) => {
 })
 
 // POST DE NUEVO PRODUCTO
-router.post( '/', auth, async (req, res) => {
+router.post( '/', authAdmin, async (req, res) => {
     // const newProduct = JSON.stringify( req.body )
     const newProduct = req.body
     console.log( `newProduct: ${newProduct}` );
@@ -117,7 +125,7 @@ router.post( '/', auth, async (req, res) => {
     res.redirect(`/products/abmproducts/` )
 })
 
-router.put( '/:code', auth, async (req, res) => { // modificar elemento
+router.put( '/:code', authAdmin, async (req, res) => { // modificar elemento
     const code = req.params.code
         console.log('--- update code: ', code);
     const productNewData = req.body
@@ -130,7 +138,7 @@ router.put( '/:code', auth, async (req, res) => { // modificar elemento
     res.redirect(`/products/abmproducts/`)
 })
 
-router.delete( '/:code', auth, async (req, res) => {
+router.delete( '/:code', authAdmin, async (req, res) => {
     const code = req.params.code
     try {
         await productModel.deleteOne( {code} )

@@ -3,7 +3,19 @@ import cartModel from '../models/cart.model.js'
 
 const router = Router()
 
-router.get('/', async (req, res) => {
+// VALIDACION POR ROL DE SESION
+    const authAdmin = (req, res, next) => {
+        if (req.session.logged_user && req.session.logged_user.role === 'admin') return next()
+        return res.status(401).render('login', {mensaje: 'Permiso denegado 🚫 Por favor inicie sesión.'})
+    }
+
+    const authUser = (req, res, next) => {
+        if (req.session.logged_user && req.session.logged_user.role === 'user') return next()
+        return res.status(401).render('login', {mensaje: 'Permiso denegado 🚫 Por favor inicie sesión.'})
+    }
+
+
+router.get('/', authAdmin, async (req, res) => {
    /*  // const carts = await cartModel.find().lean().exec() // trae todos los cartos
     let carts = []
     let newUrl = []
@@ -69,12 +81,12 @@ router.get('/', async (req, res) => {
     res.render('carts', { title: "Carritos", carts })
 })
 
-router.get('/add', (req, res) => {
+router.get('/add', authAdmin, (req, res) => {
     res.render('add', { })
 })
 
 // POST DE NUEVO CARRITO
-router.post( '/', async (req, res) => {
+router.post( '/', authAdmin, async (req, res) => {
     // const newcart = JSON.stringify( req.body )
     const newcart = req.body
     console.log( `newcart: ${newcart}` );
@@ -93,7 +105,7 @@ router.post( '/', async (req, res) => {
 
 
 
-router.get('/abmcarts', async (req, res) => {
+router.get('/abmcarts', authAdmin, async (req, res) => {
     const carts = await cartModel.find().lean().exec()
         // console.log('--- carts:', carts)
     res.render('abmcarts', { title: 'Modificar cartos', carts })
@@ -108,7 +120,7 @@ router.get('/abmcarts/:cid', async (req, res) => {
 })
 
 // MOSTRAR UN cartO EN PARTICULAR POR SU CODIGO DE cartO
-router.get('/:cid', async (req, res) => {
+router.get('/:cid', authAdmin, async (req, res) => {
     const code = req.params.code
         // console.log('--- code: ' + code);
     const carts = await cartModel.find({code}).lean().exec()
@@ -117,7 +129,7 @@ router.get('/:cid', async (req, res) => {
 })
 
 
-router.put( '/:code', async (req, res) => { // modificar elemento
+router.put( '/:code', authAdmin, async (req, res) => { // modificar elemento
     const code = req.params.code
         console.log('--- update code: ', code);
     const cartNewData = req.body
@@ -130,7 +142,7 @@ router.put( '/:code', async (req, res) => { // modificar elemento
     res.redirect(`/carts/abmcarts/`)
 })
 
-router.delete( '/:code', async (req, res) => {
+router.delete( '/:code', authAdmin, async (req, res) => {
     const code = req.params.code
     try {
         await cartModel.deleteOne( {code} )

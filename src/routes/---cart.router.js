@@ -22,7 +22,7 @@ router.post( '/', (req, res) => {
     }
 })
 
-router.get('/', (req, res) => {
+router.get('/', auth, (req, res) => {
     (async () => {
         let data = await cartManager.getCarts();
         if (req.query.limit !== undefined) { // validar si existe ?limit=
@@ -32,7 +32,7 @@ router.get('/', (req, res) => {
     })()
 })
 
-router.get('/:cid', (req, res) => {
+router.get('/:cid', auth, (req, res) => {
     let cid = +req.params.cid 
     let data = cartManager.getCartById(cid)
     if ( !data ) {
@@ -42,7 +42,7 @@ router.get('/:cid', (req, res) => {
     }
 })
 
-router.post( '/:cid/product/:id', (req, res) => {
+router.post( '/:cid/product/:id', auth, (req, res) => {
 
     let cid = +req.params.cid
     let id = +req.params.id
@@ -72,7 +72,7 @@ router.post( '/:cid/product/:id', (req, res) => {
     }
 })
 
-router.post( '/:cid', (req, res) => {
+router.post( '/:cid', auth, (req, res) => {
     let cid = +req.params.cid
     if ( !cartManager.getCartById( cid ) ) {
         return res.status(404).json( {"error": "Cart not found."} )
@@ -88,7 +88,7 @@ router.post( '/:cid', (req, res) => {
     }
 })
 
-router.delete( '/:cid', (req, res) => { // eliminar carrito segun id
+router.delete( '/:cid', auth, (req, res) => { // eliminar carrito segun id
     let cid = +req.params.cid
     let deletedCart = cartManager.getCartById(cid)
     if ( deletedCart !== null) {

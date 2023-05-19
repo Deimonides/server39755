@@ -1,16 +1,38 @@
 import express from 'express'
 import { Server } from 'socket.io'
+import fs from 'fs'
 import handlebars  from 'express-handlebars'
 import mongoose from 'mongoose'
 import session from 'express-session'
 import MongoStore from 'connect-mongo'
-import fs from 'fs'
 
 const app = express()
 const PORT = 8080
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(express.static('./src/public'))
+
+    let mongoUri = ""
+    if ( fs.existsSync('./src/uri.txt') ) {
+        mongoUri = fs.readFileSync('./src/uri.txt', 'utf8')
+    } else {
+        console.log('[mongodb] Falta el archivo uri.txt. Pídaselo a su Backend amigo!');
+    }
+
+    app.use(session({
+        store: MongoStore.create({
+            mongoUrl: mongoUri,
+            // mongoUrl: fs.readFileSync('./src/uri.txt', 'utf8'),
+            dbName: 'server39755',
+            mongoOptions: {
+                useNewUrlParser: true,
+                useUnifiedTopology: true
+            }
+        }),
+        secret: 'pipi-pupu',
+        resave: true,
+        saveUninitialized: true
+    }))
 
 // const ProductManager = require('./ProductManager.js')
 import ProductManager from './dao/ProductManager.js'
@@ -30,9 +52,11 @@ const productManager = new ProductManager('./dbProducts.json')
 
     import productsRouter from './routes/products.router.js'
     app.use('/products', productsRouter)
-    import cartsRouter from './routes/carts.router.js'
+    
+    import cartsRouter    from './routes/carts.router.js'
     app.use('/api/carts', cartsRouter)
-    import accountRouter from './routes/account.router.js'
+    
+    import accountRouter  from './routes/account.router.js'
     app.use('/account', accountRouter)
 
     
@@ -45,13 +69,13 @@ const productManager = new ProductManager('./dbProducts.json')
     // MongoDB connection
     mongoose.set('strictQuery', false)
     
-    let mongoUri = ""
+    
     try {
-        if ( fs.existsSync('./src/uri.txt') ) {
-            mongoUri = fs.readFileSync('./src/uri.txt', 'utf8')
-        } else {
-            console.log('[mongodb] Falta el archivo uri.txt. Pídaselo a su Backend amigo!');
-        }
+        // if ( fs.existsSync('./src/uri.txt') ) {
+        //     mongoUri = fs.readFileSync('./src/uri.txt', 'utf8')
+        // } else {
+        //     console.log('[mongodb] Falta el archivo uri.txt. Pídaselo a su Backend amigo!');
+        // }
         await mongoose.connect(mongoUri)
         console.log('[mongodb] Base de Datos online');
         app.listen( PORT, () => console.log(`[express] HTTP listening on port ${PORT}`) )
@@ -60,25 +84,9 @@ const productManager = new ProductManager('./dbProducts.json')
         console.log('[mongodb] Error de conexión a la Base de Datos!!!!!!!!!');
     }
 
-    app.use(session({
-        store: MongoStore.create({
-            mongoUrl: mongoUri,
-            dbName: 'server39755',
-            mongoOptions: {
-                useNewUrlParser: true,
-                useUnifiedTopology: true
-            }
-        }),
-        secret: 'pipi-pupu',
-        resave: true,
-        saveUninitialized: true
-    }))
-
-    const auth = (req, res, next) => {
-        if (req.session.user) return next()
-        return res.send('Error de authentication')
-    }
     
+
+
 // Servers
     /* const serverHTTP = app.listen( PORT, () => {
         console.log(`[express] HTTP listening on port ${PORT}`) // HTTP on

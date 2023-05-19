@@ -3,10 +3,12 @@ const userCollection = 'users'
 // const userCollection = 'users_test'
 
 const userSchema = new mongoose.Schema({
-    mail:     { type: String}, //, required: true  },
-    password: { type: String}, //, required: false },
-    role:     { type: String}, //, required: true  },
-    status:   { type: String}, //, required: true  },
+    name:     String, //{ type: String, required: false },
+    lastname: String, //{ type: String, required: false },
+    email:    String, //{ type: String, required: true  },
+    password: String, //{ type: String, required: false },
+    role:     String, //{ type: String, required: true  },
+    active:   Boolean, //{ type: String, required: true  },
 })
 
 mongoose.set('strictQuery', false)
