@@ -6,45 +6,43 @@ import MongoStore from 'connect-mongo'
 
 const router = Router()
 
-// VALIDACION POR ROL DE SESION
-    const authAdmin = (req, res, next) => {
-        if (req.session.logged_user && req.session.logged_user.role === 'admin') return next()
+// VALIDACION POR ROL DE SESION ********************************************
+    const authAdmin = (req, res, next) => { // only admins
+        if (req.session.user && req.session.user.role === 'admin') return next()
         return res.status(401).render('login', {mensaje: 'Permiso denegado 🚫 Por favor inicie sesión.'})
     }
-
-    const authUser = (req, res, next) => {
-        if (req.session.logged_user && req.session.logged_user.role === 'user') return next()
+    const authUser = (req, res, next) => { // any logged user
+        // if (req.session.user && req.session.user.role === 'user') return next()
+        if (req.session.user) return next()
         return res.status(401).render('login', {mensaje: 'Permiso denegado 🚫 Por favor inicie sesión.'})
     }
-
 
 
 router.get('/', authUser, async (req, res) => {
     // const products = await productModel.find().lean().exec() // trae todos los productos
     let products = []
     // let newUrl = []
-// PAGINADO
+// PAGINADO ****************************************************************
     let limit = parseInt(req.query.limit) || 6 //******** LIMIT
     let page = parseInt(req.query.page) || 1 //********** PAGE
-// ORDENAMIENTO DE PRODUCTOS
+// ORDENAMIENTO DE PRODUCTOS ***********************************************
     let sortQ = parseInt(req.query.sort) || 34 //***************** SORT
     let sorting
     switch (sortQ) {
         case 12:
-            sorting = {'price': 1}; 
+            sorting = {'price': 1}; //precio-+
             break;
         case 21:
-            sorting = {'price': -1}; 
+            sorting = {'price': -1}; //precio+-
             break;
         case 34:
-            sorting = {'title': 1}; 
+            sorting = {'title': 1}; //nombre-+
             break;
         case 43:
-            sorting = {'title': -1}; 
+            sorting = {'title': -1}; //nombre+-
             break;
     }
-    // console.log('sortQ: ', sortQ);
-// FILTRAR CATEGORIAS
+// FILTRAR CATEGORIAS ****************************************************************
     let category = req.query.category //***************** CATEGORY
     let brand = req.query.brand //*********************** BRAND
     let filter, filterQ="", filterKey, filterVal
@@ -63,10 +61,6 @@ router.get('/', authUser, async (req, res) => {
     } else {
         filter = {}
     }
-        // console.log('--- filterQ: ', filterQ);
-        // console.log('--- filter: ', filter);
-        // console.log('--- category: ', category);
-        // console.log('--- brand: ', brand);
 
     products = await productModel.paginate( filter, {page, limit, sort: sorting, lean: true})
     
@@ -82,18 +76,15 @@ router.get('/', authUser, async (req, res) => {
 
     products.brands = await productModel.distinct("brand").lean().exec() // trae las marcas que existen
         // console.log('--- products:', products);
-
-    res.render('products', { title: "Catalogo", products, arrPages, limit, page, sortQ, filterQ, filterKey, filterVal })
+        const loggedName = req.session.user.name
+        console.log('loggedName: ', loggedName());
+    res.render('products', { title: "Catalogo", products, arrPages, limit, page, sortQ, filterQ, filterKey, filterVal, loggedName })
 })
-
-/* router.get('/add', (req, res) => {
-    res.render('add', { })
-}) */
 
 router.get('/abmproducts', authAdmin, async (req, res) => {
     const products = await productModel.find().lean().exec()
         // console.log('--- products:', products)
-    res.render('abmproducts', { title: 'Modificar productos', products })
+    res.render('abmproducts', { title: 'Modificar productos', products, loggedName })
 })
 
 router.get('/abmproducts/:code', authAdmin, async (req, res) => {

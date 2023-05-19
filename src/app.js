@@ -24,6 +24,7 @@ app.use(express.static('./src/public'))
             mongoUrl: mongoUri,
             // mongoUrl: fs.readFileSync('./src/uri.txt', 'utf8'),
             dbName: 'server39755',
+            ttl: 60 * 30 , // media hora
             mongoOptions: {
                 useNewUrlParser: true,
                 useUnifiedTopology: true
@@ -77,8 +78,8 @@ const productManager = new ProductManager('./dbProducts.json')
         //     console.log('[mongodb] Falta el archivo uri.txt. Pídaselo a su Backend amigo!');
         // }
         await mongoose.connect(mongoUri)
-        console.log('[mongodb] Base de Datos online');
-        app.listen( PORT, () => console.log(`[express] HTTP listening on port ${PORT}`) )
+        console.log('[mongodb] Base de Datos conectada.');
+        app.listen( PORT, () => console.log(`[express] HTTP listening on port ${PORT}...`) )
     } catch (error) {
         // handleError(error)
         console.log('[mongodb] Error de conexión a la Base de Datos!!!!!!!!!');

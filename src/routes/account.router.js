@@ -25,7 +25,7 @@ const router = Router()
         }
         req.session.logged_user = user
             // console.log('--- req.session.logged_user', req.session.logged_user);
-        res.redirect('products')
+        res.redirect('/products')
     })
 
 // REGISTRO
