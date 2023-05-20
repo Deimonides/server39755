@@ -6,9 +6,8 @@ const router = Router()
 // VALIDACION POR ROL DE SESION
     const authAdmin = (req, res, next) => {
         if (req.session.logged_user && req.session.logged_user.role === 'admin') return next()
-        return res.status(401).render('login', {mensaje: 'Permiso denegado 🚫 Por favor inicie sesión.'})
+        return res.status(401).render('login', {mensaje: 'Permiso denegado 🚫 Por favor inicie sesión como Administrador.'})
     }
-
     const authUser = (req, res, next) => {
         if (req.session.logged_user && req.session.logged_user.role === 'user') return next()
         return res.status(401).render('login', {mensaje: 'Permiso denegado 🚫 Por favor inicie sesión.'})

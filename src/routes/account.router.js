@@ -23,7 +23,7 @@ const router = Router()
                 volver: 'account/login'
             })
         }
-        req.session.logged_user = user
+        req.session.user = user
             // console.log('--- req.session.logged_user', req.session.logged_user);
         res.redirect('/products')
     })
@@ -36,6 +36,12 @@ const router = Router()
 
     router.post('/register', async (req, res) => {
         const data = req.body
+        const emailExists = await userModel.findOne( {email: data.email} ).lean().exec()
+            console.log('mailExists: ', emailExists);
+        if (emailExists) return res.render('errors', {
+            error: 'Mail existente. Intente con otro mail.',
+            volver: '/account/register'
+        })
             // console.log( '--- newUser: ', data );
             // data.push({status: 'active'}, {role: 'user'})
             // console.log( `--- newUser: ${data}` );
