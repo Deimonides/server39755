@@ -46,8 +46,8 @@
 
                 <li class="nav-item dropdown">
                     
-                    {{#if req.session.logged_user}}
-                    <a class="nav-link dropdown-toggle" href="" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">👽 {{req.session.logged_user.role.name}}</a>
+                    {{#if loggedName}}
+                    <a class="nav-link dropdown-toggle" href="" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">👽 {{loggedName}}</a>
                     {{else}}
                     <a class="nav-link dropdown-toggle" href="" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">👽 CUENTA</a>
                     {{/if}}

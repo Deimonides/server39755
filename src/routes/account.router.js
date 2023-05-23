@@ -1,5 +1,6 @@
 import { Router } from 'express'
 import userModel from '../models/user.model.js'
+import { createHash } from '../utils.js'
 // import session from 'express-session'
 // import FileStore from 'session-file-store'
 // import MongoStore from 'connect-mongo'
@@ -15,8 +16,9 @@ const router = Router()
     router.post('/login', async (req, res) => {
         const {email, password} = req.body
             // console.log( '--- user/pass ingresados:', {email, password} );
+
         const user = await userModel.findOne({ email, password }).lean().exec()
-            console.log( '--- user en DB:', user );
+            // console.log( '--- user en DB:', user );
         if (!user) {
             return  res.status(401).render('errors', {
                 error: 'Mail y/o contraseña incorrectos.',
@@ -35,10 +37,11 @@ const router = Router()
     }) //listo
 
     router.post('/register', async (req, res) => {
-        const data = req.body
+        let data = req.body
             // console.log( '--- newUser: ', data );
             // data.push({status: 'active'}, {role: 'user'})
             // console.log( `--- newUser: ${data}` );
+        data.password = createHash(data.password) // modificar la password para que se encripte
         data['role'] = 'user';
         data['active'] = true;
             console.log( '--- newUser: ', data );
