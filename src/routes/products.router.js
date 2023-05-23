@@ -9,12 +9,12 @@ const router = Router()
 // VALIDACION POR ROL DE SESION ********************************************
     const authAdmin = (req, res, next) => { // only admins
         if (req.session.user && req.session.user.role === 'admin') return next()
-        return res.status(401).render('login', {mensaje: 'Permiso denegado 🚫 Por favor inicie sesión.'})
+        return res.status(401).render('login', {mensaje: 'Permiso denegado 🚫 Por favor inicie sesión como Administrador.'})
     }
     const authUser = (req, res, next) => { // any logged user
         // if (req.session.user && req.session.user.role === 'user') return next()
         if (req.session.user) return next()
-        return res.status(401).render('login', {mensaje: 'Permiso denegado 🚫 Por favor inicie sesión.'})
+        return res.status(401).render('login', {mensaje: 'Permiso denegadoooo 🚫 Por favor inicie sesión.'})
     }
 
 
@@ -76,15 +76,13 @@ router.get('/', authUser, async (req, res) => {
 
     products.brands = await productModel.distinct("brand").lean().exec() // trae las marcas que existen
         // console.log('--- products:', products);
-        const loggedName = req.session.user.name
-        console.log('loggedName: ', loggedName());
-    res.render('products', { title: "Catalogo", products, arrPages, limit, page, sortQ, filterQ, filterKey, filterVal, loggedName })
+    res.render('products', { title: "Catalogo", products, arrPages, limit, page, sortQ, filterQ, filterKey, filterVal })
 })
 
 router.get('/abmproducts', authAdmin, async (req, res) => {
     const products = await productModel.find().lean().exec()
         // console.log('--- products:', products)
-    res.render('abmproducts', { title: 'Modificar productos', products, loggedName })
+    res.render('abmproducts', { title: 'Modificar productos', products })
 })
 
 router.get('/abmproducts/:code', authAdmin, async (req, res) => {

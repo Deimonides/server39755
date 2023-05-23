@@ -25,7 +25,7 @@ const router = Router()
                 volver: 'account/login'
             })
         }
-        req.session.logged_user = user
+        req.session.user = user
             // console.log('--- req.session.logged_user', req.session.logged_user);
         res.redirect('/products')
     })
@@ -37,7 +37,7 @@ const router = Router()
     }) //listo
 
     router.post('/register', async (req, res) => {
-        let data = req.body
+        const data = req.body
             // console.log( '--- newUser: ', data );
             // data.push({status: 'active'}, {role: 'user'})
             // console.log( `--- newUser: ${data}` );
