@@ -1,3 +1,7 @@
 node_modules/
-uri.txt
+dbCart.json
+dbProducts.json
+dbProducts.bkp
 mongodb_products.json
+uri.txt
+github.app

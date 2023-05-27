@@ -5,6 +5,10 @@ import handlebars  from 'express-handlebars'
 import mongoose from 'mongoose'
 import session from 'express-session'
 import MongoStore from 'connect-mongo'
+import passport from 'passport'
+import local from 'passport-local'
+import initializePassport from './utils/passport.js'
+import initializePassportGH from './utils/github.js'
 
 const app = express()
 const PORT = 8080
@@ -12,6 +16,7 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(express.static('./src/public'))
 
+// MONGODB URI
     let mongoUri = ""
     if ( fs.existsSync('./src/uri.txt') ) {
         mongoUri = fs.readFileSync('./src/uri.txt', 'utf8')
@@ -19,6 +24,7 @@ app.use(express.static('./src/public'))
         console.log('[mongodb] Falta el archivo uri.txt. Pídaselo a su Backend amigo!');
     }
 
+// MONGODB SESSION
     app.use(session({
         store: MongoStore.create({
             mongoUrl: mongoUri,
@@ -34,6 +40,13 @@ app.use(express.static('./src/public'))
         resave: true,
         saveUninitialized: true
     }))
+
+// PASSPORT
+    initializePassport() // Passport con Usuario y Contraseña estandar
+    initializePassportGH() // Passport con Usuario de GitHub
+    app.use(passport.initialize())
+    app.use(passport.session())
+    
 
 // const ProductManager = require('./ProductManager.js')
 import ProductManager from './dao/ProductManager.js'
@@ -77,7 +90,7 @@ const productManager = new ProductManager('./dbProducts.json')
         // } else {
         //     console.log('[mongodb] Falta el archivo uri.txt. Pídaselo a su Backend amigo!');
         // }
-        await mongoose.connect(mongoUri)
+        await mongoose.connect(mongoUri) // si no conecta: verificar rango de IP autorizada en Atlas
         console.log('[mongodb] Base de Datos conectada.');
         app.listen( PORT, () => console.log(`[express] HTTP listening on port ${PORT}...`) )
     } catch (error) {
