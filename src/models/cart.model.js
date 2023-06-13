@@ -4,7 +4,7 @@ const cartsCollection = 'carts'
 // const productsCollection = 'prod_test'
 
 const cartSchema = new mongoose.Schema({
-    cid:      { type: Number }, // , required: true  },
+    // cid:      { type: Number }, // , required: true  },
     user:     { type: String }, // , required: true  },
     state:    { type: String }, // , required: false },
     total:    { type: Number }, // , required: false },

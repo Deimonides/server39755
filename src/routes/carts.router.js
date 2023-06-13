@@ -1,5 +1,6 @@
 import { Router } from 'express'
 import cartModel from '../models/cart.model.js'
+import cidModel from '../models/cid.model.js'
 
 const router = Router()
 
@@ -13,6 +14,16 @@ const router = Router()
         return res.status(401).render('login', {mensaje: 'Permiso denegado 🚫 Por favor inicie sesión.'})
     }
 
+
+export function createCart(email) {
+    // const allCarts = cartModel.getAllCarts()
+    const currentUserCart = cartModel.findOne(email)
+    if (!currentUserCart) {
+        const newCid = cidModel.getAll()
+            console.log('newCid: ', newCid);
+        // const newcart = new cartModel()
+    }
+}
 
 router.get('/', authAdmin, async (req, res) => {
    /*  // const carts = await cartModel.find().lean().exec() // trae todos los cartos

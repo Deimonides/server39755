@@ -42,7 +42,7 @@ const router = Router()
         if (!req.user) {
             return res.status(400).render('/errors',{ error: 'Usuario y/o contraseña incorrectas.', volver: 'login'})
         }
-        
+        createCart(req.user.email)
         res.status(202).redirect('/products')
     })
 
@@ -52,6 +52,7 @@ const router = Router()
 
     router.get('/ghcb', passport.authenticate('github', { failureRedirect: 'login'}), (req, res) => {
         req.session.user = req.user
+        createCart(req.user.email)
         res.redirect('/products')
     })
 
@@ -73,7 +74,7 @@ const router = Router()
         //     console.log( '--- newUser: ', data );
         // const newUser = new userModel(data)
         // await newUser.save()
-        res.status(201).render('/login', {mensaje: `¡Bienvenido ${data.name}! 😎 Ya puedes iniciar sesión`})
+        res.status(201).render('/login', {mensaje: `¡Bienvenido ${data.first_name}! 😎 Ya puedes iniciar sesión`})
     }) //listo
 
 

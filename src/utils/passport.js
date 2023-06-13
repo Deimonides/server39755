@@ -11,7 +11,7 @@ const initializePassport = () => {
         passReqToCallback: true,
         usernameField: 'email',
     }, async (req, username, password, done) => {
-        const {name, lastname, email, role} = req.body
+        const {first_name, last_name, email, age} = req.body
         try {
             const user = await userModel.findOne( {email: username} )
             if (user) { // verificar si ya existe el email
@@ -19,15 +19,15 @@ const initializePassport = () => {
                 return done(null, false)
             }
             const newUser = {
-                name, lastname, email,
+                first_name, last_name, email, age,
                 role: 'user',
-                active: true,
                 password: createHash(password)
             }
             const userRegistered = await userModel.create(newUser)
             return done(null, userRegistered)
         } catch (err) {
-            return done('(Register) Error accediendo a la Base de Datos')
+            console.error(err)
+            return done('(Register) Error accediendo a la Base de Datos.')
         }
     }))
 
