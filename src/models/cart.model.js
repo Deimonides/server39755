@@ -1,17 +1,18 @@
-import mongoose, { Mongoose } from "mongoose"
-import mongoosePaginate from "mongoose-paginate-v2"
+import mongoose from "mongoose"
 const cartsCollection = 'carts'
-// const productsCollection = 'prod_test'
 
 const cartSchema = new mongoose.Schema({
-    // cid:      { type: Number }, // , required: true  },
-    user:     { type: String }, // , required: true  },
-    state:    { type: String }, // , required: false },
-    total:    { type: Number }, // , required: false },
-    products: { type: Array  }, // , required: false },
+    products: {
+        type: [{
+            id: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: "products"
+            },
+            quantity: Number
+        }],
+        default: []
+    }
 })
-
-cartSchema.plugin(mongoosePaginate)
 
 mongoose.set('strictQuery', false)
 

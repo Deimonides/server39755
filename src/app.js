@@ -9,25 +9,32 @@ import passport from 'passport'
 import local from 'passport-local'
 import initializePassport from './utils/passport.js'
 import initializePassportGH from './utils/github.js'
+import { Command } from 'commander'
+import dotenv from 'dotenv'
 
 const app = express()
-const PORT = 8080
+
+const program = new Command()
+program
+    .option('-p <port>', 'Port to connect', 8080)
+    .option('--mode <mode>', 'description', 'development')
+program.parse()
+
+dotenv.config({
+    path: (program.opts().mode === 'development') ? './.env.development' : './.env.production'
+})
+const PORT = process.env.PORT || 8080 //8080
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(express.static('./src/public'))
 
 // MONGODB URI
-    let mongoUri = ""
-    if ( fs.existsSync('./src/uri.txt') ) {
-        mongoUri = fs.readFileSync('./src/uri.txt', 'utf8')
-    } else {
-        console.log('[mongodb] Falta el archivo uri.txt. Pídaselo a su Backend amigo!');
-    }
+    const MONGO_URI = process.env.MONGO_URI
 
 // MONGODB SESSION
     app.use(session({
         store: MongoStore.create({
-            mongoUrl: mongoUri,
+            mongoUrl: MONGO_URI,
             // mongoUrl: fs.readFileSync('./src/uri.txt', 'utf8'),
             dbName: 'server39755',
             ttl: 60 * 30 , // media hora
@@ -90,7 +97,7 @@ const productManager = new ProductManager('./dbProducts.json')
         // } else {
         //     console.log('[mongodb] Falta el archivo uri.txt. Pídaselo a su Backend amigo!');
         // }
-        await mongoose.connect(mongoUri) // si no conecta: verificar rango de IP autorizada en Atlas
+        await mongoose.connect(MONGO_URI) //mongoUri) // si no conecta: verificar rango de IP autorizada en Atlas
         console.log('[mongodb] Base de Datos conectada.');
         app.listen( PORT, () => console.log(`[express] HTTP listening on port ${PORT}...`) )
     } catch (error) {

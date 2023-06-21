@@ -1,7 +1,7 @@
 // const fs = require('fs');
 import fs from 'fs'
 
-export default class CartManager {
+class CartManager {
     #carts
     
     constructor(pathFile) {
@@ -23,58 +23,82 @@ export default class CartManager {
         }
     }
     
-// getters
-
-    getIndexOfCid (cid) {
-        let indexOfCid = this.#carts.findIndex( item => item.id === cid )
-            console.log('');
-        if (indexOfCid < 0 ) return { "Error": "Cart not found" } // si no existe el id, devolvió -1
-        return indexOfCid
-    }
+// FILES
     
-    getCarts() {
-        let objCarts, strCarts
+    read() {
         if ( fs.existsSync(this.path) ) {
-            strCarts = fs.readFileSync( this.path, 'utf-8' )
+            const strCarts = fs.readFileSync( this.path, 'utf-8' )
             if (strCarts == "") return [] // validar si hay contenido
-            objCarts = JSON.parse(strCarts, 'utf-8');
+            const objCarts = JSON.parse(strCarts, 'utf-8');
             return objCarts
         } else {
             return []
         }
     }
-    
-    getCartById(cidnum) {
-        this.#carts = this.getCarts()
-        let arrCart = this.#carts.find( item => item.id === cidnum)             
-        return arrCart ? arrCart : null
-    }
-    
-// setters
 
-    saveCarts (arrayOfCarts) {
+    write (arrayOfCarts) {
         fs.writeFileSync( this.path, JSON.stringify(arrayOfCarts, null, '\t'), 'utf-8' )
     }
 
-    newCart( user ) {
-        // traer productos
-        this.#carts = this.getCarts()
-        // buscar nuevo id
-        let id = this.newId() // buscar ID disponible para el nuevo producto
-        let products = []
-        let payed = false
-        let newCart = { id, user , payed, products }
-        this.#carts.push(newCart)
-        // grabar todos los productos incluyendo el nuevo producto
-        this.saveCarts(this.#carts)
+
+// CRUD
+
+    get = async () => {
+        const data = await this.read()
+        return data
     }
 
-    deleteCartByID = (cid) => { // eliminar producto segun su id
-        this.#carts = this.getCarts()
-        this.#carts.splice( this.getIndexOfCid(cid), 1 )
-        this.saveCarts(this.#carts)
+    getById = async (id) => {
+        const data = await this.read()
+        data.find(c => c.id == id)
+        return data ? data : null
+    }
+    
+
+    create = async () => {
+        // traer productos
+        const carts = await this.read()
+        // buscar nuevo id
+        const newId = this.newId() // buscar ID disponible para el nuevo producto
+        const newCart = { 
+            id: newId,
+            products: []
+        }
+        carts.push(newCart)
+        // grabar todos los productos incluyendo el nuevo producto
+        await this.write(carts)
+        return newCart
+    }
+
+    update = async (id, obj) => {
+        obj.id = id
+        const carts = await this.read()
+        for (let i = 0; i < carts.length; i++) {
+            if (carts[i].id == id) {
+                carts[i] = obj
+                await this.write(carts)
+                break
+            }
+        }
+    }
+
+    addProduct = async (cartId, productId) => {
+        const cart = await this.getById(cartId)
+        let found = false
+        for (let i = 0; i < cart.products.length; i++) {
+            if (cart.products[i].id == productId) {
+                cart.products[i].quantity++
+                found = true
+                break
+            }
+        }
+        if (found == false) {
+            cart.products.push({ id: productId, quantity: 1 })
+        }
+        await this.update(cartId, cart)
+        return cart
     }
 
 } //end of Class: CartManager
 
-// module.exports = CartManager
+export default CartManager

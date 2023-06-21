@@ -5,3 +5,4 @@ dbProducts.bkp
 mongodb_products.json
 uri.txt
 github.app
+.env.*
