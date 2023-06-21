@@ -3,9 +3,9 @@ import userModel from '../models/user.model.js'
 import { createHash , isValidPassword } from '../utils/bcrypt.js'
 import passport from 'passport'
 import GithubStrategy from "passport-github2";
-// import session from 'express-session'
+import session from 'express-session'
 // import FileStore from 'session-file-store'
-// import MongoStore from 'connect-mongo'
+import MongoStore from 'connect-mongo'
 
 const router = Router()
 
@@ -52,7 +52,7 @@ const router = Router()
 
     router.get('/ghcb', passport.authenticate('github', { failureRedirect: 'login'}), (req, res) => {
         req.session.user = req.user
-        createCart(req.user.email)
+        //createCart(req.user.email)
         res.redirect('/products')
     })
 
@@ -67,13 +67,13 @@ const router = Router()
     router.post('/register', passport.authenticate('register', {
         failureRedirect: 'error?url=register', 
     }), async (req, res) => {
-        // const data = req.body
-        // data.password = createHash(data.password) // modificar la password para que se encripte
+        const data = req.body
+        //data.password = createHash(data.password) // modificar la password para que se encripte
         // data['role'] = 'user';
         // data['active'] = true;
         //     console.log( '--- newUser: ', data );
-        // const newUser = new userModel(data)
-        // await newUser.save()
+        //const newUser = new userModel(data)
+        //await newUser.save()
         res.status(201).render('/login', {mensaje: `¡Bienvenido ${data.first_name}! 😎 Ya puedes iniciar sesión`})
     }) //listo
 

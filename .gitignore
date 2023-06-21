@@ -6,3 +6,4 @@ mongodb_products.json
 uri.txt
 github.app
 .env.*
+_*

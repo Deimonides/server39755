@@ -27,15 +27,15 @@ const initializePassport = () => {
             return done(null, userRegistered)
         } catch (err) {
             console.error(err)
-            return done('(Register) Error accediendo a la Base de Datos.')
+            return done('(passport.js/Register) Error accediendo a la Base de Datos.')
         }
     }))
 
     passport.use('login', new LocalStrategy({ 
         usernameField: 'email',
-    }, async (username, password, done) => {
+    }, async (email, password, done) => {
         try {
-            const user = await userModel.findOne( {email: username} )
+            const user = await userModel.findOne( {email: email} )
             if (!user) {
                 console.log('Usuario inexistente');
                 return done(null, user)
@@ -43,7 +43,7 @@ const initializePassport = () => {
             if (!isValidPassword(user, password)) return done(null, false)
             return done(null, user)
         } catch (err) {
-            return done('(Login) Error accediendo a la Base de Datos')
+            return done('(passport.js/Login) Error accediendo a la Base de Datos', err)
         }
     }))
 

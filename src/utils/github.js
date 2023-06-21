@@ -2,23 +2,28 @@ import passport from "passport";
 import GithubStrategy from "passport-github2";
 import userModel from "../models/user.model.js";
 import { createHash } from "./bcrypt.js";
-import fs from 'fs'
-
+// import fs from 'fs';
+import dotenv from 'dotenv';
 
 const initializePassportGH = () => {
 
-    // GITHUB AUTHENTICATION APP data
-    let githubApp = ""
-    if ( fs.existsSync('./src/github.app') ) {
-        githubApp = JSON.parse(fs.readFileSync('./src/github.app', 'utf8'))
-    } else {
-        console.log('[github2] Falta el archivo github.app. Pídaselo a su Backend amigo!');
-    }
+    // GITHUB AUTHENTICATION APP
+    // let githubApp = ""
+    // if ( fs.existsSync('./src/github.app') ) {
+    //     githubApp = JSON.parse(fs.readFileSync('./src/github.app', 'utf8'))
+    // } else {
+    //     console.log('[github2] Falta el archivo github.app. Pídaselo a su Backend amigo!');
+    // }
+
+    dotenv.config({ path: './.env.github' })
+        console.log('GithubStrategy: ', process.env.CLIENT_ID );
+        console.log('GithubStrategy: ', process.env.CLIENT_SECRET );
+        console.log('GithubStrategy: ', process.env.CALLBACK_URL);
 
     passport.use('github', new GithubStrategy({
-        clientID:       githubApp.clientID,
-        clientSecret:   githubApp.clientSecret,
-        callbackURL:    githubApp.callbackURL,
+        clientID:       process.env.CLIENT_ID ,//githubApp.clientID,
+        clientSecret:   process.env.CLIENT_SECRET ,//githubApp.clientSecret,
+        callbackURL:    process.env.CALLBACK_URL ,//githubApp.callbackURL,
     }, async (accessToken, refreshToken, profile, done) => {
         // console.log('--- profile: ', profile);
         console.log('[github2] Autorizado OK.');
@@ -32,11 +37,11 @@ const initializePassportGH = () => {
             })
             return done(null, newUser)
         } catch (error) {
-            return done('Error al iniciar sesión con Github.')
+            return done('[github2] Error al iniciar sesión con Github.')
         }
     }
     ))
-
+    
     passport.serializeUser((user, done) => {
         done(null, user._id)
     })
