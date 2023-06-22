@@ -7,37 +7,31 @@ import dotenv from 'dotenv';
 
 const initializePassportGH = () => {
 
-    // GITHUB AUTHENTICATION APP
-    // let githubApp = ""
-    // if ( fs.existsSync('./src/github.app') ) {
-    //     githubApp = JSON.parse(fs.readFileSync('./src/github.app', 'utf8'))
-    // } else {
-    //     console.log('[github2] Falta el archivo github.app. Pídaselo a su Backend amigo!');
-    // }
-
+// GITHUB AUTHENTICATION APP
     dotenv.config({ path: './.env.github' })
-        console.log('GithubStrategy: ', process.env.CLIENT_ID );
-        console.log('GithubStrategy: ', process.env.CLIENT_SECRET );
-        console.log('GithubStrategy: ', process.env.CALLBACK_URL);
+        // console.log('--github_app - CLIENT_ID:     ', process.env.CLIENT_ID );
+        // console.log('--github_app - CLIENT_SECRET: ', process.env.CLIENT_SECRET );
+        // console.log('--github_app - CALLBACK_URL:  ', process.env.CALLBACK_URL);
 
     passport.use('github', new GithubStrategy({
         clientID:       process.env.CLIENT_ID ,//githubApp.clientID,
         clientSecret:   process.env.CLIENT_SECRET ,//githubApp.clientSecret,
         callbackURL:    process.env.CALLBACK_URL ,//githubApp.callbackURL,
     }, async (accessToken, refreshToken, profile, done) => {
-        // console.log('--- profile: ', profile);
-        console.log('[github2] Autorizado OK.');
+        console.log('--- profile: ', profile);
+        console.log('[github2] Autorizado OK ✅');
         try {
             const user = await userModel.findOne({email: profile._json.email})
             if (user) return done(null, user)
             const newUser = await userModel.create({
-                name: profile._json.login,
+                first_name: profile._json.name,
                 // lastname: profile._json.lastname,
                 email: profile._json.email,
+                role: 'user',
             })
             return done(null, newUser)
         } catch (error) {
-            return done('[github2] Error al iniciar sesión con Github.')
+            return done('[github2] Error al iniciar sesión con Github ❌')
         }
     }
     ))

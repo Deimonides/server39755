@@ -28,14 +28,15 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(express.static('./src/public'))
 
+
 // MONGODB URI
     const MONGO_URI = process.env.MONGO_URI
+//console.log('MONGO_URI: ', MONGO_URI);
 
 // MONGODB SESSION
     app.use(session({
         store: MongoStore.create({
             mongoUrl: MONGO_URI,
-            // mongoUrl: fs.readFileSync('./src/uri.txt', 'utf8'),
             dbName: 'server39755',
             ttl: 60 * 30 , // media hora
             mongoOptions: {
@@ -47,30 +48,23 @@ app.use(express.static('./src/public'))
         resave: true,
         saveUninitialized: true
     }))
-
-// PASSPORT
-    initializePassport() // Passport con Usuario y Contraseña estandar
-    initializePassportGH() // Passport con Usuario de GitHub
-    app.use(passport.initialize())
-    app.use(passport.session())
     
-
-// const ProductManager = require('./ProductManager.js')
-import ProductManager from './dao/ProductManager.js'
-const productManager = new ProductManager('./dbProducts.json')
-
-// Handlebars templates
+    // const ProductManager = require('./ProductManager.js')
+    import ProductManager from './dao/ProductManager.js'
+    const productManager = new ProductManager('./dbProducts.json')
+    
+    // Handlebars templates
     app.engine('handlebars', handlebars.engine())
     app.set('views', './src/views')
     app.set('view engine', 'handlebars')
-
-// Endpoints
+    
+    // Endpoints
     // import productsRouter from './routes/products.router.js'
     // app.use('/api/products', productsRouter)
-
+    
     // import cartRouter from './routes/cart.router.js'
     // app.use('/api/cart', cartRouter)
-
+    
     import productsRouter from './routes/products.router.js'
     app.use('/products', productsRouter)
     
@@ -79,29 +73,29 @@ const productManager = new ProductManager('./dbProducts.json')
     
     import accountRouter  from './routes/account.router.js'
     app.use('/account', accountRouter)
-
+    
     
     // import realTimeProductsRouter from './routes/realTimeProducts.router.js'
     // app.use('/realtimeproducts', realTimeProductsRouter)
     
     // import newProductRouter from './routes/newProduct.router.js'
     // app.use('/newProduct', newProductRouter)
+    
+// PASSPORT
+    initializePassport() // Passport con Usuario y Contraseña estandar
+    initializePassportGH() // Passport con Usuario de GitHub
+    app.use(passport.initialize())
+    app.use(passport.session())
 
-    // MongoDB connection
+
+// MONGODB CONNECTION
     mongoose.set('strictQuery', false)
     
-    
     try {
-        // if ( fs.existsSync('./src/uri.txt') ) {
-        //     mongoUri = fs.readFileSync('./src/uri.txt', 'utf8')
-        // } else {
-        //     console.log('[mongodb] Falta el archivo uri.txt. Pídaselo a su Backend amigo!');
-        // }
         await mongoose.connect(MONGO_URI) //mongoUri) // si no conecta: verificar rango de IP autorizada en Atlas
-        console.log('[mongodb] Base de Datos conectada.');
-        app.listen( PORT, () => console.log(`[express] HTTP listening on port ${PORT}...`) )
+        console.log(process.env.MSG_LOG); //'[mongodb] Base de Datos conectada.');
+        app.listen( PORT, () => console.log(`[express] HTTP listening on port ${process.env.PORT}...`) )
     } catch (error) {
-        // handleError(error)
         console.log('[mongodb] Error de conexión a la Base de Datos!!!!!!!!!');
     }
 
