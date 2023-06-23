@@ -14,18 +14,22 @@ const router = Router()
     }
 
 //ok
-router.get('/', authAdmin, async (req, res) => {
+// router.get('/', authAdmin, async (req, res) => {
+router.get('/', async (req, res) => {
     const carts = await cartModel.find().lean().exec();
-    res.status(200).render('carts', { title: "Carritos", carts })
+    // res.status(200).render('carts', { title: "Carritos", carts })
+    res.status(200).json({ status: "Traer todos los carritos:", carts })
 })
 //ok
-router.get('/:id', authAdmin, async (req, res) => {
+// router.get('/:id', authAdmin, async (req, res) => {
+router.get('/:id', async (req, res) => {
     const id = req.params.id
     const cart = await cartModel.findOne({_id: id})
-    res.status(200).json({ cart })
+    res.status(200).json({ status: "Traer carrito:", cart })
 })
 //ok
-router.post( '/', authAdmin, async (req, res) => {
+//router.post( '/', authAdmin, async (req, res) => {
+router.post( '/', async (req, res) => {
     const newCart = await cartModel.create({})
     res.status(201).json({status: "Carrito creado exitosamente.", newCart})
 })
@@ -48,10 +52,11 @@ router.post("/:cid/product/:pid", async (req, res) => {
         cart.products.push({ id: productID, quantity})
     }
     await cart.save()
-    res.status(200).json({status: "Success", cart})
+    res.status(200).json({status: "Producto agregado al carrito.", cart})
 })
 //ok
-router.delete( '/:cid/product/:pid', authAdmin, async (req, res) => {
+// router.delete( '/:cid/product/:pid', authAdmin, async (req, res) => {
+router.delete( '/:cid/product/:pid', async (req, res) => {
     const cartID = req.params.cid
     const productID = req.params.pid
 
@@ -65,7 +70,7 @@ router.delete( '/:cid/product/:pid', authAdmin, async (req, res) => {
     cart.products = cart.products.splice(productIDX, 1)
     await cart.save()
     
-    res.status(200).json({status: "Success", cart})
+    res.status(200).json({status: "Producto eliminado del carrito.", cart})
 })
 
 export default router
