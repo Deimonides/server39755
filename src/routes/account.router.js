@@ -21,7 +21,6 @@ const router = Router()
         if (!req.user) {
             return res.status(400).render('/errors',{ error: 'Usuario y/o contraseña incorrectas.', volver: 'login'})
         }
-        createCart(req.user.email)
         res.status(202).redirect('/products')
     })
 
@@ -43,7 +42,8 @@ const router = Router()
         failureRedirect: 'error?url=register', 
     }), async (req, res) => {
         const data = req.body
-        res.status(201).render('/login', {mensaje: `¡Bienvenido ${data.first_name}! 😎 Ya puedes iniciar sesión`})
+            console.log("🚀 ~ file: account.router.js:45 ~ data:", data)
+        res.status(201).render('login', {mensaje: `¡Bienvenido ${data.first_name}! 😎 Ya puedes iniciar sesión`})
     }) //listo
 
 // LOGOUT

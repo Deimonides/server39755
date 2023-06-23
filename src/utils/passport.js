@@ -36,6 +36,7 @@ const initializePassport = () => {
     }, async (email, password, done) => {
         try {
             const user = await userModel.findOne( {email: email} )
+            console.log("🚀 ~ file: passport.js:39 ~ initializePassport ~ user:", user)
             if (!user) {
                 console.log('Usuario inexistente');
                 return done(null, user)
@@ -46,7 +47,6 @@ const initializePassport = () => {
             return done('(passport.js/Login) Error accediendo a la Base de Datos', err)
         }
     }))
-
 
     passport.serializeUser((user, done) => {
         done(null, user._id)
