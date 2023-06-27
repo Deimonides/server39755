@@ -14,7 +14,7 @@ const router = Router()
     const authUser = (req, res, next) => { // any logged user
         // if (req.session.user && req.session.user.role === 'user') return next()
         if (req.session.user) return next()
-        return res.status(401).render('login', {mensaje: 'Permiso denegadoooo 🚫 Por favor inicie sesión.'})
+        return res.status(401).render('login', {mensaje: 'Permiso denegado 🚫 Por favor inicie sesión.'})
     }
 
 

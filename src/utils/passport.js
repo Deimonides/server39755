@@ -1,7 +1,7 @@
 import passport from "passport";
 import local from "passport-local";
-import userModel from "../models/user.model.js";
-import { createHash } from "./bcrypt.js";
+import userModel from "../models/user.model.js"
+import { createHash, isValidPassword } from "./bcrypt.js";
 
 const LocalStrategy = local.Strategy
 
@@ -33,19 +33,24 @@ const initializePassport = () => {
 
     passport.use('login', new LocalStrategy({ 
         usernameField: 'email',
-    }, async (email, password, done) => {
+    }, async (username, password, done) => {
         try {
-            const user = await userModel.findOne( {email: email} )
+            const user = await userModel.findOne( {email: username} )
             console.log("🚀 ~ file: passport.js:39 ~ initializePassport ~ user:", user)
             if (!user) {
                 console.log('Usuario inexistente');
                 return done(null, user)
             }
-            if (!isValidPassword(user, password)) return done(null, false)
+            if (!isValidPassword(user, password)) {
+                console.log('🚀 ~ file: passport.js:45 ~ Contraseña incorrecta.');   
+                return done(null, false)
+            }
             return done(null, user)
         } catch (err) {
-            return done('(passport.js/Login) Error accediendo a la Base de Datos', err)
+            //return done('(passport.js/Login) Error accediendo a la Base de Datos', err)
+            return done(err)
         }
+        // }
     }))
 
     passport.serializeUser((user, done) => {

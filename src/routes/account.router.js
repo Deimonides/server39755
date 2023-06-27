@@ -1,11 +1,11 @@
 import { Router } from 'express'
-import userModel from '../models/user.model.js'
-import { createHash , isValidPassword } from '../utils/bcrypt.js'
+//import userModel from '../models/user.model.js'
+//import { createHash , isValidPassword } from '../utils/bcrypt.js'
 import passport from 'passport'
-import GithubStrategy from "passport-github2";
-import session from 'express-session'
-// import FileStore from 'session-file-store'
-import MongoStore from 'connect-mongo'
+//import GithubStrategy from "passport-github2";
+//import session from 'express-session'
+//import FileStore from 'session-file-store'
+//import MongoStore from 'connect-mongo'
 
 const router = Router()
 
