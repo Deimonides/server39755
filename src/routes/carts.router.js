@@ -18,6 +18,7 @@ const authUser = (req, res, next) => { // any logged user
 router.get('/', authAdmin, async (req, res) => {
 // router.get('/', async (req, res) => {
     const carts = await cartModel.find().lean().exec();
+    // console.log("🚀 ~ file: carts.router.js:21 ~ //router.get ~ carts:", carts)
     res.status(200).render('carts', { title: "Carritos", carts })
     // res.status(200).json({ status: "Traer todos los carritos:", carts })
 })
