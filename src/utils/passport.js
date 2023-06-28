@@ -36,19 +36,19 @@ const initializePassport = () => {
     }, async (username, password, done) => {
         try {
             const user = await userModel.findOne( {email: username} )
-            console.log("🚀 ~ file: passport.js:39 ~ initializePassport ~ user:", user)
+            // console.log("🚀 ~ file: passport.js:39 ~ initializePassport ~ user:", user)
             if (!user) {
-                console.log('Usuario inexistente');
-                return done(null, user)
+                console.log('---Usuario inexistente.');
+                return done(null, false)
             }
             if (!isValidPassword(user, password)) {
-                console.log('🚀 ~ file: passport.js:45 ~ Contraseña incorrecta.');   
+                console.log('---Clave incorrecta.');
                 return done(null, false)
             }
             return done(null, user)
-        } catch (err) {
+        } catch (error) {
             //return done('(passport.js/Login) Error accediendo a la Base de Datos', err)
-            return done(err)
+            return done(error)
         }
         // }
     }))

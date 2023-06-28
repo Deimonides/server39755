@@ -8,15 +8,16 @@ const router = Router()
 
 // VALIDACION POR ROL DE SESION ********************************************
     const authAdmin = (req, res, next) => { // only admins
-        if (req.session.user && req.session.user.role === 'admin') return next()
-        return res.status(401).render('login', {mensaje: 'Permiso denegado 🚫 Por favor inicie sesión como Administrador.'})
+        if (req.session.user && req.session.user.role == 'admin') return next()
+        console.log("🚀 ~ file: products.router.js:12 ~ authAdmin ~ req.session.user:", req.session.user)
+        console.log("🚀 ~ file: products.router.js:12 ~ authAdmin ~ req.session.user.role:", req.session.user.role)
+        return res.status(401).render('login', {mensaje: '🚫 Inicie sesión como Administrador.'})
     }
     const authUser = (req, res, next) => { // any logged user
         // if (req.session.user && req.session.user.role === 'user') return next()
         if (req.session.user) return next()
-        return res.status(401).render('login', {mensaje: 'Permiso denegado 🚫 Por favor inicie sesión.'})
+        return res.status(401).render('login', {mensaje: '🚫 Inicie sesión.'})
     }
-
 
 router.get('/', authUser, async (req, res) => {
     // const products = await productModel.find().lean().exec() // trae todos los productos

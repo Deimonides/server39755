@@ -1,33 +1,30 @@
 import { Router } from 'express'
-//import userModel from '../models/user.model.js'
-//import { createHash , isValidPassword } from '../utils/bcrypt.js'
 import passport from 'passport'
-//import GithubStrategy from "passport-github2";
-//import session from 'express-session'
-//import FileStore from 'session-file-store'
-//import MongoStore from 'connect-mongo'
 
 const router = Router()
 
 // LOGIN
-
     router.get('/login', (req, res) => {
         res.render('login', {})
     }) //listo
-
     router.post('/login', passport.authenticate('login', {
         failureRedirect: 'error?url=login', 
     }), async (req, res) => {
         if (!req.user) {
             return res.status(400).render('/errors',{ error: 'Usuario y/o contraseña incorrectas.', volver: 'login'})
         }
+        req.session.user = {
+            first_name: req.user.first_name,
+            last_name: req.user.last_name,
+            age: req.user.age,
+            email: req.user.email,
+            role: req.user.role,
+        }
         res.status(202).redirect('/products')
     })
 
 // GITHUB LOGIN
-
     router.get('/github', passport.authenticate('github', { scope: ["user:email"]}), (req, res) => {})
-
     router.get('/ghcb', passport.authenticate('github', { failureRedirect: 'login'}), async (req, res) => {
         req.session.user = req.user
         res.redirect('/products')
@@ -37,12 +34,11 @@ const router = Router()
     router.get('/register', (req, res) => {
         res.render('register', {})
     }) //listo
-
     router.post('/register', passport.authenticate('register', {
         failureRedirect: 'error?url=register', 
     }), async (req, res) => {
         const data = req.body
-            console.log("🚀 ~ file: account.router.js:45 ~ data:", data)
+            // console.log("🚀 ~ file: account.router.js:45 ~ data:", data)
         res.status(201).render('login', {mensaje: `¡Bienvenido ${data.first_name}! 😎 Ya puedes iniciar sesión`})
     }) //listo
 

@@ -1,0 +1,6 @@
+- Vista de carts
+- Verificar estructura por capas
+- Implementar diseño Factory (dia 15)
+- Implementar DTO (dia 15)
+- Implementar Repository (dia 15)
+- Chat

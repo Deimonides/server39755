@@ -3,33 +3,34 @@ import cartModel from '../models/cart.model.js'
 
 const router = Router()
 
-// VALIDACION POR ROL DE SESION
-    const authAdmin = (req, res, next) => {
-        if (req.session.logged_user && req.session.logged_user.role === 'admin') return next()
-        return res.status(401).render('login', {mensaje: '🚫 Inicie sesión como Administrador.'})
-    }
-    const authUser = (req, res, next) => {
-        if (req.session.logged_user && req.session.logged_user.role === 'user') return next()
-        return res.status(401).render('login', {mensaje: '🚫 Inicie sesión.'})
-    }
+// VALIDACION POR ROL DE SESION ********************************************
+const authAdmin = (req, res, next) => { // only admins
+    if (req.session.user && req.session.user.role === 'admin') return next()
+    return res.status(401).render('login', {mensaje: '🚫 Inicie sesión como Administrador.'})
+}
+const authUser = (req, res, next) => { // any logged user
+    // if (req.session.user && req.session.user.role === 'user') return next()
+    if (req.session.user) return next()
+    return res.status(401).render('login', {mensaje: '🚫 Inicie sesión.'})
+}
 
 //ok
-// router.get('/', authAdmin, async (req, res) => {
-router.get('/', async (req, res) => {
+router.get('/', authAdmin, async (req, res) => {
+// router.get('/', async (req, res) => {
     const carts = await cartModel.find().lean().exec();
-    // res.status(200).render('carts', { title: "Carritos", carts })
-    res.status(200).json({ status: "Traer todos los carritos:", carts })
+    res.status(200).render('carts', { title: "Carritos", carts })
+    // res.status(200).json({ status: "Traer todos los carritos:", carts })
 })
 //ok
-// router.get('/:id', authAdmin, async (req, res) => {
-router.get('/:id', async (req, res) => {
+router.get('/:id', authAdmin, async (req, res) => {
+// router.get('/:id', async (req, res) => {
     const id = req.params.id
     const cart = await cartModel.findOne({_id: id})
     res.status(200).json({ status: "Traer carrito:", cart })
 })
 //ok
-//router.post( '/', authAdmin, async (req, res) => {
-router.post( '/', async (req, res) => {
+router.post( '/', authAdmin, async (req, res) => {
+// router.post( '/', async (req, res) => {
     const newCart = await cartModel.create({})
     res.status(201).json({status: "Carrito creado exitosamente.", newCart})
 })
