@@ -11,6 +11,8 @@ import initializePassport from './utils/passport.js'
 import initializePassportGH from './utils/github.js'
 import { Command } from 'commander'
 import dotenv from 'dotenv'
+import MongoClient from './dao/MongoDBClient.js'
+
 
 const app = express()
 
@@ -31,7 +33,7 @@ app.use(express.static('./src/public'))
 
 // MONGODB URI
     const MONGO_URI = process.env.MONGO_URI
-//console.log('MONGO_URI: ', MONGO_URI);
+        console.log('MONGO_URI (app): ', MONGO_URI);
 
 // MONGODB SESSION
     app.use(session({
@@ -89,18 +91,20 @@ app.use(express.static('./src/public'))
 
 
 // MONGODB CONNECTION
-    mongoose.set('strictQuery', false)
+    // mongoose.set('strictQuery', false)
     
-    try {
-        await mongoose.connect(MONGO_URI) //mongoUri) // si no conecta: verificar rango de IP autorizada en Atlas
-        console.log(process.env.MSG_LOG); //'[mongodb] Base de Datos conectada.');
-        app.listen( PORT, () => console.log(`[express] HTTP listening on port ${process.env.PORT}...`) )
-    } catch (error) {
-        console.log('[mongodb] Error de conexión a la Base de Datos!!!!!!!!!');
-    }
-
+    // try {
+    //     await mongoose.connect(MONGO_URI) //mongoUri) // si no conecta: verificar rango de IP autorizada en Atlas
+    //     console.log(process.env.MSG_LOG); //'[mongodb] Base de Datos conectada.');
+    //     app.listen( PORT, () => console.log(`[express] HTTP listening on port ${process.env.PORT}...`) )
+    // } catch (error) {
+    //     console.log('[mongodb] Error de conexión a la Base de Datos!!!!!!!!!');
+    // }
     
-
+    
+    app.listen( PORT, () => console.log(`[express] HTTP listening on port ${process.env.PORT}...`) )
+    let client = new MongoClient();
+    client.connect(MONGO_URI)
 
 // Servers
     /* const serverHTTP = app.listen( PORT, () => {
