@@ -1,6 +1,5 @@
 import mongoose from "mongoose"
 const userCollection = 'users'
-// const userCollection = 'users_test'
 
 const userSchema = new mongoose.Schema({
     first_name: String, //{ type: String, required: false },
