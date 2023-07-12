@@ -25,6 +25,7 @@ program.parse()
 dotenv.config({
     path: (program.opts().mode === 'development') ? './.env.development' : './.env.production'
 })
+
 const PORT = process.env.PORT || 8080 //8080
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
@@ -33,7 +34,7 @@ app.use(express.static('./src/public'))
 
 // MONGODB URI
     const MONGO_URI = process.env.MONGO_URI
-        console.log('MONGO_URI (app): ', MONGO_URI);
+    //     console.log('MONGO_URI (app): ', MONGO_URI);
 
 // MONGODB SESSION
     app.use(session({
