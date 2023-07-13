@@ -76,6 +76,9 @@ app.use(express.static('./src/public'))
     
     import accountRouter  from './routes/account.router.js'
     app.use('/account', accountRouter)
+
+    import contactRouter  from './routes/contact.router.js'
+    app.use('/contact', contactRouter)
     
     
     // import realTimeProductsRouter from './routes/realTimeProducts.router.js'

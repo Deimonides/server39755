@@ -9,8 +9,8 @@ const router = Router()
 // VALIDACION POR ROL DE SESION ********************************************
     const authAdmin = (req, res, next) => { // only admins
         if (req.session.user && req.session.user.role == 'admin') return next()
-        console.log("🚀 ~ file: products.router.js:12 ~ authAdmin ~ req.session.user:", req.session.user)
-        console.log("🚀 ~ file: products.router.js:12 ~ authAdmin ~ req.session.user.role:", req.session.user.role)
+        // console.log("🚀 ~ file: products.router.js:12 ~ authAdmin ~ req.session.user:", req.session.user)
+        // console.log("🚀 ~ file: products.router.js:12 ~ authAdmin ~ req.session.user.role:", req.session.user.role)
         return res.status(401).render('login', {mensaje: '🚫 Inicie sesión como Administrador.'})
     }
     const authUser = (req, res, next) => { // any logged user

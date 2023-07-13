@@ -25,20 +25,20 @@
                 </li>
 
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownProducts" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         💻 PRODUCTOS  
                     </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownProducts">
                         <a class="dropdown-item" href="/products">🦉 Ver todos</a>
                         <a class="dropdown-item" href="/products/abmproducts">🦉 ABM de productos</a>
                     </div>
                 </li>
 
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownCarts" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         🛒 CARRITOS  
                     </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownCarts">
                         <a class="dropdown-item" href="/api/carts">🦉 Ver todos</a>
                         <a class="dropdown-item" href="/api/carts/abmcarts">🦉 ABM de carritos</a>
                     </div>
@@ -47,17 +47,21 @@
                 <li class="nav-item dropdown">
                     
                     {{#if loggedName}}
-                    <a class="nav-link dropdown-toggle" href="" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">👽 {{loggedName}}</a>
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownAccount" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">👽 {{loggedName}}</a>
                     {{else}}
-                    <a class="nav-link dropdown-toggle" href="" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">👽 CUENTA</a>
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownAccount" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">👽 CUENTA</a>
                     {{/if}}
                     
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownAccount">
                         <a class="dropdown-item" href="/account/login">🦉 Login</a>
                         {{!-- <a class="dropdown-item" href="/users/accounts/">🦉 Mi cuenta</a> --}}
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="/account/logout">🦉 Cerrar sesión</a>
                     </div>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/contact">CONTACTO <span class="sr-only"></span></a>
                 </li>
                     
             </ul>
